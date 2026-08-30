@@ -205,6 +205,52 @@ def _to_steps(html: str) -> list[str]:
     return [line for line in lines if len(line) > 12][:6]
 
 
+def attach_media_to_catalogue(db: Session) -> int:
+    """Give the hand-written seed rows a demonstration image.
+
+    Exact name matching only covered 20 of 134 - the imported catalogue calls
+    a barbell row a "Bent Over Barbell Row". So this matches on token overlap
+    within the same body part, which is conservative enough not to illustrate
+    a squat with a curl, and takes the highest-scoring candidate.
+    """
+    with unscoped("the exercise catalogue is shared, not user-owned"):
+        donors = db.execute(
+            select(Exercise).where(
+                Exercise.source == "wger", Exercise.image_url.is_not(None)
+            )
+        ).scalars().all()
+        seeds = db.execute(
+            select(Exercise).where(
+                Exercise.source == "custom",
+                Exercise.is_custom.is_(False),
+                Exercise.image_url.is_(None),
+            )
+        ).scalars().all()
+
+        by_part: dict[str, list[tuple[set[str], Exercise]]] = {}
+        for donor in donors:
+            by_part.setdefault(donor.body_part, []).append(
+                (set(donor.name_normalized.split()), donor)
+            )
+
+        attached = 0
+        for seed in seeds:
+            wanted = set(seed.name_normalized.split())
+            if not wanted:
+                continue
+            best_score, best = 0.0, None
+            for tokens, donor in by_part.get(seed.body_part, []):
+                overlap = len(wanted & tokens) / len(wanted)
+                if overlap > best_score:
+                    best_score, best = overlap, donor
+            if best is not None and best_score >= 0.8:
+                seed.image_url = best.image_url
+                seed.media_licence = LICENCE
+                attached += 1
+        db.flush()
+    return attached
+
+
 def load(db: Session, staged: Staged, *, attach_media_to_seed: bool = True) -> dict:
     """Upsert the staged rows. Existing ids are never reassigned, so no logged
     set is ever orphaned (Sec 5.3)."""
@@ -233,6 +279,7 @@ def load(db: Session, staged: Staged, *, attach_media_to_seed: bool = True) -> d
                     seed.media_licence = LICENCE
                     media_attached += 1
             db.flush()
+            media_attached += attach_media_to_catalogue(db)
 
         for row in staged.rows:
             existing = db.execute(

@@ -211,3 +211,41 @@ export interface Stats {
   ladder: Rank[];
   heatmap_ramp: string[];
 }
+
+export interface PersonalRecord {
+  record_type: string;
+  qualifier: string;
+  value: string;
+  reps: number | null;
+  weight_kg: string | null;
+  achieved_on: string;
+  session_id: string | null;
+  exercise_id: string;
+  exercise_name: string;
+}
+
+export interface SessionPoint {
+  date: string;
+  session_id: string;
+  top_weight_kg: string | null;
+  top_reps: number | null;
+  best_e1rm_kg: string | null;
+  volume_kg: string;
+  sets: number;
+}
+
+export interface ExerciseProgress {
+  exercise_id: string;
+  exercise_name: string;
+  metric_type: string;
+  points: SessionPoint[];
+  records: PersonalRecord[];
+}
+
+export interface Progress {
+  weekly: { week_start: string; volume_kg: string; sets: number; sessions: number }[];
+  muscles: { muscle: string; sets: number }[];
+  sessions_completed: number;
+  adherence: number | null;
+  consistency_weeks: number;
+}
