@@ -15,6 +15,7 @@ from decimal import Decimal
 
 from sqlalchemy import (
     CheckConstraint,
+    text,
     Date,
     DateTime,
     ForeignKey,
@@ -377,5 +378,157 @@ class WorkoutExercise(Base, TimestampMixin):
             "planned_reps_min is null or planned_reps_max is null "
             "or planned_reps_min <= planned_reps_max",
             name="ck_we_rep_range",
+        ),
+    )
+
+
+class WorkoutSession(Base, TimestampMixin):
+    """One performance, on one date. SPECIFICATIONS.MD Sec 8.
+
+    workout_id is nullable: an ad-hoc session with no plan is a first-class
+    flow (Sec 8.3). plan_snapshot holds the plan exactly as it was at start,
+    which is what keeps history immutable when the plan is later edited
+    (Sec 7.1, Sec 16.1).
+    """
+
+    __tablename__ = "workout_sessions"
+
+    # Client-generated UUIDv7 (PLAN.md D3) so an offline start syncs cleanly.
+    id: Mapped[uuid.UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    workout_id: Mapped[uuid.UUID | None] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("workout_plans.id", ondelete="SET NULL")
+    )
+    plan_snapshot: Mapped[dict | None] = mapped_column(JSONB)
+
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    # Sec 3.3 / PLAN.md D8 - the local calendar date, decided when it happens.
+    date: Mapped[date] = mapped_column(Date, nullable=False)
+    start_time: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    end_time: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    status: Mapped[str] = mapped_column(
+        String(20), nullable=False, server_default="in_progress"
+    )
+    duration_seconds: Mapped[int | None] = mapped_column(Integer)
+    notes: Mapped[str | None] = mapped_column(Text)
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    exercises: Mapped[list["SessionExercise"]] = relationship(
+        back_populates="session",
+        cascade="all, delete-orphan",
+        order_by="SessionExercise.order_index",
+    )
+
+    __table_args__ = (
+        Index("ix_sessions_user_date", "user_id", "date"),
+        # Sec 8.2 - at most one session in progress per user.
+        Index(
+            "uq_sessions_one_active",
+            "user_id",
+            unique=True,
+            postgresql_where=text("status = 'in_progress' and deleted_at is null"),
+        ),
+    )
+
+
+class SessionExercise(Base, TimestampMixin):
+    """An exercise inside a session. Sec 9."""
+
+    __tablename__ = "session_exercises"
+
+    id: Mapped[uuid.UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True)
+    session_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True),
+        ForeignKey("workout_sessions.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    exercise_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("exercises.id", ondelete="RESTRICT"), nullable=False
+    )
+    order_index: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+
+    planned_sets: Mapped[int | None] = mapped_column(Integer)
+    planned_reps_min: Mapped[int | None] = mapped_column(Integer)
+    planned_reps_max: Mapped[int | None] = mapped_column(Integer)
+    # Sec 20 - history shows what was planned and what was actually done.
+    replaced_from_exercise_id: Mapped[uuid.UUID | None] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("exercises.id", ondelete="RESTRICT")
+    )
+    superset_group: Mapped[str | None] = mapped_column(String(8))
+    skipped: Mapped[bool] = mapped_column(nullable=False, server_default="false")
+    notes: Mapped[str | None] = mapped_column(Text)
+
+    session: Mapped[WorkoutSession] = relationship(back_populates="exercises")
+    exercise: Mapped["Exercise"] = relationship(
+        lazy="joined", foreign_keys=[exercise_id]
+    )
+    sets: Mapped[list["SetRecord"]] = relationship(
+        back_populates="session_exercise",
+        cascade="all, delete-orphan",
+        order_by="SetRecord.set_number",
+    )
+
+    __table_args__ = (Index("ix_session_exercises_session", "session_id", "order_index"),)
+
+
+class SetRecord(Base, TimestampMixin):
+    """One set. Sec 10.
+
+    Every set is independently recorded, and the id comes from the client so a
+    retried offline write cannot create a duplicate (PLAN.md D3).
+    """
+
+    __tablename__ = "sets"
+
+    id: Mapped[uuid.UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    session_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True),
+        ForeignKey("workout_sessions.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    session_exercise_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True),
+        ForeignKey("session_exercises.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    exercise_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("exercises.id", ondelete="RESTRICT"), nullable=False
+    )
+
+    set_number: Mapped[int] = mapped_column(Integer, nullable=False)
+    weight_kg: Mapped[Decimal | None] = mapped_column(WeightKg)
+    reps: Mapped[int | None] = mapped_column(Integer)
+    duration_seconds: Mapped[int | None] = mapped_column(Integer)
+    distance_m: Mapped[Decimal | None] = mapped_column(Numeric(9, 2))
+
+    rir: Mapped[int | None] = mapped_column(Integer)
+    rpe: Mapped[Decimal | None] = mapped_column(Numeric(3, 1))
+    failure: Mapped[bool] = mapped_column(nullable=False, server_default="false")
+    set_type: Mapped[str] = mapped_column(
+        String(20), nullable=False, server_default="working"
+    )
+    rest_seconds: Mapped[int | None] = mapped_column(Integer)
+    notes: Mapped[str | None] = mapped_column(Text)
+    performed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    session_exercise: Mapped[SessionExercise] = relationship(back_populates="sets")
+
+    __table_args__ = (
+        # Sec 22 - the index behind "my history for this exercise".
+        Index("ix_sets_user_exercise", "user_id", "exercise_id", "performed_at"),
+        Index("ix_sets_session", "session_id"),
+        CheckConstraint("reps is null or (reps >= 0 and reps <= 1000)", name="ck_sets_reps"),
+        CheckConstraint("rir is null or (rir >= 0 and rir <= 10)", name="ck_sets_rir"),
+        CheckConstraint("rpe is null or (rpe >= 1 and rpe <= 10)", name="ck_sets_rpe"),
+        CheckConstraint(
+            "duration_seconds is null or duration_seconds >= 0", name="ck_sets_duration"
         ),
     )

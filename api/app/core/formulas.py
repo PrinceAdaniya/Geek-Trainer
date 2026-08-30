@@ -27,15 +27,34 @@ def _q(value: Decimal) -> Decimal:
     return value.quantize(WEIGHT_QUANT, rounding=ROUND_HALF_UP)
 
 
-FACTOR_QUANT = Decimal("0.001")  # NUMERIC(4,3)
+FACTOR_QUANT = Decimal("0.001")   # NUMERIC(4,3)
+RPE_QUANT = Decimal("0.1")        # NUMERIC(3,1)
+DISTANCE_QUANT = Decimal("0.01")  # NUMERIC(9,2)
+
+
+def quantize(value: Decimal | None, exponent: Decimal) -> Decimal | None:
+    """Match a NUMERIC column's precision at the write boundary.
+
+    Every NUMERIC column needs this, not just the ones that happened to have a
+    test - see ERRORS-AND-FIXES.md E5 and E7. Without it a value reads back
+    differently than it was written, and the offline client in Phase 5 would
+    see a phantom conflict.
+    """
+    if value is None:
+        return None
+    return Decimal(value).quantize(exponent, rounding=ROUND_HALF_UP)
 
 
 def quantize_factor(value: Decimal | None) -> Decimal | None:
-    """Same reasoning as quantize_kg - match the column so a value reads back
-    the way it was written (ERRORS-AND-FIXES.md E5)."""
-    if value is None:
-        return None
-    return Decimal(value).quantize(FACTOR_QUANT, rounding=ROUND_HALF_UP)
+    return quantize(value, FACTOR_QUANT)
+
+
+def quantize_rpe(value: Decimal | None) -> Decimal | None:
+    return quantize(value, RPE_QUANT)
+
+
+def quantize_distance(value: Decimal | None) -> Decimal | None:
+    return quantize(value, DISTANCE_QUANT)
 
 
 def quantize_kg(value: Decimal) -> Decimal:

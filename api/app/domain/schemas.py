@@ -26,6 +26,8 @@ from app.domain.enums import (
     MUSCLE_SET,
     DayOfWeek,
     Difficulty,
+    SessionStatus,
+    SetType,
     ExerciseType,
     MetricType,
     TrainingExperience,
@@ -341,3 +343,125 @@ class WeekOut(BaseModel):
 
     days: dict[str, list[PlanOut]]
     unscheduled: list[PlanOut]
+
+
+# --- sessions and sets ----------------------------------------------------
+
+
+class SetIn(BaseModel):
+    """The client supplies the id (PLAN.md D3), so a retried write upserts."""
+
+    id: uuid.UUID | None = None
+    weight: Decimal | None = Field(default=None, ge=-500, le=2000)
+    reps: int | None = Field(default=None, ge=0, le=1000)
+    duration_seconds: int | None = Field(default=None, ge=0, le=86400)
+    distance_m: Decimal | None = Field(default=None, ge=0, le=1000000)
+    rir: int | None = Field(default=None, ge=0, le=10)
+    rpe: Decimal | None = Field(default=None, ge=1, le=10)
+    failure: bool = False
+    set_type: SetType = SetType.WORKING
+    rest_seconds: int | None = Field(default=None, ge=0, le=7200)
+    notes: str | None = Field(default=None, max_length=1000)
+
+
+class SetUpdate(BaseModel):
+    weight: Decimal | None = Field(default=None, ge=-500, le=2000)
+    reps: int | None = Field(default=None, ge=0, le=1000)
+    duration_seconds: int | None = Field(default=None, ge=0, le=86400)
+    distance_m: Decimal | None = Field(default=None, ge=0, le=1000000)
+    rir: int | None = Field(default=None, ge=0, le=10)
+    rpe: Decimal | None = Field(default=None, ge=1, le=10)
+    failure: bool | None = None
+    set_type: SetType | None = None
+    rest_seconds: int | None = Field(default=None, ge=0, le=7200)
+    notes: str | None = Field(default=None, max_length=1000)
+
+
+class SetOut(ORMModel):
+    id: uuid.UUID
+    set_number: int
+    weight_kg: Decimal | None
+    reps: int | None
+    duration_seconds: int | None
+    distance_m: Decimal | None
+    rir: int | None
+    rpe: Decimal | None
+    failure: bool
+    set_type: SetType
+    rest_seconds: int | None
+    notes: str | None
+    performed_at: datetime
+
+
+class SessionExerciseIn(BaseModel):
+    id: uuid.UUID | None = None
+    exercise_id: uuid.UUID
+    replaced_from_exercise_id: uuid.UUID | None = None
+    superset_group: str | None = Field(default=None, max_length=8)
+    notes: str | None = Field(default=None, max_length=1000)
+
+
+class SessionExerciseUpdate(BaseModel):
+    skipped: bool | None = None
+    superset_group: str | None = Field(default=None, max_length=8)
+    notes: str | None = Field(default=None, max_length=1000)
+
+
+class LastPerformance(BaseModel):
+    """Sec 11.2 - always visible while logging."""
+
+    date: date
+    sets: list[SetOut]
+
+
+class SessionExerciseOut(ORMModel):
+    id: uuid.UUID
+    exercise_id: uuid.UUID
+    order_index: int
+    planned_sets: int | None
+    planned_reps_min: int | None
+    planned_reps_max: int | None
+    replaced_from_exercise_id: uuid.UUID | None
+    superset_group: str | None
+    skipped: bool
+    notes: str | None
+    exercise: ExerciseOut
+    sets: list[SetOut]
+    last_performance: LastPerformance | None = None
+
+
+class SessionStart(BaseModel):
+    id: uuid.UUID | None = None
+    workout_id: uuid.UUID | None = None      # Sec 8.3 - null means ad-hoc
+    name: str | None = Field(default=None, max_length=120)
+
+
+class SessionUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=120)
+    notes: str | None = Field(default=None, max_length=4000)
+
+
+class SessionOut(ORMModel):
+    id: uuid.UUID
+    workout_id: uuid.UUID | None
+    name: str
+    date: date
+    start_time: datetime
+    end_time: datetime | None
+    status: SessionStatus
+    duration_seconds: int | None
+    notes: str | None
+    exercises: list[SessionExerciseOut]
+
+
+class SessionSummaryOut(ORMModel):
+    """The history list - Sec 16 - without dragging every set along."""
+
+    id: uuid.UUID
+    name: str
+    date: date
+    status: SessionStatus
+    duration_seconds: int | None
+    notes: str | None
+    exercise_count: int = 0
+    set_count: int = 0

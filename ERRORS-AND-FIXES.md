@@ -154,3 +154,65 @@ the existing `quantize_kg`.
 needs a quantizer at the write boundary, not just the one that happened to have
 a test. Worth a sweep when Phase 4 adds `weight_kg` on sets.
 
+---
+
+## E8. The guard read the table `sets` inside the column `planned_sets`
+
+**Symptom:** every workout-plan query started failing with
+`UnscopedQueryError: statement touches ['sets'] without a user_id predicate` —
+on statements that never touched the sets table at all.
+
+**Cause:** `_tables_in` did a plain substring test, and Phase 4 added a table
+literally named `sets`. `workout_exercises.planned_sets` contains it. So did
+`planned_reps_min`? No — but `planned_sets` was enough to break every plan
+read the moment the table existed.
+
+**Fix:** match table names on word boundaries. `_` is a word character, so
+`\bsets\b` does not fire inside `planned_sets`.
+
+**Lesson:** the third bug in this file caused by substring-matching SQL (E3 was
+the first). Short table names are landmines for text-based analysis; the guard
+now compiles a real pattern per table. If a future table is named `set`,
+`user`, or `plan`, check this first.
+
+---
+
+## E9. The ORM's eager loads look exactly like unscoped queries
+
+**Symptom:** with the guard fixed, loading a session raised
+`UnscopedQueryError` on `SELECT ... FROM sets WHERE session_exercise_id IN (...)`.
+
+**Cause:** `selectinload(session.exercises).selectinload(SessionExercise.sets)`
+emits a second query keyed only on the parent ids. There is no `user_id` in it,
+and there should not be — the parents were already loaded through a scoped
+query.
+
+**Fix:** `PARENT_SCOPED_KEYS` in the guard names, per table, the foreign keys
+that pin a statement to a parent the caller already holds. Deliberately short
+and justified in place, with the same reasoning as the primary-key exemption
+(E4): the guard catches statements that *fan out* across users; pinned
+statements are the IDOR question, covered by the A10 isolation tests.
+
+**Lesson:** a guard over generated SQL has to account for what the ORM
+generates, not just what you write. Each exemption needs to be listed and
+argued rather than discovered by loosening the check until tests pass.
+
+---
+
+## E10. A stale relationship made an added exercise vanish
+
+**Symptom:** `POST /sessions/{id}/exercises` returned 201 with the exercise
+saved, but the session in the response had an empty `exercises` list. Reloading
+the page showed it correctly.
+
+**Cause:** the route re-queried the session after the insert, but SQLAlchemy's
+identity map returned the same object with its already-loaded `exercises`
+collection. A re-query is not a refresh.
+
+**Fix:** `db.expire(session, ["exercises"])` after add, remove and reorder.
+
+**Lesson:** after mutating a collection through anything other than the
+relationship itself, expire it. Re-issuing the query is not enough — and the
+symptom (right in the database, wrong in the response) points at the API layer
+rather than at the ORM, which is where the time went.
+

@@ -32,6 +32,25 @@ USER_OWNED_TABLES: set[str] = {
     "user_settings",
     "bodyweight_log",
     "workout_plans",
+    "workout_sessions",
+    "sets",
+}
+
+# Columns that pin a statement to a specific parent row the caller already
+# holds - and could only have obtained through a scoped query.
+#
+# The ORM emits these on every relationship load: `selectinload(session.exercises
+# .sets)` becomes `SELECT ... FROM sets WHERE session_exercise_id IN (...)`,
+# with no user_id anywhere. Requiring one would mean abandoning eager loading
+# across the whole app.
+#
+# Same reasoning as the primary-key exemption below: this guard exists to catch
+# statements that FAN OUT across users. A statement pinned to specific parent
+# ids is the IDOR question, and that is covered by the per-endpoint isolation
+# tests (A10). Keep this list short and justified.
+PARENT_SCOPED_KEYS: dict[str, tuple[str, ...]] = {
+    "sets": ("session_exercise_id", "session_id"),
+    "workout_sessions": ("workout_id",),
 }
 
 _STATEMENT = re.compile(r"^\s*(select|insert|update|delete)\b", re.IGNORECASE)
@@ -57,8 +76,24 @@ def unscoped(reason: str) -> Iterator[None]:
         _state.allow = previous
 
 
+_TABLE_PATTERNS: dict[str, re.Pattern[str]] = {}
+
+
+def _pattern_for(table: str) -> re.Pattern[str]:
+    """Match the table name as a whole word.
+
+    A plain substring test is wrong: the table `sets` occurs inside the column
+    `workout_exercises.planned_sets`, so every plan query looked like an
+    unscoped read of the sets table. `_` is a word character, so a word-boundary
+    match does not fire inside `planned_sets`. See ERRORS-AND-FIXES.md E8.
+    """
+    if table not in _TABLE_PATTERNS:
+        _TABLE_PATTERNS[table] = re.compile(rf"\b{re.escape(table)}\b")
+    return _TABLE_PATTERNS[table]
+
+
 def _tables_in(sql: str) -> set[str]:
-    return {t for t in USER_OWNED_TABLES if t in sql}
+    return {t for t in USER_OWNED_TABLES if _pattern_for(t).search(sql)}
 
 
 def _predicate_mentions_user(sql: str, touched: set[str]) -> bool:
@@ -82,6 +117,12 @@ def _predicate_mentions_user(sql: str, touched: set[str]) -> bool:
 
     if "user_id" in predicate:
         return True
+
+    # A relationship load pinned to a parent the caller already holds.
+    for table in touched:
+        for key in PARENT_SCOPED_KEYS.get(table, ()):
+            if f"{table}.{key}" in predicate or f" {key} " in predicate:
+                return True
 
     # A single row addressed by its own primary key. The ORM emits this shape
     # for every flush of a loaded object, and the object can only have been
