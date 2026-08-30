@@ -288,6 +288,29 @@ Native apps                           — the PWA is the answer for v1
 Media re-hosting                      — blocked on §32 Q1, hot-link until then
 ```
 
+### D19. The web app reaches the API through a same-origin proxy.
+
+`next.config.mjs` rewrites `/api/*` to the FastAPI origin, so the browser only
+ever talks to one origin.
+
+```text
+The session cookie needs no SameSite negotiation and no CORS preflight.
+There is no window where a misconfigured CORS origin silently breaks auth.
+Production swaps the rewrite target for the deployed API; nothing else moves.
+```
+
+The API still sets permissive CORS for direct use (curl, /docs), but the app
+does not rely on it.
+
+### D20. Next 15 with an explicit postcss bump, not Next 16.
+
+Next 16 requires Node 20; this machine runs Node 18. Rather than pull in a
+second runtime, the app pins Next 15.5.24 and bumps `postcss` to `^8.5.6`
+directly, which clears the advisories that would otherwise have forced the
+major upgrade. `npm audit` reports zero vulnerabilities.
+
+Revisit when Node here moves to 20+.
+
 ### D17. The development and test database is a Python wheel, not Docker.
 
 `pgserver` ships real PostgreSQL 16 binaries in a wheel. `scripts/devdb.py`
@@ -518,18 +541,21 @@ its code exists; it is done when the criteria it closes pass.
 
 ## Status
 
-**Phase 1 backend complete.** 65 tests passing.
+**Phases 1 and 2 substantially complete.** 96 backend tests passing; the web
+app builds clean and the whole flow works end to end.
 
 ```text
-Phase 1  Foundation ................ done (backend); PWA shell moved to Phase 2
-Phase 2  Exercise catalogue ........ next
-Phase 3  Plans and schedule ........
+Phase 1  Foundation ................ done
+Phase 2  Exercise catalogue ........ done, less the live ingest fetcher
+Phase 3  Plans and schedule ........ next
 Phase 4  Sessions and set logging ..
 Phase 5  Offline and sync ..........
 Phase 6  Derived data and charts ...
 Phase 7  AI .......................
 Phase 8  Polish ...................
 ```
+
+Run it: `make dev`, then http://localhost:3000
 
 Built so far:
 
@@ -540,14 +566,20 @@ api/app/repo/       guard (the user_id enforcement), users, settings, bodyweight
 api/app/services/   auth
 api/app/routes/     auth, profile, health
 api/migrations/     one migration, downgrade round-trip verified
-api/tests/          65 tests: formulas, auth, profile, ownership
+api/repo/exercises  catalogue search, set-containment equipment filter
+api/app/ingest/     canonical mapping, seed loader
+api/seeds/          catalogue.py (source) -> exercises.json (validated build)
+api/tests/          96 tests: formulas, auth, profile, ownership, exercises
+web/src/lib/        api client, session, units mirrored from D7
+web/src/app/        landing, register, login, profile, exercises
 ```
 
 Open questions from `SPECIFICATIONS.MD` Sec 32, and their current state:
 
 ```text
-Q1 (exercise data licensing)  blocks Phase 2 ingest, not its seed path (D5).
-                              NEEDS AN ANSWER BEFORE PHASE 2 SHIPS.
+Q1 (exercise data licensing)  settled for this build - personal and
+                              non-commercial, so cached data and media are
+                              used freely. Revisit before any release.
 Q2 (LLM budget per user)      blocks Phase 7 rate limits; defaults until then.
 Q3 (email provider)           no longer blocking - EmailSender protocol with a
                               console implementation (app/mail/sender.py).

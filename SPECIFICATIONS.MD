@@ -1628,7 +1628,10 @@ Load and progression suggestions stay within conservative bounds
 
 ```text
 Q1  ExerciseDB / AscendAPI licensing: which tier, and do the terms permit
-    caching exercise data and re-hosting GIFs? This gates §5.1 and §5.2.
+    caching exercise data and re-hosting GIFs?
+    SETTLED FOR NOW: this build is personal and non-commercial, so cached
+    exercise data and media are used freely and 5.2 is not a blocker.
+    Revisit before any public or commercial release.
 Q2  Which LLM provider and model tier, and what is the monthly budget per
     user? This sets the limits in §21.5.
 Q3  Email delivery for password reset — which provider?
@@ -1636,6 +1639,12 @@ Q4  Is a multi-device single user in scope for v1, or is last-write-wins
     across devices (§12.4) acceptable indefinitely?
 Q5  Deload / periodization: out of scope for v1, or a lightweight
     "reduce volume this week" suggestion?
+Q7  Loaded carries (farmer's walk, sled push) have both a load and a
+    distance, and Sec 10.2 has no `weight_distance` metric type - so the
+    seed catalogue records them as distance only and the load is lost.
+    Either add the metric type or accept the gap; noticed while building
+    the catalogue.
+
 Q6  Hosting target — this determines the ingest job's scheduler and whether
     the service worker's caching strategy needs a CDN story.
 ```

@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: #101114;
+  color: #e8eaed;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Sec 11.1 - numeric entry must never summon a full keyboard, and the
+   spinner arrows are useless with sweaty hands. */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Sec 26 - visible focus, always. */
+:focus-visible {
+  outline: 2px solid #7dd3a0;
+  outline-offset: 2px;
+}
