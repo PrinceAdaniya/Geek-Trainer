@@ -300,3 +300,43 @@ first commit. And look at what is actually tracked before the first push - the
 check took one command and caught 58 MB of noise that would otherwise have been
 permanent in a public repository.
 
+---
+
+## E15. `next build` kept breaking the running dev server
+
+**Symptom:** three separate times, every page started returning 500 with
+`MODULE_NOT_FOUND` pointing inside `.next/server/app/...`, right after a
+production build. Reported once as "I still don't see the exercise library" -
+the page being served was several edits old.
+
+**Cause:** `next build` writes into `.next`, the same directory `next dev`
+serves from. The build replaces the dev server's chunks underneath it.
+
+**Fix:** the `build` script writes to `.next-build` instead
+(`next build --distdir .next-build`), so the two cannot collide.
+
+**Lesson:** this is documented in the sibling project's own fixes file and I
+hit it anyway. Worse, its symptom is "your change did nothing" - the same
+signature as E12 - so it costs a debugging session before anyone suspects the
+build. Separate the directories once and it cannot recur.
+
+---
+
+## E16. The seed catalogue inherited stills with no gallery behind them
+
+**Symptom:** after adding multi-image support, `Barbell Bench Press` showed
+`image_urls = []` while the imported `Bench Press` it was matched against had
+two.
+
+**Cause:** ordering. `load()` attached media to the seed rows *before* the loop
+that writes the imported rows, so the donors it copied from were still holding
+the previous run's data - a single `image_url` and no gallery.
+
+**Fix:** the seed attach runs after the import loop, and the query now also
+picks up rows that have a still but no gallery, so a re-run upgrades them
+instead of skipping them as "already done".
+
+**Lesson:** an idempotency check of "does it already have one?" quietly becomes
+"never improve it" the moment the thing you are copying gets richer. Seed
+attach went from 20 rows to 58 on the same data once the order was right.
+

@@ -248,6 +248,11 @@ class Exercise(Base, TimestampMixin):
         ARRAY(Text), nullable=False, server_default="{}"
     )
     image_url: Mapped[str | None] = mapped_column(Text)
+    # Sec 5.2 - a movement often has several angles; the detail page shows
+    # them as a gallery rather than throwing all but one away.
+    image_urls: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, server_default="{}"
+    )
     gif_url: Mapped[str | None] = mapped_column(Text)
     video_url: Mapped[str | None] = mapped_column(Text)
     media_licence: Mapped[str | None] = mapped_column(String(120))

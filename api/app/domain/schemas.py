@@ -172,8 +172,10 @@ class ExerciseOut(ORMModel):
     default_rest_seconds: int
     instructions: list[str]
     image_url: str | None = None
+    image_urls: list[str] = []
     gif_url: str | None = None
     video_url: str | None = None
+    media_licence: str | None = None
     is_custom: bool
 
     # Sec 6.1 - an incompatible exercise is shown with the reason named.

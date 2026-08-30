@@ -45,8 +45,10 @@ export interface Exercise {
   default_rest_seconds: number;
   instructions: string[];
   image_url: string | null;
+  image_urls: string[];
   gif_url: string | null;
   video_url: string | null;
+  media_licence: string | null;
   is_custom: boolean;
   compatible: boolean;
   missing_equipment: string[];

@@ -16,7 +16,7 @@ import urllib.request
 from dataclasses import dataclass, field
 from typing import Any
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.core.clock import utcnow
@@ -96,14 +96,32 @@ def fetch(*, limit: int = 900) -> Staged:
     """Fetch and normalise. Nothing here touches the database."""
     staged = Staged()
 
-    images: dict[int, str] = {}
+    # Every image, not just the first - a movement often has two or three
+    # angles, and the detail page shows them as a gallery.
+    images: dict[int, list[str]] = {}
     try:
-        for row in _paged("exerciseimage", limit=1000):
+        for row in _paged("exerciseimage", limit=2000):
             base_id = row.get("exercise_base") or row.get("exercise")
-            if base_id and row.get("image") and base_id not in images:
-                images[int(base_id)] = row["image"]
+            if base_id and row.get("image"):
+                bucket = images.setdefault(int(base_id), [])
+                if row["image"] not in bucket:
+                    # The provider marks one image as the main one.
+                    if row.get("is_main"):
+                        bucket.insert(0, row["image"])
+                    else:
+                        bucket.append(row["image"])
     except (urllib.error.URLError, TimeoutError, ValueError) as exc:
         staged.report.reject(f"image fetch failed: {exc}")
+
+    videos: dict[int, str] = {}
+    try:
+        for row in _paged("video", limit=500):
+            base_id = row.get("exercise_base") or row.get("exercise")
+            if base_id and row.get("video") and int(base_id) not in videos:
+                videos[int(base_id)] = row["video"]
+    except (urllib.error.URLError, TimeoutError, ValueError) as exc:
+        # Videos are a bonus; losing them must not fail the run.
+        staged.report.reject(f"video fetch failed: {exc}")
 
     for entry in _paged("exerciseinfo", limit=limit):
         english = next(
@@ -181,10 +199,16 @@ def fetch(*, limit: int = 900) -> Staged:
                 "bodyweight_load_factor": "0.65" if metric != "weight_reps" else None,
                 "default_rest_seconds": 120,
                 "instructions": instructions,
-                "image_url": images.get(int(entry.get("id", 0))),
+                "image_url": (images.get(int(entry.get("id", 0))) or [None])[0],
+                "image_urls": images.get(int(entry.get("id", 0)), []),
                 "gif_url": None,
-                "video_url": None,
-                "media_licence": LICENCE if images.get(int(entry.get("id", 0))) else None,
+                "video_url": videos.get(int(entry.get("id", 0))),
+                "media_licence": (
+                    LICENCE
+                    if images.get(int(entry.get("id", 0)))
+                    or videos.get(int(entry.get("id", 0)))
+                    else None
+                ),
             }
         )
 
@@ -212,18 +236,26 @@ def attach_media_to_catalogue(db: Session) -> int:
     a barbell row a "Bent Over Barbell Row". So this matches on token overlap
     within the same body part, which is conservative enough not to illustrate
     a squat with a curl, and takes the highest-scoring candidate.
+
+    Two thresholds: a strong name overlap on its own, or a weaker one when the
+    primary muscle also agrees. Below both, the row keeps no image - a wrong
+    demonstration is worse than none.
     """
     with unscoped("the exercise catalogue is shared, not user-owned"):
         donors = db.execute(
             select(Exercise).where(
-                Exercise.source == "wger", Exercise.image_url.is_not(None)
+                Exercise.source == "wger",
+                (Exercise.image_url.is_not(None)) | (Exercise.video_url.is_not(None)),
             )
         ).scalars().all()
+        # Include rows that already have a still but no gallery or clip, so a
+        # re-run upgrades them rather than skipping them.
         seeds = db.execute(
             select(Exercise).where(
                 Exercise.source == "custom",
                 Exercise.is_custom.is_(False),
-                Exercise.image_url.is_(None),
+                (Exercise.image_url.is_(None))
+                | (func.cardinality(Exercise.image_urls) == 0),
             )
         ).scalars().all()
 
@@ -241,10 +273,14 @@ def attach_media_to_catalogue(db: Session) -> int:
             best_score, best = 0.0, None
             for tokens, donor in by_part.get(seed.body_part, []):
                 overlap = len(wanted & tokens) / len(wanted)
+                if donor.primary_muscle == seed.primary_muscle:
+                    overlap += 0.2  # same muscle is corroboration, not proof
                 if overlap > best_score:
                     best_score, best = overlap, donor
             if best is not None and best_score >= 0.8:
-                seed.image_url = best.image_url
+                seed.image_url = seed.image_url or best.image_url
+                seed.image_urls = list(best.image_urls or [])
+                seed.video_url = seed.video_url or best.video_url
                 seed.media_licence = LICENCE
                 attached += 1
         db.flush()
@@ -279,7 +315,6 @@ def load(db: Session, staged: Staged, *, attach_media_to_seed: bool = True) -> d
                     seed.media_licence = LICENCE
                     media_attached += 1
             db.flush()
-            media_attached += attach_media_to_catalogue(db)
 
         for row in staged.rows:
             existing = db.execute(
@@ -313,6 +348,10 @@ def load(db: Session, staged: Staged, *, attach_media_to_seed: bool = True) -> d
                     setattr(existing, key, value)
                 updated += 1
         db.flush()
+
+        # After the imported rows carry their galleries, not before - otherwise
+        # the seed catalogue inherits stills with no gallery behind them.
+        media_attached += attach_media_to_catalogue(db)
 
     run.finished_at = utcnow()
     run.status = "succeeded"

@@ -33,6 +33,18 @@ export function ExerciseDemo({ exercise }: { exercise: Exercise }) {
 
       {open && (
         <div className="flex flex-col gap-3 border-t border-surface-edge p-3">
+          {exercise.video_url && (
+            <video
+              src={exercise.video_url}
+              controls
+              loop
+              muted
+              playsInline
+              preload="none"
+              aria-label={`${exercise.name} demonstration video`}
+              className="max-h-64 w-full rounded-lg bg-surface-raised"
+            />
+          )}
           {hasMedia ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -42,7 +54,7 @@ export function ExerciseDemo({ exercise }: { exercise: Exercise }) {
               onError={() => setMediaFailed(true)}
               className="max-h-64 w-full rounded-lg bg-surface-raised object-contain"
             />
-          ) : (
+          ) : exercise.video_url ? null : (
             <div className="flex items-center justify-center rounded-lg border border-dashed border-surface-edge px-4 py-6 text-center">
               <p className="text-[12px] leading-relaxed text-ink-faint">
                 No demonstration for this movement yet.

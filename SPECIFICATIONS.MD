@@ -219,11 +219,19 @@ step in §21 impossibly slow.
 Exercise GIFs, images and videos are third-party assets.
 
 ```text
-Record the licence/terms for each media asset with the exercise row.
+Record the licence/terms for each media asset with the exercise row, and
+  show the attribution wherever the media is shown.
 Hot-link only where the provider's terms require it; otherwise cache
   through the app's own domain with a stable URL.
+An exercise may carry several stills - the detail page shows them as a
+  gallery rather than discarding all but one - plus a clip where the
+  source has one.
 Media must be lazy-loaded and must never block exercise search results.
-Every exercise must be usable with no media at all (text instructions).
+Every exercise must be usable with no media at all (text instructions),
+  and a missing demonstration is stated rather than left as a broken frame.
+Coverage will always be partial: no open catalogue illustrates every
+  movement. Where there is none, offer a video search for the movement
+  instead of pretending.
 ```
 
 This is an open item — see §32.

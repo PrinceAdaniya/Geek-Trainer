@@ -42,15 +42,22 @@ export default function Home() {
     void api.get<WorkoutSession | null>("/sessions/active").then(setActive);
     void api.get<SessionSummary[]>("/sessions").then((r) => setRecent(r.slice(0, 5)));
     void api.get<Week>("/week").then(setWeek);
-    // Prefer illustrated movements on the dashboard - a wall of names is not
-    // a reason to browse.
-    void api
-      .get<ExercisePage>("/exercises?limit=60")
-      .then((page) => {
-        const withImages = page.data.filter((row) => row.image_url);
-        setLibrary((withImages.length >= 6 ? withImages : page.data).slice(0, 6));
-        setLibraryTotal(page.total);
-      });
+    // Compound movements with a demonstration, because the point of this
+    // panel is to invite browsing - and an alphabetical page of the whole
+    // catalogue opens on ankle rolls.
+    void Promise.all([
+      api.get<ExercisePage>("/exercises?limit=100&type=compound"),
+      api.get<ExercisePage>("/exercises?limit=1"),
+    ]).then(([compounds, all]) => {
+      const illustrated = compounds.data.filter((row) => row.image_url);
+      const pool = illustrated.length >= 6 ? illustrated : compounds.data;
+      // Rotate daily so the panel is not the same six movements forever.
+      const offset = pool.length
+        ? Math.floor(Date.now() / 86_400_000) % pool.length
+        : 0;
+      setLibrary([...pool.slice(offset), ...pool.slice(0, offset)].slice(0, 6));
+      setLibraryTotal(all.total);
+    });
   }, [profile]);
 
   if (loading) return <Spinner />;
@@ -130,6 +137,58 @@ export default function Home() {
           </div>
         )}
 
+        <Panel
+          title="Exercise library · compound movements"
+          right={
+            <Link href="/exercises" className="label hover:text-accent">
+              browse all {libraryTotal || ""} →
+            </Link>
+          }
+        >
+          {library.length === 0 ? (
+            <p className="text-[13px] text-ink-dim">
+              Add your equipment and the library fills with movements you can
+              actually load.
+            </p>
+          ) : (
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {library.map((exercise) => (
+                <li key={exercise.id}>
+                  <Link
+                    href={`/exercises/${exercise.id}`}
+                    className="group flex h-full flex-col gap-2 rounded-xl border border-surface-edge bg-surface p-2.5 transition-colors hover:border-accent/50"
+                  >
+                    <span className="flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-surface-raised">
+                      {exercise.image_url ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={exercise.image_url}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-contain transition-transform group-hover:scale-105"
+                        />
+                      ) : (
+                        <span className="label px-2 text-center">
+                          {humanize(exercise.primary_muscle)}
+                        </span>
+                      )}
+                    </span>
+                    <span className="flex flex-col gap-0.5">
+                      <span className="line-clamp-2 text-[13px] leading-snug">
+                        {exercise.name}
+                      </span>
+                      <span className="label">
+                        {humanize(exercise.primary_muscle)}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
+
+
         {/* Power level + charge. The number, the name and the bar together. */}
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
           <Panel title="Power">
@@ -188,57 +247,6 @@ export default function Home() {
             hint="Warm-ups excluded"
           />
         </div>
-
-        <Panel
-          title="Exercise library"
-          right={
-            <Link href="/exercises" className="label hover:text-accent">
-              browse all {libraryTotal || ""} →
-            </Link>
-          }
-        >
-          {library.length === 0 ? (
-            <p className="text-[13px] text-ink-dim">
-              Add your equipment and the library fills with movements you can
-              actually load.
-            </p>
-          ) : (
-            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-              {library.map((exercise) => (
-                <li key={exercise.id}>
-                  <Link
-                    href={`/exercises/${exercise.id}`}
-                    className="group flex h-full flex-col gap-2 rounded-xl border border-surface-edge bg-surface p-2.5 transition-colors hover:border-accent/50"
-                  >
-                    <span className="flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-surface-raised">
-                      {exercise.image_url ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
-                          src={exercise.image_url}
-                          alt=""
-                          loading="lazy"
-                          className="h-full w-full object-contain transition-transform group-hover:scale-105"
-                        />
-                      ) : (
-                        <span className="label px-2 text-center">
-                          {humanize(exercise.primary_muscle)}
-                        </span>
-                      )}
-                    </span>
-                    <span className="flex flex-col gap-0.5">
-                      <span className="line-clamp-2 text-[13px] leading-snug">
-                        {exercise.name}
-                      </span>
-                      <span className="label">
-                        {humanize(exercise.primary_muscle)}
-                      </span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </Panel>
 
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <Panel

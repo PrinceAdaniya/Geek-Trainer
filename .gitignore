@@ -41,3 +41,6 @@ htmlcov/
 .pgdata/
 .pgdata-test/
 .devdb-url
+
+# production build output (kept out of the dev server directory)
+.next-build/

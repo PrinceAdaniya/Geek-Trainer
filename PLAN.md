@@ -625,6 +625,19 @@ A13 keyboard and screen-reader operable .. built in: labelled inputs, visible
 A14 correct and fast at 20,000 sets ...... tests/test_performance.py
 ```
 
+## Media coverage
+
+```text
+960 exercises. 338 carry a demonstration (35%), of which 84 have more than
+one angle and 54 have a video clip. The hand-written seed catalogue - the
+movements people actually log - sits at 70 of 134 (52%).
+
+That is the ceiling for wger.de, which holds 374 images and 78 clips in
+total. Going further needs a second source; ExerciseDB has far more, and
+needs an API key. Where there is no demonstration the page says so and
+offers a video search rather than showing a broken frame.
+```
+
 ## Not verified, and worth saying plainly
 
 ```text

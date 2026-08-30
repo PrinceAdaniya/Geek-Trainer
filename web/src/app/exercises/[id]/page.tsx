@@ -28,6 +28,7 @@ export default function ExerciseDetailPage() {
   const [plans, setPlans] = useState<Plan[]>([]);
   const [added, setAdded] = useState<string | null>(null);
   const [mediaFailed, setMediaFailed] = useState(false);
+  const [shot, setShot] = useState(0);
 
   useEffect(() => {
     if (!loading && !profile) router.replace("/login");
@@ -45,8 +46,14 @@ export default function ExerciseDetailPage() {
 
   if (loading || !profile || !exercise) return <Spinner />;
 
-  const media = exercise.gif_url ?? exercise.image_url;
+  const gallery = exercise.image_urls?.length
+    ? exercise.image_urls
+    : exercise.image_url
+      ? [exercise.image_url]
+      : [];
+  const media = exercise.gif_url ?? gallery[shot] ?? exercise.image_url;
   const showMedia = Boolean(media) && !mediaFailed;
+  const video = exercise.video_url;
   const youtube = `https://www.youtube.com/results?search_query=${encodeURIComponent(
     `${exercise.name} exercise form`,
   )}`;
@@ -71,6 +78,19 @@ export default function ExerciseDetailPage() {
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <Panel title="Demonstration">
+          {video && (
+            /* A clip answers "am I doing this right" in a way a still cannot. */
+            <video
+              src={video}
+              controls
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              aria-label={`${exercise.name} demonstration video`}
+              className="mb-3 max-h-[380px] w-full rounded-lg bg-surface"
+            />
+          )}
           {showMedia ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img
@@ -80,7 +100,7 @@ export default function ExerciseDetailPage() {
               onError={() => setMediaFailed(true)}
               className="max-h-[380px] w-full rounded-lg bg-surface object-contain"
             />
-          ) : (
+          ) : video ? null : (
             <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-surface-edge px-6 py-12 text-center">
               <p className="text-[14px] text-ink-dim">
                 No image for this movement in the catalogue.
@@ -88,6 +108,28 @@ export default function ExerciseDetailPage() {
               <p className="text-[12px] text-ink-faint">
                 The written cues are the whole instruction — or watch someone do it.
               </p>
+            </div>
+          )}
+
+          {gallery.length > 1 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {gallery.map((url, index) => (
+                <button
+                  key={url}
+                  onClick={() => {
+                    setShot(index);
+                    setMediaFailed(false);
+                  }}
+                  aria-label={`View angle ${index + 1} of ${gallery.length}`}
+                  aria-pressed={shot === index}
+                  className={`h-14 w-14 overflow-hidden rounded-lg border ${
+                    shot === index ? "border-accent" : "border-surface-edge"
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={url} alt="" loading="lazy" className="h-full w-full object-contain" />
+                </button>
+              ))}
             </div>
           )}
 
@@ -111,9 +153,9 @@ export default function ExerciseDetailPage() {
               Find a demo on YouTube ↗
             </a>
           </div>
-          {exercise.image_url && (
+          {exercise.media_licence && (
             <p className="mt-2 text-[11px] text-ink-faint">
-              Image from wger.de, CC-BY-SA.
+              Media: {exercise.media_licence}
             </p>
           )}
         </Panel>
