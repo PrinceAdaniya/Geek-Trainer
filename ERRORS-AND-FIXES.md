@@ -257,3 +257,46 @@ used — the long-running instances were started by hand without it.
 the process before the code. Both times the symptom looked like a routing bug
 and neither was.
 
+---
+
+## E13. The catalogue was invisible from the one screen everybody starts on
+
+**Symptom:** reported directly - "exercise section still doesn't show on
+homepage". Correct: the dashboard had power level, heatmap, stats, recent
+sessions and the rank ladder, and never once mentioned the 960 exercises the
+app is built around.
+
+**Cause:** the dashboard was designed around *returning* to training - resume a
+session, see the streak. Browsing was treated as a search task and left on its
+own page, so anyone who did not already know what to look for never saw it.
+
+**Fix:** an exercise library panel on the dashboard, preferring illustrated
+movements, linking through to the detail pages.
+
+**Lesson:** the tests covered whether the catalogue *worked*, never whether it
+was reachable from where people actually land. Same shape as E11 - shape
+asserted, usefulness not. Worth asking of every feature: from the first screen,
+how many taps to it, and would you know it was there?
+
+---
+
+## E14. The local Postgres directories were committed, and nearly pushed
+
+**Symptom:** on preparing the first push, `.git` was 58 MB with 2,405 tracked
+files. `api/.pgdata/pg_wal/000000010000000000000001` alone was 16 MB.
+
+**Cause:** the very first `git add -A` ran before `.pgdata/` was in
+`.gitignore`. Adding the ignore rule afterwards does nothing for files already
+tracked - and every later `git add -A` faithfully committed the database's
+internal state.
+
+**Fix:** `git rm -r --cached` plus a `filter-branch` over all 19 commits to
+purge them from history, then a `gc`. 58 MB → 456 KB, 2,405 files → 130. The
+commit narrative and every message survived; the working database on disk was
+untouched and the suite still passed afterwards.
+
+**Lesson:** write the `.gitignore` before the first `git add`, not after the
+first commit. And look at what is actually tracked before the first push - the
+check took one command and caught 58 MB of noise that would otherwise have been
+permanent in a public repository.
+

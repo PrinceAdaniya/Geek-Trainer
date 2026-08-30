@@ -1,6 +1,6 @@
 # Geek-Trainer — Specification
 
-> Revision 3 — 2026-08-31. See §33 for the revision log.
+> Revision 4 — 2026-08-31. See §33 for the revision log.
 > Sections marked **Rationale** record a decision that is not obvious from the
 > requirement itself; they exist so the reasoning survives implementation.
 
@@ -1669,6 +1669,47 @@ Warm-up sets are excluded from every headline number, and the tile says so.
 
 ---
 
+## 30B. Product Surface
+
+Added in revision 4. The app was correct before this section and still read as
+a personal tool; these are the requirements that make it something a stranger
+could land on and understand.
+
+### 30B.1 Signed-out landing
+
+```text
+States what the product is and who it is for in the first screen, without
+  requiring an account to find out.
+Names the three things that actually differentiate it - equipment awareness,
+  offline logging, honest numbers - rather than listing features.
+Shows the loop: set up kit, build the week, train, watch it move.
+Says plainly what it is not: a training log, not medical advice, and not a
+  replacement for a coach.
+```
+
+### 30B.2 Dashboard
+
+```text
+The exercise library is visible from the dashboard, not only from search -
+  browsing is how people find movements they did not know to look for.
+Illustrated movements are preferred in that section; a wall of names is not
+  a reason to browse.
+Every panel leads somewhere. No dead ends.
+```
+
+### 30B.3 Throughout
+
+```text
+Page titles follow a template, so a browser tab and a shared link both say
+  what the page is.
+A favicon, an application name and Open Graph metadata.
+A footer carrying navigation, third-party attribution, and the safety
+  disclaimer from 31.
+Copy is written for a stranger. No internal jargon in user-facing text.
+```
+
+---
+
 ## 31. Safety Boundary
 
 Geek-Trainer is a fitness training and tracking application.
@@ -1729,6 +1770,15 @@ Q6  Hosting target — this determines the ingest job's scheduler and whether
 ---
 
 ## 33. Revision Log
+
+### Revision 4 — 2026-08-31
+
+```text
+Added 30B - product surface. The app was correct and still looked like a
+personal tool: no landing page worth reading, no exercise browsing from the
+dashboard, no metadata, no footer, no attribution outside a detail page.
+Added 6.3 - the exercise detail page requirement.
+```
 
 ### Revision 3 — 2026-08-31
 

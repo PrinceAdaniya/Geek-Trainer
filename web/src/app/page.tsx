@@ -18,7 +18,14 @@ import {
 } from "@/components/hud";
 import { formatClock } from "@/lib/hooks";
 import { formatWeight, humanize } from "@/lib/units";
-import type { SessionSummary, Stats, Week, WorkoutSession } from "@/lib/types";
+import type {
+  Exercise,
+  ExercisePage,
+  SessionSummary,
+  Stats,
+  Week,
+  WorkoutSession,
+} from "@/lib/types";
 
 export default function Home() {
   const { profile, loading } = useSession();
@@ -26,6 +33,8 @@ export default function Home() {
   const [active, setActive] = useState<WorkoutSession | null>(null);
   const [recent, setRecent] = useState<SessionSummary[]>([]);
   const [week, setWeek] = useState<Week | null>(null);
+  const [library, setLibrary] = useState<Exercise[]>([]);
+  const [libraryTotal, setLibraryTotal] = useState(0);
 
   useEffect(() => {
     if (!profile) return;
@@ -33,6 +42,15 @@ export default function Home() {
     void api.get<WorkoutSession | null>("/sessions/active").then(setActive);
     void api.get<SessionSummary[]>("/sessions").then((r) => setRecent(r.slice(0, 5)));
     void api.get<Week>("/week").then(setWeek);
+    // Prefer illustrated movements on the dashboard - a wall of names is not
+    // a reason to browse.
+    void api
+      .get<ExercisePage>("/exercises?limit=60")
+      .then((page) => {
+        const withImages = page.data.filter((row) => row.image_url);
+        setLibrary((withImages.length >= 6 ? withImages : page.data).slice(0, 6));
+        setLibraryTotal(page.total);
+      });
   }, [profile]);
 
   if (loading) return <Spinner />;
@@ -57,8 +75,10 @@ export default function Home() {
       <div className="flex flex-col gap-4 py-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="label">Operator</p>
-            <h1 className="text-[24px] font-semibold leading-tight">{profile.name}</h1>
+            <p className="label">Dashboard</p>
+            <h1 className="text-[24px] font-semibold leading-tight">
+              {greeting()}, {profile.name.split(" ")[0]}
+            </h1>
           </div>
           <p className="readout text-[12px] text-ink-faint">
             {profile.settings.timezone} · week starts{" "}
@@ -169,6 +189,57 @@ export default function Home() {
           />
         </div>
 
+        <Panel
+          title="Exercise library"
+          right={
+            <Link href="/exercises" className="label hover:text-accent">
+              browse all {libraryTotal || ""} →
+            </Link>
+          }
+        >
+          {library.length === 0 ? (
+            <p className="text-[13px] text-ink-dim">
+              Add your equipment and the library fills with movements you can
+              actually load.
+            </p>
+          ) : (
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {library.map((exercise) => (
+                <li key={exercise.id}>
+                  <Link
+                    href={`/exercises/${exercise.id}`}
+                    className="group flex h-full flex-col gap-2 rounded-xl border border-surface-edge bg-surface p-2.5 transition-colors hover:border-accent/50"
+                  >
+                    <span className="flex aspect-square items-center justify-center overflow-hidden rounded-lg bg-surface-raised">
+                      {exercise.image_url ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={exercise.image_url}
+                          alt=""
+                          loading="lazy"
+                          className="h-full w-full object-contain transition-transform group-hover:scale-105"
+                        />
+                      ) : (
+                        <span className="label px-2 text-center">
+                          {humanize(exercise.primary_muscle)}
+                        </span>
+                      )}
+                    </span>
+                    <span className="flex flex-col gap-0.5">
+                      <span className="line-clamp-2 text-[13px] leading-snug">
+                        {exercise.name}
+                      </span>
+                      <span className="label">
+                        {humanize(exercise.primary_muscle)}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Panel>
+
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
           <Panel
             title="Recent sessions"
@@ -220,6 +291,14 @@ export default function Home() {
   );
 }
 
+function greeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 5) return "Still up";
+  if (hour < 12) return "Morning";
+  if (hour < 18) return "Afternoon";
+  return "Evening";
+}
+
 function StartButton({ workoutId, label }: { workoutId: string; label: string }) {
   const [busy, setBusy] = useState(false);
   return (
@@ -239,46 +318,137 @@ function StartButton({ workoutId, label }: { workoutId: string; label: string })
 
 function Landing() {
   return (
-    <section className="mx-auto flex max-w-3xl flex-col gap-8 py-16">
-      <div className="flex flex-col gap-4">
-        <p className="label text-accent">Training telemetry</p>
-        <h1 className="text-[36px] font-semibold leading-[1.1] sm:text-[44px]">
-          Every set logged.
+    <div className="flex flex-col gap-16 py-10 sm:py-16">
+      {/* Hero */}
+      <section className="flex flex-col items-start gap-6">
+        <span className="label rounded-full border border-surface-edge px-3 py-1.5">
+          Training log · offline-first · no subscription
+        </span>
+        <h1 className="max-w-3xl text-[36px] font-semibold leading-[1.08] sm:text-[52px]">
+          Log every set.
           <br />
-          <span className="text-ink-dim">Every number earned.</span>
+          <span className="text-ink-dim">Watch the numbers move.</span>
         </h1>
-        <p className="max-w-xl text-[16px] leading-relaxed text-ink-dim">
-          Tell it what equipment you own and it only offers you exercises you can
-          actually load. Log weight, reps, RIR and failure set by set. Keep the streak
-          alive and the power level climbs.
+        <p className="max-w-xl text-[16px] leading-relaxed text-ink-dim sm:text-[17px]">
+          A training tracker built for the gym floor rather than the desk. Tell
+          it what equipment you own and it only offers movements you can
+          actually load. Then it stays out of the way while you train.
         </p>
-      </div>
-      <div className="flex gap-3">
+        <div className="flex flex-wrap gap-3">
+          <Link
+            href="/register"
+            className="flex min-h-tap items-center rounded-lg bg-accent px-6 font-semibold text-surface transition-opacity hover:opacity-90"
+          >
+            Create an account
+          </Link>
+          <Link
+            href="/login"
+            className="flex min-h-tap items-center rounded-lg border border-surface-edge px-6 transition-colors hover:border-ink-faint"
+          >
+            Log in
+          </Link>
+        </div>
+        <p className="text-[13px] text-ink-faint">
+          Free. No card. Your data exports as CSV or JSON on demand.
+        </p>
+      </section>
+
+      {/* What makes it different */}
+      <section className="flex flex-col gap-6">
+        <div>
+          <p className="label">Why it is built this way</p>
+          <h2 className="mt-1 text-[26px] font-semibold">
+            Most trackers are spreadsheets with a login.
+          </h2>
+        </div>
+        <dl className="grid gap-4 md:grid-cols-3">
+          {[
+            [
+              "It knows your gym",
+              "Set your equipment once. An exercise needing a barbell and a bench is never offered to someone who owns only a barbell — and when something is out of reach, it says which piece you are missing rather than hiding it.",
+            ],
+            [
+              "It survives the basement",
+              "Sets are written to your device first and synced when there is signal. Logging never waits on the network, and replaying a whole offline session cannot duplicate a single rep.",
+            ],
+            [
+              "The numbers are honest",
+              "Warm-ups are logged but never counted. Bodyweight work scores real volume. Correct a mistyped set and the personal record it wrongly set is revoked everywhere.",
+            ],
+          ].map(([title, body]) => (
+            <div key={title} className="panel flex flex-col gap-2 p-5">
+              <dt className="text-[16px] font-medium">{title}</dt>
+              <dd className="text-[14px] leading-relaxed text-ink-dim">{body}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* The loop */}
+      <section className="flex flex-col gap-6">
+        <div>
+          <p className="label">The loop</p>
+          <h2 className="mt-1 text-[26px] font-semibold">
+            Plan it, do it, see it move.
+          </h2>
+        </div>
+        <ol className="grid gap-4 md:grid-cols-4">
+          {[
+            ["01", "Set up your kit", "Pick your equipment and units. The catalogue narrows to what you can do."],
+            ["02", "Build the week", "Lay out your days, or let the coach draft one from your equipment and goal."],
+            ["03", "Train", "Weight, reps, RIR, failure — set by set, with the rest timer running and last week in view."],
+            ["04", "Watch it climb", "Volume, estimated 1RM, records, and a streak that survives a rest day."],
+          ].map(([step, title, body]) => (
+            <li key={step} className="flex flex-col gap-2">
+              <span className="readout text-[13px] text-accent">{step}</span>
+              <span className="text-[16px] font-medium">{title}</span>
+              <span className="text-[14px] leading-relaxed text-ink-dim">{body}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* Detail grid */}
+      <section className="grid gap-4 md:grid-cols-2">
+        <div className="panel flex flex-col gap-3 p-6">
+          <p className="label">In the session</p>
+          <ul className="flex flex-col gap-2 text-[14px] leading-relaxed text-ink-dim">
+            <li>Sets prefill from the one before — a repeat is a single tap.</li>
+            <li>Steppers at your own plate increment, numeric keypad, no modals.</li>
+            <li>Rest timer and clock run on wall time, so a sleeping screen does not lie to you.</li>
+            <li>The screen stays awake while you train.</li>
+            <li>Demonstration, cues and last week&rsquo;s numbers, without leaving the set you are on.</li>
+          </ul>
+        </div>
+        <div className="panel flex flex-col gap-3 p-6">
+          <p className="label">Between sessions</p>
+          <ul className="flex flex-col gap-2 text-[14px] leading-relaxed text-ink-dim">
+            <li>960 exercises with instructions, and images for the common ones.</li>
+            <li>Estimated 1RM by Epley, shown only where it is trustworthy.</li>
+            <li>Personal records detected automatically, and revoked when a set is corrected.</li>
+            <li>A coach that proposes — it never writes to your log without you.</li>
+            <li>Ten power ranks, and a streak that treats rest as training.</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Honest close */}
+      <section className="flex flex-col items-start gap-5 border-t border-surface-edge pt-10">
+        <h2 className="max-w-2xl text-[24px] font-semibold leading-snug">
+          Built to be used every session, not admired once.
+        </h2>
+        <p className="max-w-xl text-[15px] leading-relaxed text-ink-dim">
+          It is a training log — it does not diagnose injuries, and it does not
+          replace a coach. What it does is remember exactly what you did, and
+          show you whether it is working.
+        </p>
         <Link
           href="/register"
-          className="flex min-h-tap items-center rounded-lg bg-accent px-6 font-semibold text-surface"
+          className="flex min-h-tap items-center rounded-lg bg-accent px-6 font-semibold text-surface transition-opacity hover:opacity-90"
         >
-          Start training
+          Start your first session
         </Link>
-        <Link
-          href="/login"
-          className="flex min-h-tap items-center rounded-lg border border-surface-edge px-6"
-        >
-          Log in
-        </Link>
-      </div>
-      <dl className="grid gap-4 sm:grid-cols-3">
-        {[
-          ["Equipment-aware", "No barbell? You will never be shown a barbell row."],
-          ["Set-level truth", "Weight, reps, RIR, failure, set type — per set, not per exercise."],
-          ["Streaks with teeth", "Rest days keep the streak. Drifting does not."],
-        ].map(([title, body]) => (
-          <div key={title} className="panel p-4">
-            <dt className="text-[14px] font-medium">{title}</dt>
-            <dd className="mt-1 text-[13px] text-ink-dim">{body}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
+      </section>
+    </div>
   );
 }

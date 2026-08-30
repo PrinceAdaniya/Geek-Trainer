@@ -298,6 +298,25 @@ The training heatmap is a MAGNITUDE encoding, so it is one hue on a
 The lesson worth keeping: a palette that looks fine is not evidence. Both of
 these read well on my screen and one of them was unreadable.
 
+### D22. The product surface is a requirement, not decoration.
+
+Everything through D21 made the app *correct*. It still read as something built
+for one person: the signed-out page was three sentences and two buttons, the
+dashboard never mentioned the 960-exercise catalogue it was sitting on, and
+there was no title template, favicon, footer or attribution anywhere.
+
+```text
+A landing page that says what the product is before asking for an account.
+The exercise library surfaced on the dashboard - browsing is how people find
+  movements they did not know to search for.
+Title template, favicon, Open Graph metadata, footer with attribution and
+  the Sec 31 disclaimer.
+Copy written for a stranger.
+```
+
+The HUD aesthetic stays - it is deliberate and it suits a training instrument.
+What changed is that it now explains itself.
+
 ### D16. Deferred, explicitly.
 
 ```text

@@ -3,10 +3,38 @@ import Link from "next/link";
 import "./globals.css";
 import { SessionProvider } from "@/lib/session";
 import { Nav } from "@/components/nav";
+import { Footer } from "@/components/footer";
 
 export const metadata: Metadata = {
-  title: "Geek-Trainer",
-  description: "Plan your week, log every set, watch the numbers move.",
+  title: {
+    default: "Geek-Trainer — training tracker",
+    template: "%s · Geek-Trainer",
+  },
+  description:
+    "An equipment-aware training tracker. Log every set, keep the streak alive, "
+    + "watch the numbers move. Works offline, in the gym, on your phone.",
+  applicationName: "Geek-Trainer",
+  openGraph: {
+    title: "Geek-Trainer",
+    description:
+      "Log every set. Keep the streak alive. Works offline, in the gym.",
+    type: "website",
+  },
+  icons: {
+    icon: [
+      {
+        url:
+          "data:image/svg+xml," +
+          encodeURIComponent(
+            `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+               <rect width="32" height="32" rx="7" fill="#0b0c0f"/>
+               <path d="M7 12h3v8H7zM22 12h3v8h-3zM11 15h10v2H11z" fill="#7dd3a0"/>
+             </svg>`,
+          ),
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {
@@ -31,7 +59,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
               <Nav />
             </header>
-            <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 pb-24 sm:px-6">{children}</main>
+            <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 pb-16 sm:px-6">
+              {children}
+            </main>
+            <Footer />
           </div>
         </SessionProvider>
       </body>

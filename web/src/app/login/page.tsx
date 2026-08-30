@@ -34,8 +34,11 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="mx-auto flex max-w-sm flex-col gap-5 py-10">
-      <h1 className="text-[22px] font-semibold">Log in</h1>
+    <section className="mx-auto flex w-full max-w-sm flex-col gap-5 py-14">
+      <div className="flex flex-col gap-1.5">
+        <h1 className="text-[26px] font-semibold">Welcome back</h1>
+        <p className="text-[14px] leading-relaxed text-ink-dim">Pick up where you left off — any session still in progress is waiting.</p>
+      </div>
       <form onSubmit={submit} className="flex flex-col gap-4">
         <Input label="Email" name="email" type="email" autoComplete="email" required />
         <Input
