@@ -34,6 +34,7 @@ USER_OWNED_TABLES: set[str] = {
     "workout_plans",
     "workout_sessions",
     "sets",
+    "sync_mutations",
 }
 
 # Columns that pin a statement to a specific parent row the caller already

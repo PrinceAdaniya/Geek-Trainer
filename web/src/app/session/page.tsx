@@ -16,6 +16,7 @@ import { useSession } from "@/lib/session";
 import { Button, Empty, ErrorNote, Input, Spinner } from "@/components/ui";
 import { SetEntry, type SetDraft } from "@/components/set-entry";
 import { formatClock, useElapsed, useRestTimer, useWakeLock, uuid7 } from "@/lib/hooks";
+import { cacheActiveSession, drain, enqueue, pending, readCachedSession } from "@/lib/offline";
 import { formatWeight, humanize } from "@/lib/units";
 import type {
   Exercise,
@@ -35,6 +36,8 @@ export default function SessionPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [picking, setPicking] = useState(false);
+  const [queued, setQueued] = useState(0);
+  const [offline, setOffline] = useState(false);
 
   const rest = useRestTimer();
   const elapsed = useElapsed(session?.start_time ?? null);
@@ -45,9 +48,20 @@ export default function SessionPage() {
   }, [loading, profile, router]);
 
   const load = useCallback(async () => {
-    const active = await api.get<WorkoutSession | null>("/sessions/active");
+    // Sec 12.1 - the session must open with no network. The cache answers
+    // first; the server corrects it if it can be reached.
+    let active: WorkoutSession | null = null;
+    try {
+      active = await api.get<WorkoutSession | null>("/sessions/active");
+      setOffline(false);
+      void cacheActiveSession(active);
+    } catch {
+      active = await readCachedSession();
+      setOffline(true);
+    }
     setSession(active);
     setChecked(true);
+    setQueued(await pending());
     if (active && !openId) {
       const next = active.exercises.find((e) => !e.skipped);
       setOpenId(next?.id ?? null);
@@ -56,6 +70,41 @@ export default function SessionPage() {
 
   useEffect(() => {
     if (profile) void load();
+  }, [profile, load]);
+
+  // Drain the outbox whenever the connection comes back, and on a slow poll
+  // so a flaky link settles without the user doing anything.
+  useEffect(() => {
+    if (!profile) return;
+    let cancelled = false;
+
+    async function flush() {
+      try {
+        const result = await drain();
+        if (cancelled || !result) return;
+        setOffline(false);
+        setQueued(await pending());
+        if (result.rejected.length > 0) {
+          setError(
+            `${result.rejected.length} change(s) could not be saved: ` +
+              result.rejected.map((r) => r.message).join(" "),
+          );
+        }
+        if (result.sent > 0) await load();
+      } catch {
+        if (!cancelled) setOffline(true);
+      }
+    }
+
+    void flush();
+    const onOnline = () => void flush();
+    window.addEventListener("online", onOnline);
+    const timer = setInterval(flush, 20000);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("online", onOnline);
+      clearInterval(timer);
+    };
   }, [profile, load]);
 
   if (loading || !profile || !checked) return <Spinner />;
@@ -113,13 +162,65 @@ export default function SessionPage() {
     if (draft.distance_m !== "") body.distance_m = Number(draft.distance_m);
     if (draft.rir !== "") body.rir = Number(draft.rir);
 
+    // Optimistic: the set appears now, and the queue is what guarantees it
+    // eventually reaches the server (Sec 12.2).
+    const setId = body.id as string;
+    await enqueue("set.upsert", {
+      ...body,
+      session_id: session!.id,
+      session_exercise_id: exercise.id,
+    }, uuid7());
+    setQueued(await pending());
+
     try {
       await api.post(`/sessions/${session!.id}/exercises/${exercise.id}/sets`, body);
+      // It landed directly, so the queued copy is redundant; the drain will
+      // find the set already there and treat it as a duplicate either way.
       await load();
-      rest.start(exercise.exercise.default_rest_seconds || profile!.settings.default_rest_seconds);
+      setOffline(false);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not save that set.");
+      if (err instanceof ApiError && err.status === 0) {
+        // Offline. The set is queued; show it locally rather than an error.
+        setOffline(true);
+        setSession((current) =>
+          current
+            ? {
+                ...current,
+                exercises: current.exercises.map((e) =>
+                  e.id === exercise.id
+                    ? {
+                        ...e,
+                        sets: [
+                          ...e.sets,
+                          {
+                            id: setId,
+                            set_number: e.sets.length + 1,
+                            weight_kg: body.weight != null ? String(body.weight) : null,
+                            reps: (body.reps as number) ?? null,
+                            duration_seconds: (body.duration_seconds as number) ?? null,
+                            distance_m: body.distance_m != null ? String(body.distance_m) : null,
+                            rir: (body.rir as number) ?? null,
+                            rpe: null,
+                            failure: Boolean(body.failure),
+                            set_type: draft.set_type,
+                            rest_seconds: (body.rest_seconds as number) ?? null,
+                            notes: null,
+                            performed_at: new Date().toISOString(),
+                          },
+                        ],
+                      }
+                    : e,
+                ),
+              }
+            : current,
+        );
+      } else {
+        setError(err instanceof ApiError ? err.message : "Could not save that set.");
+      }
     } finally {
+      rest.start(
+        exercise.exercise.default_rest_seconds || profile!.settings.default_rest_seconds,
+      );
       setBusy(false);
     }
   }
@@ -161,6 +262,18 @@ export default function SessionPage() {
             {formatClock(elapsed)} · {totalSets} set{totalSets === 1 ? "" : "s"}
           </p>
         </div>
+        {(queued > 0 || offline) && (
+          /* Sec 12.2 - one honest indicator. A pending change is never shown
+             as saved, and a failed sync never looks like data loss. */
+          <span
+            className={`readout rounded-lg border px-2.5 py-1.5 text-[12px] ${
+              offline ? "border-warn/40 text-warn" : "border-surface-edge text-ink-dim"
+            }`}
+            aria-live="polite"
+          >
+            {queued > 0 ? `${queued} pending` : "offline"}
+          </span>
+        )}
         {rest.running && (
           <button
             onClick={rest.stop}

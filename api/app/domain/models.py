@@ -532,3 +532,26 @@ class SetRecord(Base, TimestampMixin):
             "duration_seconds is null or duration_seconds >= 0", name="ck_sets_duration"
         ),
     )
+
+
+class SyncMutation(Base):
+    """Every mutation the client has applied, by its client-generated id.
+
+    This table is what makes a replayed offline write a no-op instead of a
+    duplicate set (PLAN.md D3). The unique index is the mechanism; the handler
+    only has to look before it leaps.
+    """
+
+    __tablename__ = "sync_mutations"
+
+    id: Mapped[uuid.UUID] = mapped_column(PgUUID(as_uuid=True), primary_key=True)
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    type: Mapped[str] = mapped_column(String(40), nullable=False)
+    applied_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    result: Mapped[str] = mapped_column(String(20), nullable=False, server_default="applied")
+
+    __table_args__ = (Index("ix_sync_mutations_user", "user_id", "applied_at"),)
