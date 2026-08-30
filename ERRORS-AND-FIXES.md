@@ -117,3 +117,40 @@ every client has to re-normalize what the server should have settled — and the
 offline client in Phase 5 would have compared its local value against a
 differently-formatted server value and seen a conflict that was not one.
 
+---
+
+## E6. `TRUNCATE ... CASCADE` wiped the table the exclusion list was protecting
+
+**Symptom:** every exercise test returned an empty catalogue. The seed loader
+reported `134 created` and `ingest_runs` had rows, but `select count(*) from
+exercises` was `0`.
+
+**Cause:** test teardown truncated every table *except* `exercises` — with
+`CASCADE`. Cascade follows foreign keys, and `exercises.owner_user_id`
+references `users`. Truncating `users` therefore truncated `exercises` too,
+exclusion list or not.
+
+**Fix:** teardown uses `DELETE FROM` on the listed tables, with
+`session_replication_role = replica` to skip foreign-key ordering.
+
+**Lesson:** `TRUNCATE ... CASCADE` does not respect a list of tables you meant
+to keep — it respects the foreign-key graph. Any table reachable from a
+truncated one goes with it, silently.
+
+---
+
+## E7. A NUMERIC value read back differently than it was written — again
+
+**Symptom:** creating a bodyweight custom exercise returned
+`bodyweight_load_factor: 1`, but reading it back gave `1.000`.
+
+**Cause:** the same shape as E5, in a second column. The response was built
+from the in-session object before the `NUMERIC(4,3)` round-trip.
+
+**Fix:** `core.formulas.quantize_factor`, applied on create and update, beside
+the existing `quantize_kg`.
+
+**Lesson:** E5's lesson was right but under-applied. Every `NUMERIC` column
+needs a quantizer at the write boundary, not just the one that happened to have
+a test. Worth a sweep when Phase 4 adds `weight_kg` on sets.
+

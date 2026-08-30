@@ -27,6 +27,17 @@ def _q(value: Decimal) -> Decimal:
     return value.quantize(WEIGHT_QUANT, rounding=ROUND_HALF_UP)
 
 
+FACTOR_QUANT = Decimal("0.001")  # NUMERIC(4,3)
+
+
+def quantize_factor(value: Decimal | None) -> Decimal | None:
+    """Same reasoning as quantize_kg - match the column so a value reads back
+    the way it was written (ERRORS-AND-FIXES.md E5)."""
+    if value is None:
+        return None
+    return Decimal(value).quantize(FACTOR_QUANT, rounding=ROUND_HALF_UP)
+
+
 def quantize_kg(value: Decimal) -> Decimal:
     """Match NUMERIC(7,3) exactly, so a value reads the same before and after a
     database round-trip. Without this the API returns 72.5 on write and 72.500

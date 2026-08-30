@@ -1,0 +1,4074 @@
+[
+ {
+  "id": "c8051bae-a9b3-5e13-b1d4-b72b9af5ab3c",
+  "source": "custom",
+  "source_id": "seed:barbell-bench-press",
+  "source_version": "seed-1",
+  "name": "Barbell Bench Press",
+  "name_normalized": "barbell bench press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps",
+   "front-delts"
+  ],
+  "equipment": [
+   "barbell",
+   "bench"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Lower the bar to mid-chest with elbows about 45 degrees from your body, then press back to lockout."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "e2af0d6c-3063-5856-9cdf-6e0574e7f66b",
+  "source": "custom",
+  "source_id": "seed:incline-barbell-bench-press",
+  "source_version": "seed-1",
+  "name": "Incline Barbell Bench Press",
+  "name_normalized": "incline barbell bench press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "front-delts",
+   "triceps"
+  ],
+  "equipment": [
+   "barbell",
+   "bench"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Set the bench to 30 degrees and press from the upper chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "81677b8b-5218-5ee5-ac56-e0724c06f029",
+  "source": "custom",
+  "source_id": "seed:decline-barbell-bench-press",
+  "source_version": "seed-1",
+  "name": "Decline Barbell Bench Press",
+  "name_normalized": "decline barbell bench press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps"
+  ],
+  "equipment": [
+   "barbell",
+   "bench"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "On a declined bench, lower to the lower chest and press up."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "d2bc1fcd-4286-579c-bfe1-c295a8b840be",
+  "source": "custom",
+  "source_id": "seed:dumbbell-bench-press",
+  "source_version": "seed-1",
+  "name": "Dumbbell Bench Press",
+  "name_normalized": "dumbbell bench press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps",
+   "front-delts"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Press two dumbbells from chest level, letting them travel slightly inward at the top."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "7f731d6c-fb61-5a7c-8abc-b33e7f938dd5",
+  "source": "custom",
+  "source_id": "seed:incline-dumbbell-bench-press",
+  "source_version": "seed-1",
+  "name": "Incline Dumbbell Bench Press",
+  "name_normalized": "incline dumbbell bench press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "front-delts",
+   "triceps"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Press from the upper chest on a 30 degree incline."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "493d4a71-4911-5b83-9b76-fa7bff9ffc53",
+  "source": "custom",
+  "source_id": "seed:dumbbell-fly",
+  "source_version": "seed-1",
+  "name": "Dumbbell Fly",
+  "name_normalized": "dumbbell fly",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "With a soft elbow bend, open your arms wide and bring them together above the chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "50a976e2-9fbb-5ac1-b230-bcf730d1e644",
+  "source": "custom",
+  "source_id": "seed:incline-dumbbell-fly",
+  "source_version": "seed-1",
+  "name": "Incline Dumbbell Fly",
+  "name_normalized": "incline dumbbell fly",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "front-delts"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Same arc as a flat fly, performed on an incline."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "287f2976-d3f7-59e3-b716-fca7c7b8a02a",
+  "source": "custom",
+  "source_id": "seed:cable-crossover",
+  "source_version": "seed-1",
+  "name": "Cable Crossover",
+  "name_normalized": "cable crossover",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "front-delts"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Step forward between two high pulleys and bring the handles together in front of you."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "9845e526-d1ce-5d0b-9fa6-74265b8c4701",
+  "source": "custom",
+  "source_id": "seed:cable-fly-low-to-high",
+  "source_version": "seed-1",
+  "name": "Cable Fly (Low to High)",
+  "name_normalized": "cable fly low to high",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "front-delts"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Sweep the handles upward and inward from hip height to chest height."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "4696691d-1709-5e7f-81fe-0259682eb6ed",
+  "source": "custom",
+  "source_id": "seed:machine-chest-press",
+  "source_version": "seed-1",
+  "name": "Machine Chest Press",
+  "name_normalized": "machine chest press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps",
+   "front-delts"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Press the handles forward with the seat set so the handles sit at chest height."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "ebad3121-709d-549f-9592-fbc1a59ce20d",
+  "source": "custom",
+  "source_id": "seed:pec-deck",
+  "source_version": "seed-1",
+  "name": "Pec Deck",
+  "name_normalized": "pec deck",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Bring the pads together in front of your chest with a fixed elbow angle."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "0b9c3cf2-70c5-5c68-baf6-813527233725",
+  "source": "custom",
+  "source_id": "seed:push-up",
+  "source_version": "seed-1",
+  "name": "Push-Up",
+  "name_normalized": "push up",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps",
+   "front-delts",
+   "abs"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.64",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Keep a straight line from head to heels and lower until your chest is just off the floor."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "0725eb8c-98ff-5f22-aec7-171bad42aaf0",
+  "source": "custom",
+  "source_id": "seed:incline-push-up",
+  "source_version": "seed-1",
+  "name": "Incline Push-Up",
+  "name_normalized": "incline push up",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps",
+   "front-delts"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.45",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hands elevated on a bench or bar; easier than a floor push-up."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "25c1808f-b9c0-5e4e-876a-37964f4124e7",
+  "source": "custom",
+  "source_id": "seed:decline-push-up",
+  "source_version": "seed-1",
+  "name": "Decline Push-Up",
+  "name_normalized": "decline push up",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "front-delts",
+   "triceps"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.74",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Feet elevated, which shifts the load toward the upper chest and shoulders."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "98ff1165-1d3e-5220-b9b7-f712e1157594",
+  "source": "custom",
+  "source_id": "seed:diamond-push-up",
+  "source_version": "seed-1",
+  "name": "Diamond Push-Up",
+  "name_normalized": "diamond push up",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [
+   "pectorals",
+   "front-delts"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.64",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hands close together under the chest, elbows tracking back."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "68c73f89-b568-52f4-a41f-46255ba77d5f",
+  "source": "custom",
+  "source_id": "seed:chest-dip",
+  "source_version": "seed-1",
+  "name": "Chest Dip",
+  "name_normalized": "chest dip",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps",
+   "front-delts"
+  ],
+  "equipment": [
+   "dip-bars"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weighted_bodyweight",
+  "bodyweight_load_factor": "1.0",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Lean the torso forward and let the elbows flare slightly to bias the chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "84613ea5-53d4-5647-93b3-043d87f97ddb",
+  "source": "custom",
+  "source_id": "seed:smith-machine-bench-press",
+  "source_version": "seed-1",
+  "name": "Smith Machine Bench Press",
+  "name_normalized": "smith machine bench press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [
+   "triceps"
+  ],
+  "equipment": [
+   "bench",
+   "smith-machine"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A fixed bar path; useful when pressing heavy without a spotter."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "a0f70b9c-ef2e-55a0-9a81-67645d446ac4",
+  "source": "custom",
+  "source_id": "seed:svend-press",
+  "source_version": "seed-1",
+  "name": "Svend Press",
+  "name_normalized": "svend press",
+  "aliases": [],
+  "body_part": "chest",
+  "primary_muscle": "pectorals",
+  "secondary_muscles": [],
+  "equipment": [
+   "medicine-ball"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Squeeze a ball between your palms and press it straight out from the chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "chest"
+ },
+ {
+  "id": "a96d43ba-c2f7-5a8e-b5a0-3d9f8f387822",
+  "source": "custom",
+  "source_id": "seed:pull-up",
+  "source_version": "seed-1",
+  "name": "Pull-Up",
+  "name_normalized": "pull up",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "biceps",
+   "rhomboids",
+   "teres-major"
+  ],
+  "equipment": [
+   "pull-up-bar"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weighted_bodyweight",
+  "bodyweight_load_factor": "1.0",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hang with an overhand grip and pull until your chin clears the bar."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "ce3f752a-bfda-5de9-a4ff-0816478cf6a9",
+  "source": "custom",
+  "source_id": "seed:chin-up",
+  "source_version": "seed-1",
+  "name": "Chin-Up",
+  "name_normalized": "chin up",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "biceps",
+   "rhomboids"
+  ],
+  "equipment": [
+   "pull-up-bar"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weighted_bodyweight",
+  "bodyweight_load_factor": "1.0",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Underhand grip, which lets the biceps contribute more than a pull-up."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "c4e26322-c2e9-5a41-a816-d0e97f865446",
+  "source": "custom",
+  "source_id": "seed:neutral-grip-pull-up",
+  "source_version": "seed-1",
+  "name": "Neutral-Grip Pull-Up",
+  "name_normalized": "neutral grip pull up",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "biceps",
+   "teres-major"
+  ],
+  "equipment": [
+   "pull-up-bar"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weighted_bodyweight",
+  "bodyweight_load_factor": "1.0",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Palms facing each other - usually the most shoulder-friendly variation."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "08e4920e-1d31-5afa-b5b6-cc6c288d7103",
+  "source": "custom",
+  "source_id": "seed:lat-pulldown",
+  "source_version": "seed-1",
+  "name": "Lat Pulldown",
+  "name_normalized": "lat pulldown",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "biceps",
+   "rhomboids"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Pull the bar to your upper chest, leading with the elbows rather than the hands."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "0dd45b8d-bd5a-54c0-9953-11f5be3f474c",
+  "source": "custom",
+  "source_id": "seed:close-grip-lat-pulldown",
+  "source_version": "seed-1",
+  "name": "Close-Grip Lat Pulldown",
+  "name_normalized": "close grip lat pulldown",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "biceps"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A narrow or neutral grip that increases the range at the bottom."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "0ecb8517-b041-552b-b53a-f263e48035af",
+  "source": "custom",
+  "source_id": "seed:barbell-row",
+  "source_version": "seed-1",
+  "name": "Barbell Row",
+  "name_normalized": "barbell row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "rhomboids",
+   "traps",
+   "biceps",
+   "lower-back"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hinge to about 45 degrees and row the bar to your lower ribs."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "205e7581-42db-5e72-8718-76616f9817a9",
+  "source": "custom",
+  "source_id": "seed:pendlay-row",
+  "source_version": "seed-1",
+  "name": "Pendlay Row",
+  "name_normalized": "pendlay row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "rhomboids",
+   "traps"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "advanced",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Row explosively from a dead stop on the floor with a flat back."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "c6f854a5-84c7-5152-a869-ad80c9af2015",
+  "source": "custom",
+  "source_id": "seed:one-arm-dumbbell-row",
+  "source_version": "seed-1",
+  "name": "One Arm Dumbbell Row",
+  "name_normalized": "one arm dumbbell row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "rhomboids",
+   "biceps"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Brace a hand and knee on the bench and row the dumbbell to your hip."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "8c0c0507-9181-5961-a635-ef96175a3121",
+  "source": "custom",
+  "source_id": "seed:chest-supported-row",
+  "source_version": "seed-1",
+  "name": "Chest-Supported Row",
+  "name_normalized": "chest supported row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "rhomboids",
+  "secondary_muscles": [
+   "lats",
+   "rear-delts"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Lie face down on an incline bench so the lower back does no work."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "18b12a1b-cc14-5669-9d9c-f25da13d55c8",
+  "source": "custom",
+  "source_id": "seed:seated-cable-row",
+  "source_version": "seed-1",
+  "name": "Seated Cable Row",
+  "name_normalized": "seated cable row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "rhomboids",
+  "secondary_muscles": [
+   "lats",
+   "biceps"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Pull the handle to your navel and keep the torso still."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "dd3c1a53-a00d-5c43-a0a8-4d3e3ce165a4",
+  "source": "custom",
+  "source_id": "seed:t-bar-row",
+  "source_version": "seed-1",
+  "name": "T-Bar Row",
+  "name_normalized": "t bar row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "rhomboids",
+   "traps"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Straddle a landmine bar and row it to your chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "a797ceb8-87e1-56ab-860c-b809165cbbd9",
+  "source": "custom",
+  "source_id": "seed:inverted-row",
+  "source_version": "seed-1",
+  "name": "Inverted Row",
+  "name_normalized": "inverted row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "rhomboids",
+  "secondary_muscles": [
+   "lats",
+   "biceps"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.55",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hang under a fixed bar with straight legs and pull your chest to the bar."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "2ecd4d9d-7ed5-59c1-b276-3072064c76d1",
+  "source": "custom",
+  "source_id": "seed:straight-arm-pulldown",
+  "source_version": "seed-1",
+  "name": "Straight-Arm Pulldown",
+  "name_normalized": "straight arm pulldown",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "teres-major"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "With locked elbows, sweep the bar from overhead down to your thighs."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "00838103-da6e-5c9e-b544-7a072ff46b32",
+  "source": "custom",
+  "source_id": "seed:dumbbell-pullover",
+  "source_version": "seed-1",
+  "name": "Dumbbell Pullover",
+  "name_normalized": "dumbbell pullover",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lats",
+  "secondary_muscles": [
+   "pectorals",
+   "triceps"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Lower one dumbbell behind your head in an arc and pull it back over your chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "dbdc9442-d268-5288-963a-2d821820dfc0",
+  "source": "custom",
+  "source_id": "seed:machine-row",
+  "source_version": "seed-1",
+  "name": "Machine Row",
+  "name_normalized": "machine row",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "rhomboids",
+  "secondary_muscles": [
+   "lats",
+   "biceps"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A supported row with a fixed path."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "2a258f26-284f-5c40-abb2-5f0811b53c35",
+  "source": "custom",
+  "source_id": "seed:deadlift",
+  "source_version": "seed-1",
+  "name": "Deadlift",
+  "name_normalized": "deadlift",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lower-back",
+  "secondary_muscles": [
+   "glutes",
+   "hamstrings",
+   "traps",
+   "quads"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "advanced",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Drive the floor away with a neutral spine and lock out at the hips."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "7c4c213f-c224-5df6-a868-b53334242d2e",
+  "source": "custom",
+  "source_id": "seed:rack-pull",
+  "source_version": "seed-1",
+  "name": "Rack Pull",
+  "name_normalized": "rack pull",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lower-back",
+  "secondary_muscles": [
+   "traps",
+   "glutes"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A partial deadlift from pins at or just below the knee."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "812f16ca-6b9e-5155-8387-737f2dfddf7d",
+  "source": "custom",
+  "source_id": "seed:barbell-shrug",
+  "source_version": "seed-1",
+  "name": "Barbell Shrug",
+  "name_normalized": "barbell shrug",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "traps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Lift the shoulders straight up; no rolling."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "3981a7e2-8207-5715-a45e-e3b7828edb0b",
+  "source": "custom",
+  "source_id": "seed:dumbbell-shrug",
+  "source_version": "seed-1",
+  "name": "Dumbbell Shrug",
+  "name_normalized": "dumbbell shrug",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "traps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Same movement with dumbbells at your sides."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "ad8a4389-dc7f-5104-9fdd-ce05f267c601",
+  "source": "custom",
+  "source_id": "seed:face-pull",
+  "source_version": "seed-1",
+  "name": "Face Pull",
+  "name_normalized": "face pull",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "rear-delts",
+  "secondary_muscles": [
+   "traps",
+   "rotator-cuff"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Pull a rope to your forehead with the elbows high and rotate outward."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "5d7d8b3b-e8e2-5eb4-b04c-93ba5be916d4",
+  "source": "custom",
+  "source_id": "seed:back-extension",
+  "source_version": "seed-1",
+  "name": "Back Extension",
+  "name_normalized": "back extension",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lower-back",
+  "secondary_muscles": [
+   "glutes",
+   "hamstrings"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hinge at the hips over a pad and extend to a straight line, not beyond."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "02b8fa3d-73f3-5889-8ca6-7a28bbaa683d",
+  "source": "custom",
+  "source_id": "seed:good-morning",
+  "source_version": "seed-1",
+  "name": "Good Morning",
+  "name_normalized": "good morning",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [
+   "lower-back",
+   "glutes"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "advanced",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "With the bar on your back, hinge forward with soft knees and a flat spine."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "back"
+ },
+ {
+  "id": "9a650f82-460c-58b5-8e9d-7938590c84a9",
+  "source": "custom",
+  "source_id": "seed:overhead-press",
+  "source_version": "seed-1",
+  "name": "Overhead Press",
+  "name_normalized": "overhead press",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [
+   "triceps",
+   "side-delts"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Press from the front rack to lockout with the ribs down and glutes tight."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "6dcf61e6-ee06-5c51-b576-5d7d3162eff5",
+  "source": "custom",
+  "source_id": "seed:seated-dumbbell-shoulder-press",
+  "source_version": "seed-1",
+  "name": "Seated Dumbbell Shoulder Press",
+  "name_normalized": "seated dumbbell shoulder press",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [
+   "triceps",
+   "side-delts"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Press two dumbbells overhead from ear height."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "edf35fb4-a044-5861-91b4-f591cc794167",
+  "source": "custom",
+  "source_id": "seed:arnold-press",
+  "source_version": "seed-1",
+  "name": "Arnold Press",
+  "name_normalized": "arnold press",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [
+   "side-delts",
+   "triceps"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Start palms-in and rotate outward as you press."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "5db382c5-75b2-5270-99a2-ebfac726b203",
+  "source": "custom",
+  "source_id": "seed:machine-shoulder-press",
+  "source_version": "seed-1",
+  "name": "Machine Shoulder Press",
+  "name_normalized": "machine shoulder press",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [
+   "triceps"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A supported overhead press with a fixed path."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "f3caf56c-0d85-52b0-96a3-0727a9da5f50",
+  "source": "custom",
+  "source_id": "seed:dumbbell-lateral-raise",
+  "source_version": "seed-1",
+  "name": "Dumbbell Lateral Raise",
+  "name_normalized": "dumbbell lateral raise",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "side-delts",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Raise the dumbbells out to shoulder height leading with the elbows."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "b6c114fb-a890-52bb-b2de-49064bfaaa22",
+  "source": "custom",
+  "source_id": "seed:cable-lateral-raise",
+  "source_version": "seed-1",
+  "name": "Cable Lateral Raise",
+  "name_normalized": "cable lateral raise",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "side-delts",
+  "secondary_muscles": [],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "A lateral raise with constant tension through the whole range."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "7906a1b3-6340-52aa-aba7-1431dc8a130b",
+  "source": "custom",
+  "source_id": "seed:machine-lateral-raise",
+  "source_version": "seed-1",
+  "name": "Machine Lateral Raise",
+  "name_normalized": "machine lateral raise",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "side-delts",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Supported lateral raise against pads."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "c0951288-d458-5023-a537-3b00774d8a01",
+  "source": "custom",
+  "source_id": "seed:front-raise",
+  "source_version": "seed-1",
+  "name": "Front Raise",
+  "name_normalized": "front raise",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Raise the weight straight in front of you to shoulder height."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "0de024ad-edd8-57c6-827e-970b0c3c374a",
+  "source": "custom",
+  "source_id": "seed:reverse-fly",
+  "source_version": "seed-1",
+  "name": "Reverse Fly",
+  "name_normalized": "reverse fly",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "rear-delts",
+  "secondary_muscles": [
+   "rhomboids"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hinge forward and open the arms wide with soft elbows."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "d3ff4f3e-d59c-563d-a342-d591f109ba92",
+  "source": "custom",
+  "source_id": "seed:reverse-pec-deck",
+  "source_version": "seed-1",
+  "name": "Reverse Pec Deck",
+  "name_normalized": "reverse pec deck",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "rear-delts",
+  "secondary_muscles": [
+   "rhomboids"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Face the pad and sweep the handles backward."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "5eae21b2-e57a-5b93-90d0-f0c7e9793b37",
+  "source": "custom",
+  "source_id": "seed:upright-row",
+  "source_version": "seed-1",
+  "name": "Upright Row",
+  "name_normalized": "upright row",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "side-delts",
+  "secondary_muscles": [
+   "traps",
+   "biceps"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Pull the bar to chest height with the elbows leading, keeping the grip wide."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "3ebdd6e2-a7b1-5e15-81fc-aae9711a76a3",
+  "source": "custom",
+  "source_id": "seed:band-pull-apart",
+  "source_version": "seed-1",
+  "name": "Band Pull-Apart",
+  "name_normalized": "band pull apart",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "rear-delts",
+  "secondary_muscles": [
+   "rhomboids"
+  ],
+  "equipment": [
+   "resistance-band"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hold a band at shoulder height and pull it apart until your arms are wide."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "c515e13a-c8ed-592a-b7bb-9108dbe479f4",
+  "source": "custom",
+  "source_id": "seed:cuban-rotation",
+  "source_version": "seed-1",
+  "name": "Cuban Rotation",
+  "name_normalized": "cuban rotation",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "rotator-cuff",
+  "secondary_muscles": [
+   "rear-delts"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Row to a high-elbow position, rotate up, then press. Light weight only."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "4c1f8120-2cf8-5ffc-a666-e80b2212389a",
+  "source": "custom",
+  "source_id": "seed:pike-push-up",
+  "source_version": "seed-1",
+  "name": "Pike Push-Up",
+  "name_normalized": "pike push up",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [
+   "triceps"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.6",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hips high, lower the crown of your head toward the floor between your hands."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "shoulders"
+ },
+ {
+  "id": "00bdbad9-84df-56cc-8cd4-a10497af4a12",
+  "source": "custom",
+  "source_id": "seed:barbell-curl",
+  "source_version": "seed-1",
+  "name": "Barbell Curl",
+  "name_normalized": "barbell curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Curl the bar with the elbows pinned to your sides."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "9d0cc7d6-7b29-5ad4-a82a-daeac061f417",
+  "source": "custom",
+  "source_id": "seed:ez-bar-curl",
+  "source_version": "seed-1",
+  "name": "EZ-Bar Curl",
+  "name_normalized": "ez bar curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "ez-bar"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "The angled grip is easier on the wrists than a straight bar."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "38d8b49b-6dca-5ba5-ba7c-514b31017dd6",
+  "source": "custom",
+  "source_id": "seed:dumbbell-curl",
+  "source_version": "seed-1",
+  "name": "Dumbbell Curl",
+  "name_normalized": "dumbbell curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Curl one or both dumbbells, supinating as you rise."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "698bf8f1-1a2e-5de0-89be-e77ccd6a0b4b",
+  "source": "custom",
+  "source_id": "seed:hammer-curl",
+  "source_version": "seed-1",
+  "name": "Hammer Curl",
+  "name_normalized": "hammer curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Neutral grip throughout, which loads the brachialis and forearm."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "e824601a-a4c4-5491-8523-71c75041c26a",
+  "source": "custom",
+  "source_id": "seed:incline-dumbbell-curl",
+  "source_version": "seed-1",
+  "name": "Incline Dumbbell Curl",
+  "name_normalized": "incline dumbbell curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Curl with the arms hanging behind you on an incline bench for a longer stretch."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "cec21a6d-f490-58da-8627-1ef4a48ef01b",
+  "source": "custom",
+  "source_id": "seed:preacher-curl",
+  "source_version": "seed-1",
+  "name": "Preacher Curl",
+  "name_normalized": "preacher curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "bench",
+   "ez-bar"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Curl over a preacher pad so the upper arms cannot swing."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "5279013f-0779-519e-b392-4c8100acdc66",
+  "source": "custom",
+  "source_id": "seed:cable-curl",
+  "source_version": "seed-1",
+  "name": "Cable Curl",
+  "name_normalized": "cable curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [
+   "forearms"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Constant tension from a low pulley."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "2cb43cad-1ea1-5d64-ad42-d01f0a42e5dd",
+  "source": "custom",
+  "source_id": "seed:concentration-curl",
+  "source_version": "seed-1",
+  "name": "Concentration Curl",
+  "name_normalized": "concentration curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "biceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Seated, elbow braced against the inner thigh."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "b3ca2805-6aa9-5169-b871-46d58d2126f4",
+  "source": "custom",
+  "source_id": "seed:close-grip-bench-press",
+  "source_version": "seed-1",
+  "name": "Close-Grip Bench Press",
+  "name_normalized": "close grip bench press",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [
+   "pectorals",
+   "front-delts"
+  ],
+  "equipment": [
+   "barbell",
+   "bench"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Shoulder-width grip, elbows tucked, press from the lower chest."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "d41c6a05-03ef-5a3f-acae-7ad804ff0935",
+  "source": "custom",
+  "source_id": "seed:triceps-pushdown",
+  "source_version": "seed-1",
+  "name": "Triceps Pushdown",
+  "name_normalized": "triceps pushdown",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Push the bar or rope down to lockout with the elbows fixed at your sides."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "01dbbd2d-6490-5dd4-9942-5115555b476b",
+  "source": "custom",
+  "source_id": "seed:overhead-triceps-extension",
+  "source_version": "seed-1",
+  "name": "Overhead Triceps Extension",
+  "name_normalized": "overhead triceps extension",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Lower the weight behind your head and extend, keeping the elbows narrow."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "9e1cdfab-3749-504d-b361-79f7d6e0775d",
+  "source": "custom",
+  "source_id": "seed:skull-crusher",
+  "source_version": "seed-1",
+  "name": "Skull Crusher",
+  "name_normalized": "skull crusher",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "bench",
+   "ez-bar"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Lower the bar toward your forehead with the upper arms vertical."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "4f464bb8-0451-5cf4-81bb-7453219fd8c9",
+  "source": "custom",
+  "source_id": "seed:triceps-dip",
+  "source_version": "seed-1",
+  "name": "Triceps Dip",
+  "name_normalized": "triceps dip",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [
+   "pectorals",
+   "front-delts"
+  ],
+  "equipment": [
+   "dip-bars"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weighted_bodyweight",
+  "bodyweight_load_factor": "1.0",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Stay upright and lower until the elbows reach about 90 degrees."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "0f40ecd3-7a39-5c40-9c80-4c0d86975530",
+  "source": "custom",
+  "source_id": "seed:bench-dip",
+  "source_version": "seed-1",
+  "name": "Bench Dip",
+  "name_normalized": "bench dip",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [
+   "front-delts"
+  ],
+  "equipment": [
+   "bench"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.55",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hands on a bench behind you, lower the hips toward the floor."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "64283325-d62e-5a3d-97fa-75b7a2477ff2",
+  "source": "custom",
+  "source_id": "seed:kickback",
+  "source_version": "seed-1",
+  "name": "Kickback",
+  "name_normalized": "kickback",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "triceps",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hinge forward and extend the elbow straight back."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "1e6b67a3-c827-5433-b321-84b4b91bd4eb",
+  "source": "custom",
+  "source_id": "seed:wrist-curl",
+  "source_version": "seed-1",
+  "name": "Wrist Curl",
+  "name_normalized": "wrist curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "forearms",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Forearms on your thighs, curl the weight up with the wrists only."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "2a1e23db-21b2-58bc-97a5-d6a8d00459e9",
+  "source": "custom",
+  "source_id": "seed:reverse-wrist-curl",
+  "source_version": "seed-1",
+  "name": "Reverse Wrist Curl",
+  "name_normalized": "reverse wrist curl",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "forearms",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Palms down; extend the wrists against the load."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "dceedaa2-0df3-5d02-9289-547caf1b4652",
+  "source": "custom",
+  "source_id": "seed:farmer-s-carry",
+  "source_version": "seed-1",
+  "name": "Farmer's Carry",
+  "name_normalized": "farmer s carry",
+  "aliases": [],
+  "body_part": "arms",
+  "primary_muscle": "forearms",
+  "secondary_muscles": [
+   "traps",
+   "abs"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Carry a heavy weight in each hand and walk with tall posture."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "arms"
+ },
+ {
+  "id": "006edbd8-8fff-5bd1-a118-c1d5acbb6e6b",
+  "source": "custom",
+  "source_id": "seed:back-squat",
+  "source_version": "seed-1",
+  "name": "Back Squat",
+  "name_normalized": "back squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "hamstrings",
+   "lower-back"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Bar on the upper back; sit down and back to at least parallel, then drive up."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "3820171c-ecb0-52d3-ab98-ab7871cc58fe",
+  "source": "custom",
+  "source_id": "seed:front-squat",
+  "source_version": "seed-1",
+  "name": "Front Squat",
+  "name_normalized": "front squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "abs"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "advanced",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Bar in the front rack with the elbows high, which keeps the torso upright."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "123e7fdb-9396-57e7-9c09-566c44e68904",
+  "source": "custom",
+  "source_id": "seed:goblet-squat",
+  "source_version": "seed-1",
+  "name": "Goblet Squat",
+  "name_normalized": "goblet squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "abs"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hold one dumbbell at your chest and squat between your knees."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "7944f157-6544-5154-9c12-76a893f24ed9",
+  "source": "custom",
+  "source_id": "seed:bodyweight-squat",
+  "source_version": "seed-1",
+  "name": "Bodyweight Squat",
+  "name_normalized": "bodyweight squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.65",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Squat to depth with your heels down and chest up."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "bd104a67-2c4c-545a-8685-daf3be47ba65",
+  "source": "custom",
+  "source_id": "seed:bulgarian-split-squat",
+  "source_version": "seed-1",
+  "name": "Bulgarian Split Squat",
+  "name_normalized": "bulgarian split squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "hamstrings"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Rear foot elevated; lower straight down over the front leg."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "b5a1f80a-69fd-547c-b196-27699e1e19cf",
+  "source": "custom",
+  "source_id": "seed:walking-lunge",
+  "source_version": "seed-1",
+  "name": "Walking Lunge",
+  "name_normalized": "walking lunge",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "hamstrings"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Step forward and lower the back knee toward the floor, then step through."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "c1b5a500-6c97-55de-9892-61aedb872487",
+  "source": "custom",
+  "source_id": "seed:reverse-lunge",
+  "source_version": "seed-1",
+  "name": "Reverse Lunge",
+  "name_normalized": "reverse lunge",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "glutes",
+  "secondary_muscles": [
+   "quads",
+   "hamstrings"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Step backward instead of forward - usually easier on the knees."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "ae7c8ac7-187b-52cd-9cdc-833df55fcd71",
+  "source": "custom",
+  "source_id": "seed:step-up",
+  "source_version": "seed-1",
+  "name": "Step-Up",
+  "name_normalized": "step up",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes"
+  ],
+  "equipment": [
+   "bench",
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Drive through the top foot without pushing off the trailing leg."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "9d604425-f61f-5075-8d2c-9e2667aea6a4",
+  "source": "custom",
+  "source_id": "seed:leg-press",
+  "source_version": "seed-1",
+  "name": "Leg Press",
+  "name_normalized": "leg press",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "hamstrings"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Press the platform away without letting the lower back round at the bottom."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "659f211c-7d04-5124-b329-5b812864bd86",
+  "source": "custom",
+  "source_id": "seed:hack-squat",
+  "source_version": "seed-1",
+  "name": "Hack Squat",
+  "name_normalized": "hack squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A machine squat with the back supported."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "14820813-e453-5806-8d26-e22e96275eb8",
+  "source": "custom",
+  "source_id": "seed:smith-machine-squat",
+  "source_version": "seed-1",
+  "name": "Smith Machine Squat",
+  "name_normalized": "smith machine squat",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes"
+  ],
+  "equipment": [
+   "smith-machine"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A fixed-path squat, useful for training close to failure alone."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "09bda8e3-5345-5089-bb24-8f6aa165ab5f",
+  "source": "custom",
+  "source_id": "seed:leg-extension",
+  "source_version": "seed-1",
+  "name": "Leg Extension",
+  "name_normalized": "leg extension",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Extend the knees against the pad and control the way down."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "4ad21735-4227-5ca5-9544-33db0b690853",
+  "source": "custom",
+  "source_id": "seed:romanian-deadlift",
+  "source_version": "seed-1",
+  "name": "Romanian Deadlift",
+  "name_normalized": "romanian deadlift",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [
+   "glutes",
+   "lower-back"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Push the hips back with soft knees until you feel the hamstrings, then stand."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "77b6e86e-078d-59a3-95b8-725f4f49363b",
+  "source": "custom",
+  "source_id": "seed:dumbbell-romanian-deadlift",
+  "source_version": "seed-1",
+  "name": "Dumbbell Romanian Deadlift",
+  "name_normalized": "dumbbell romanian deadlift",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [
+   "glutes"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "The same hip hinge with dumbbells."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "d61eb7d6-ba4a-53be-918b-233acd055ba2",
+  "source": "custom",
+  "source_id": "seed:stiff-leg-deadlift",
+  "source_version": "seed-1",
+  "name": "Stiff-Leg Deadlift",
+  "name_normalized": "stiff leg deadlift",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [
+   "glutes",
+   "lower-back"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A hinge with near-straight legs and a long hamstring stretch."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "bc9020fc-18f6-58a5-be6c-1466350e2576",
+  "source": "custom",
+  "source_id": "seed:lying-leg-curl",
+  "source_version": "seed-1",
+  "name": "Lying Leg Curl",
+  "name_normalized": "lying leg curl",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [
+   "calves"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Curl the pad toward your glutes without lifting the hips."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "b9190c43-4a8a-512e-b580-3b2b7969f8fc",
+  "source": "custom",
+  "source_id": "seed:seated-leg-curl",
+  "source_version": "seed-1",
+  "name": "Seated Leg Curl",
+  "name_normalized": "seated leg curl",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Seated version, which trains the hamstrings in a lengthened position."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "5e6d7fe0-653e-594d-8834-82ce23f30c4f",
+  "source": "custom",
+  "source_id": "seed:nordic-curl",
+  "source_version": "seed-1",
+  "name": "Nordic Curl",
+  "name_normalized": "nordic curl",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hamstrings",
+  "secondary_muscles": [],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "advanced",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.7",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Anchor the ankles and lower your torso forward as slowly as you can."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "7c70cad8-e250-509d-aeee-23580d19fc26",
+  "source": "custom",
+  "source_id": "seed:hip-thrust",
+  "source_version": "seed-1",
+  "name": "Hip Thrust",
+  "name_normalized": "hip thrust",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "glutes",
+  "secondary_muscles": [
+   "hamstrings"
+  ],
+  "equipment": [
+   "barbell",
+   "bench"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Shoulders on a bench, drive the hips to full extension and squeeze."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "94f990fd-c865-5444-8bd0-32102df06a80",
+  "source": "custom",
+  "source_id": "seed:glute-bridge",
+  "source_version": "seed-1",
+  "name": "Glute Bridge",
+  "name_normalized": "glute bridge",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "glutes",
+  "secondary_muscles": [
+   "hamstrings"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.4",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "From the floor, lift the hips until the body forms a straight line."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "053476c0-c560-54e1-9cee-39c9bcb8d57d",
+  "source": "custom",
+  "source_id": "seed:cable-kickback",
+  "source_version": "seed-1",
+  "name": "Cable Kickback",
+  "name_normalized": "cable kickback",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "glutes",
+  "secondary_muscles": [
+   "hamstrings"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Drive one leg backward against the cable with a still torso."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "5f3245f8-d784-599e-a2e2-4696c3aa7440",
+  "source": "custom",
+  "source_id": "seed:hip-abduction-machine",
+  "source_version": "seed-1",
+  "name": "Hip Abduction Machine",
+  "name_normalized": "hip abduction machine",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "abductors",
+  "secondary_muscles": [
+   "glutes"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Press the knees outward against the pads."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "c9792912-bd8e-5edf-9878-1f243b92b3d7",
+  "source": "custom",
+  "source_id": "seed:hip-adduction-machine",
+  "source_version": "seed-1",
+  "name": "Hip Adduction Machine",
+  "name_normalized": "hip adduction machine",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "adductors",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Squeeze the knees together against the pads."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "4ce671cc-82e2-5bc3-b0bf-53823c8df27e",
+  "source": "custom",
+  "source_id": "seed:standing-calf-raise",
+  "source_version": "seed-1",
+  "name": "Standing Calf Raise",
+  "name_normalized": "standing calf raise",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "calves",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Rise onto the toes through a full range and pause at the top."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "46b374c9-4f6b-542c-8bf5-32e6244dcc5a",
+  "source": "custom",
+  "source_id": "seed:seated-calf-raise",
+  "source_version": "seed-1",
+  "name": "Seated Calf Raise",
+  "name_normalized": "seated calf raise",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "calves",
+  "secondary_muscles": [],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Bent knees bias the soleus rather than the gastrocnemius."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "f714f5d8-c4d7-5c3a-98e0-84287da8d99c",
+  "source": "custom",
+  "source_id": "seed:dumbbell-calf-raise",
+  "source_version": "seed-1",
+  "name": "Dumbbell Calf Raise",
+  "name_normalized": "dumbbell calf raise",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "calves",
+  "secondary_muscles": [],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hold dumbbells and rise onto the toes, ideally off a step."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "455eb887-a83f-5814-ae62-c1d1390a39fd",
+  "source": "custom",
+  "source_id": "seed:kettlebell-swing",
+  "source_version": "seed-1",
+  "name": "Kettlebell Swing",
+  "name_normalized": "kettlebell swing",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "glutes",
+  "secondary_muscles": [
+   "hamstrings",
+   "lower-back",
+   "cardiovascular"
+  ],
+  "equipment": [
+   "kettlebell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Hinge and snap the hips to float the bell to chest height. It is not a squat."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "a80476a2-c49a-5e05-bab3-24cb62053fd3",
+  "source": "custom",
+  "source_id": "seed:box-jump",
+  "source_version": "seed-1",
+  "name": "Box Jump",
+  "name_normalized": "box jump",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "calves"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.9",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Jump onto a box and land softly with bent knees. Step down, do not jump down."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "legs"
+ },
+ {
+  "id": "236de9b8-182d-569b-be66-87ae3f845015",
+  "source": "custom",
+  "source_id": "seed:plank",
+  "source_version": "seed-1",
+  "name": "Plank",
+  "name_normalized": "plank",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "transverse-abdominis",
+  "secondary_muscles": [
+   "abs",
+   "obliques"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hold a straight line from head to heels with the glutes and abs braced."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "7567f9ca-b5fc-59a8-8d46-93f31d338dd4",
+  "source": "custom",
+  "source_id": "seed:side-plank",
+  "source_version": "seed-1",
+  "name": "Side Plank",
+  "name_normalized": "side plank",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "obliques",
+  "secondary_muscles": [
+   "transverse-abdominis"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Stack the hips and hold, keeping the bottom shoulder packed."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "ea426ba7-801b-5fb6-a875-225aae62e838",
+  "source": "custom",
+  "source_id": "seed:hollow-body-hold",
+  "source_version": "seed-1",
+  "name": "Hollow Body Hold",
+  "name_normalized": "hollow body hold",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "hip-flexors"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Press the lower back into the floor and hold arms and legs off it."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "b0c63311-8351-55d2-a992-12151fc0bf69",
+  "source": "custom",
+  "source_id": "seed:dead-bug",
+  "source_version": "seed-1",
+  "name": "Dead Bug",
+  "name_normalized": "dead bug",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "transverse-abdominis",
+  "secondary_muscles": [
+   "abs"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.2",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Extend the opposite arm and leg without letting the lower back arch."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "db31856a-d01d-5013-aae0-3ec38c1f8160",
+  "source": "custom",
+  "source_id": "seed:crunch",
+  "source_version": "seed-1",
+  "name": "Crunch",
+  "name_normalized": "crunch",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.25",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Curl the ribs toward the hips; this is a short range, not a sit-up."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "3c7fe0ff-7b9b-507c-b93f-5a7c936d34f1",
+  "source": "custom",
+  "source_id": "seed:cable-crunch",
+  "source_version": "seed-1",
+  "name": "Cable Crunch",
+  "name_normalized": "cable crunch",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "obliques"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Kneel under a high pulley and crunch the ribs down toward the knees."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "768b7781-d60c-5385-b2dc-972c7e3b0f11",
+  "source": "custom",
+  "source_id": "seed:hanging-leg-raise",
+  "source_version": "seed-1",
+  "name": "Hanging Leg Raise",
+  "name_normalized": "hanging leg raise",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "hip-flexors",
+   "forearms"
+  ],
+  "equipment": [
+   "pull-up-bar"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.45",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Hang and raise straight legs to hip height without swinging."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "f7eb3d91-5f79-5426-81fc-a55b284f312e",
+  "source": "custom",
+  "source_id": "seed:hanging-knee-raise",
+  "source_version": "seed-1",
+  "name": "Hanging Knee Raise",
+  "name_normalized": "hanging knee raise",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "hip-flexors"
+  ],
+  "equipment": [
+   "pull-up-bar"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.35",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "The bent-knee version of the leg raise."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "c228fc4d-1bdf-5ad4-af81-efaf41c82d03",
+  "source": "custom",
+  "source_id": "seed:ab-wheel-rollout",
+  "source_version": "seed-1",
+  "name": "Ab Wheel Rollout",
+  "name_normalized": "ab wheel rollout",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "transverse-abdominis",
+   "lats"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "advanced",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.5",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Roll out only as far as you can go without the lower back arching."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "5fede3f0-82db-5d66-af99-c14e9df70ed4",
+  "source": "custom",
+  "source_id": "seed:russian-twist",
+  "source_version": "seed-1",
+  "name": "Russian Twist",
+  "name_normalized": "russian twist",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "obliques",
+  "secondary_muscles": [
+   "abs"
+  ],
+  "equipment": [
+   "medicine-ball"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Seated and leaning back, rotate the ball from hip to hip."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "8cb7cd63-6049-53b3-80f5-cef3dee04329",
+  "source": "custom",
+  "source_id": "seed:pallof-press",
+  "source_version": "seed-1",
+  "name": "Pallof Press",
+  "name_normalized": "pallof press",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "obliques",
+  "secondary_muscles": [
+   "transverse-abdominis"
+  ],
+  "equipment": [
+   "cable"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Press a cable straight out while resisting the pull to rotate."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "90528ccf-c957-505f-a90a-e55d12d07325",
+  "source": "custom",
+  "source_id": "seed:bicycle-crunch",
+  "source_version": "seed-1",
+  "name": "Bicycle Crunch",
+  "name_normalized": "bicycle crunch",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "obliques",
+  "secondary_muscles": [
+   "abs"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.3",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Alternate elbow to opposite knee with the legs cycling."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "8edee426-ddd2-5e5c-a85c-cd11c828fdc9",
+  "source": "custom",
+  "source_id": "seed:mountain-climber",
+  "source_version": "seed-1",
+  "name": "Mountain Climber",
+  "name_normalized": "mountain climber",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "hip-flexors",
+   "cardiovascular"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "From a push-up position, drive the knees to the chest alternately."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "7287aebd-b295-56f4-aa03-3085aff52544",
+  "source": "custom",
+  "source_id": "seed:stability-ball-rollout",
+  "source_version": "seed-1",
+  "name": "Stability Ball Rollout",
+  "name_normalized": "stability ball rollout",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "transverse-abdominis"
+  ],
+  "equipment": [
+   "stability-ball"
+  ],
+  "difficulty": "intermediate",
+  "type": "isolation",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.4",
+  "default_rest_seconds": 90,
+  "instructions": [
+   "Forearms on the ball, roll it away and pull it back with the abs."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "core"
+ },
+ {
+  "id": "4d47b057-6230-55b7-9cdd-5f8d8419ab92",
+  "source": "custom",
+  "source_id": "seed:burpee",
+  "source_version": "seed-1",
+  "name": "Burpee",
+  "name_normalized": "burpee",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "quads",
+   "pectorals",
+   "abs"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "bodyweight_reps",
+  "bodyweight_load_factor": "0.8",
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Drop to a push-up, jump the feet in, and stand or jump."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "full_body"
+ },
+ {
+  "id": "a725fb54-ab2c-58c9-ac76-8b0251954a79",
+  "source": "custom",
+  "source_id": "seed:thruster",
+  "source_version": "seed-1",
+  "name": "Thruster",
+  "name_normalized": "thruster",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "front-delts",
+   "glutes",
+   "triceps"
+  ],
+  "equipment": [
+   "dumbbell"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "A front squat straight into an overhead press."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "full_body"
+ },
+ {
+  "id": "f7c6f8cf-c720-52c2-b073-85504ed504bd",
+  "source": "custom",
+  "source_id": "seed:clean-and-press",
+  "source_version": "seed-1",
+  "name": "Clean and Press",
+  "name_normalized": "clean and press",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "front-delts",
+  "secondary_muscles": [
+   "quads",
+   "traps",
+   "glutes"
+  ],
+  "equipment": [
+   "barbell"
+  ],
+  "difficulty": "advanced",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Pull the bar to the front rack, then press it overhead."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "full_body"
+ },
+ {
+  "id": "52dd0a3c-0889-51dc-842a-6df246fe2dc5",
+  "source": "custom",
+  "source_id": "seed:turkish-get-up",
+  "source_version": "seed-1",
+  "name": "Turkish Get-Up",
+  "name_normalized": "turkish get up",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "abs",
+  "secondary_muscles": [
+   "front-delts",
+   "glutes",
+   "obliques"
+  ],
+  "equipment": [
+   "kettlebell"
+  ],
+  "difficulty": "advanced",
+  "type": "compound",
+  "metric_type": "weight_reps",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Stand up and lie back down with a weight locked overhead. Go slowly."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "full_body"
+ },
+ {
+  "id": "3b6316fc-510f-5d50-9c3f-ab3a083623b1",
+  "source": "custom",
+  "source_id": "seed:bear-crawl",
+  "source_version": "seed-1",
+  "name": "Bear Crawl",
+  "name_normalized": "bear crawl",
+  "aliases": [],
+  "body_part": "core",
+  "primary_muscle": "transverse-abdominis",
+  "secondary_muscles": [
+   "front-delts",
+   "quads"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "compound",
+  "metric_type": "distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Crawl with the knees an inch off the floor and the hips low."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "full_body"
+ },
+ {
+  "id": "61358c06-5ac9-5317-94a7-9dfb53b130e5",
+  "source": "custom",
+  "source_id": "seed:battle-rope-waves",
+  "source_version": "seed-1",
+  "name": "Battle Rope Waves",
+  "name_normalized": "battle rope waves",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "front-delts",
+   "forearms"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Alternate arms to send waves down the rope without losing your brace."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "full_body"
+ },
+ {
+  "id": "60d4bac6-9715-5dd2-8fbf-343cc79d9768",
+  "source": "custom",
+  "source_id": "seed:treadmill-run",
+  "source_version": "seed-1",
+  "name": "Treadmill Run",
+  "name_normalized": "treadmill run",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "quads",
+   "calves"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time_distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Run at a steady pace or in intervals."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "61a43fe7-a5ab-53ac-9c2e-31e01035aa51",
+  "source": "custom",
+  "source_id": "seed:outdoor-run",
+  "source_version": "seed-1",
+  "name": "Outdoor Run",
+  "name_normalized": "outdoor run",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "quads",
+   "calves",
+   "hamstrings"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time_distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Road or trail running."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "75ab9a57-829b-5d0b-9dd1-9b88879ae684",
+  "source": "custom",
+  "source_id": "seed:stationary-bike",
+  "source_version": "seed-1",
+  "name": "Stationary Bike",
+  "name_normalized": "stationary bike",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "quads"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time_distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Steady-state or interval cycling."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "ba3ae6d9-2bb1-52b4-a502-ea5d9917563d",
+  "source": "custom",
+  "source_id": "seed:rowing-machine",
+  "source_version": "seed-1",
+  "name": "Rowing Machine",
+  "name_normalized": "rowing machine",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "lats",
+   "quads",
+   "rhomboids"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time_distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Drive with the legs, then the back, then the arms."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "8222b081-6efb-5a9a-adb2-b2cfe12ffaa0",
+  "source": "custom",
+  "source_id": "seed:elliptical",
+  "source_version": "seed-1",
+  "name": "Elliptical",
+  "name_normalized": "elliptical",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "quads",
+   "glutes"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time_distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Low-impact steady-state work."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "f843120f-bbf2-512f-ab81-8e9963fc1707",
+  "source": "custom",
+  "source_id": "seed:stair-climber",
+  "source_version": "seed-1",
+  "name": "Stair Climber",
+  "name_normalized": "stair climber",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "glutes",
+   "quads",
+   "calves"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time_distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Climb without leaning on the handles."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "4c0648c0-b3b3-5c10-9b36-85300985a30a",
+  "source": "custom",
+  "source_id": "seed:jump-rope",
+  "source_version": "seed-1",
+  "name": "Jump Rope",
+  "name_normalized": "jump rope",
+  "aliases": [],
+  "body_part": "cardio",
+  "primary_muscle": "cardiovascular",
+  "secondary_muscles": [
+   "calves"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "cardio",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 60,
+  "instructions": [
+   "Small hops off the balls of the feet."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "c5c072a3-9a92-51fb-89af-bbb08659b67c",
+  "source": "custom",
+  "source_id": "seed:sled-push",
+  "source_version": "seed-1",
+  "name": "Sled Push",
+  "name_normalized": "sled push",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "glutes",
+   "calves",
+   "cardiovascular"
+  ],
+  "equipment": [
+   "machine"
+  ],
+  "difficulty": "intermediate",
+  "type": "compound",
+  "metric_type": "distance",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 180,
+  "instructions": [
+   "Push a loaded sled with a low body angle and short steps."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "cardio"
+ },
+ {
+  "id": "a299bc8e-7eec-5afb-9ecc-c9f43f41b14b",
+  "source": "custom",
+  "source_id": "seed:cat-cow",
+  "source_version": "seed-1",
+  "name": "Cat-Cow",
+  "name_normalized": "cat cow",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lower-back",
+  "secondary_muscles": [
+   "abs"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "mobility",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 30,
+  "instructions": [
+   "Alternate arching and rounding the spine on all fours."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "mobility"
+ },
+ {
+  "id": "afe83f97-99f3-5089-958e-d0a205c12ef4",
+  "source": "custom",
+  "source_id": "seed:hip-flexor-stretch",
+  "source_version": "seed-1",
+  "name": "Hip Flexor Stretch",
+  "name_normalized": "hip flexor stretch",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "hip-flexors",
+  "secondary_muscles": [
+   "quads"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "mobility",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 30,
+  "instructions": [
+   "Half-kneeling, tuck the pelvis and press the hips forward."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "mobility"
+ },
+ {
+  "id": "b7a307c7-e8e5-5e49-abfb-41f9b5704f65",
+  "source": "custom",
+  "source_id": "seed:thoracic-rotation",
+  "source_version": "seed-1",
+  "name": "Thoracic Rotation",
+  "name_normalized": "thoracic rotation",
+  "aliases": [],
+  "body_part": "back",
+  "primary_muscle": "lower-back",
+  "secondary_muscles": [
+   "obliques"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "mobility",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 30,
+  "instructions": [
+   "On all fours, hand behind the head, rotate the ribs open."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "mobility"
+ },
+ {
+  "id": "0b1b2aa1-6dc4-5f56-9886-66cc2a00f6de",
+  "source": "custom",
+  "source_id": "seed:shoulder-dislocate",
+  "source_version": "seed-1",
+  "name": "Shoulder Dislocate",
+  "name_normalized": "shoulder dislocate",
+  "aliases": [],
+  "body_part": "shoulders",
+  "primary_muscle": "rotator-cuff",
+  "secondary_muscles": [
+   "front-delts"
+  ],
+  "equipment": [
+   "resistance-band"
+  ],
+  "difficulty": "beginner",
+  "type": "mobility",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 30,
+  "instructions": [
+   "Pass a band overhead and behind you with straight arms."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "mobility"
+ },
+ {
+  "id": "cadf97a9-2484-5319-b162-22d9b7cf4352",
+  "source": "custom",
+  "source_id": "seed:couch-stretch",
+  "source_version": "seed-1",
+  "name": "Couch Stretch",
+  "name_normalized": "couch stretch",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "quads",
+  "secondary_muscles": [
+   "hip-flexors"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "intermediate",
+  "type": "mobility",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 30,
+  "instructions": [
+   "Rear foot up a wall in a half-kneel; tuck the pelvis."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "mobility"
+ },
+ {
+  "id": "fc9978db-f0ca-50bb-a37e-f4e11ee16eec",
+  "source": "custom",
+  "source_id": "seed:deep-squat-hold",
+  "source_version": "seed-1",
+  "name": "Deep Squat Hold",
+  "name_normalized": "deep squat hold",
+  "aliases": [],
+  "body_part": "legs",
+  "primary_muscle": "adductors",
+  "secondary_muscles": [
+   "glutes",
+   "quads"
+  ],
+  "equipment": [
+   "bodyweight"
+  ],
+  "difficulty": "beginner",
+  "type": "mobility",
+  "metric_type": "time",
+  "bodyweight_load_factor": null,
+  "default_rest_seconds": 30,
+  "instructions": [
+   "Sit in the bottom of a squat and breathe."
+  ],
+  "image_url": null,
+  "gif_url": null,
+  "video_url": null,
+  "media_licence": null,
+  "group": "mobility"
+ }
+]

@@ -57,7 +57,8 @@ def database() -> str:
     )
 
     from app.config import get_settings
-    from app.db import reset_engine
+    from app.db import reset_engine, session_factory
+    from app.ingest.seed import load_seed
     from app.repo import guard
 
     reset_engine()
@@ -65,6 +66,12 @@ def database() -> str:
     # Install the scoping guard for the whole suite, not just for tests that
     # happen to build an app first.
     guard.install()
+
+    # The catalogue is shared reference data, loaded once and kept between
+    # tests - only the rows a test creates are cleaned up.
+    with session_factory()() as db:
+        load_seed(db)
+        db.commit()
     return url
 
 
@@ -75,25 +82,29 @@ def clean_tables(database):
     from app.repo.guard import unscoped
 
     engine = get_engine()
-    with unscoped("test teardown truncates every table"):
+    with unscoped("test teardown clears every table"):
         with engine.begin() as conn:
             tables = [
                 r[0]
                 for r in conn.execute(
                     text(
                         "select tablename from pg_tables where schemaname='public' "
-                        "and tablename <> 'alembic_version'"
+                        "and tablename not in "
+                        "('alembic_version', 'exercises', 'ingest_runs')"
                     )
                 )
             ]
-            if tables:
-                conn.execute(
-                    text(
-                        "truncate table "
-                        + ", ".join(f'"{t}"' for t in tables)
-                        + " restart identity cascade"
-                    )
-                )
+            # DELETE, not TRUNCATE ... CASCADE: cascade follows foreign keys
+            # into tables the exclusion list is trying to protect, and would
+            # wipe the seeded catalogue through exercises.owner_user_id.
+            # See ERRORS-AND-FIXES.md E6.
+            conn.execute(text("set session_replication_role = replica"))
+            for table in tables:
+                conn.execute(text(f'delete from "{table}"'))
+            # Keep the seeded catalogue; drop only what a test created.
+            conn.execute(text("delete from exercises where is_custom = true"))
+            conn.execute(text("update exercises set is_archived = false"))
+            conn.execute(text("set session_replication_role = default"))
     yield
 
 

@@ -13,8 +13,13 @@ from decimal import Decimal
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
 
 from app.domain.enums import (
+    BODY_PART_SET,
     EQUIPMENT_SET,
     IMPLICIT_EQUIPMENT,
+    MUSCLE_SET,
+    Difficulty,
+    ExerciseType,
+    MetricType,
     TrainingExperience,
     TrainingGoal,
     Unit,
@@ -138,3 +143,100 @@ class BodyweightOut(ORMModel):
     date: date
     weight_kg: Decimal
     source: str
+
+
+# --- exercises ------------------------------------------------------------
+
+
+class ExerciseOut(ORMModel):
+    id: uuid.UUID
+    name: str
+    body_part: str
+    primary_muscle: str
+    secondary_muscles: list[str]
+    equipment: list[str]
+    difficulty: Difficulty
+    type: ExerciseType
+    metric_type: MetricType
+    bodyweight_load_factor: Decimal | None = None
+    default_rest_seconds: int
+    instructions: list[str]
+    image_url: str | None = None
+    gif_url: str | None = None
+    video_url: str | None = None
+    is_custom: bool
+
+    # Sec 6.1 - an incompatible exercise is shown with the reason named.
+    compatible: bool = True
+    missing_equipment: list[str] = []
+
+
+class ExercisePage(BaseModel):
+    data: list[ExerciseOut]
+    next_cursor: str | None = None
+    total: int
+
+
+class CustomExerciseIn(BaseModel):
+    """Sec 5.4 - metric_type and equipment are required, because guessing them
+    silently breaks volume (Sec 13.1)."""
+
+    name: str = Field(min_length=2, max_length=200)
+    primary_muscle: str
+    secondary_muscles: list[str] = []
+    equipment: list[str]
+    metric_type: MetricType
+    difficulty: Difficulty = Difficulty.BEGINNER
+    type: ExerciseType = ExerciseType.COMPOUND
+    bodyweight_load_factor: Decimal | None = Field(default=None, ge=0, le=2)
+    default_rest_seconds: int = Field(default=120, ge=0, le=3600)
+    instructions: list[str] = []
+
+    @field_validator("primary_muscle")
+    @classmethod
+    def _known_primary(cls, value: str) -> str:
+        if value not in MUSCLE_SET:
+            raise ValueError(f"unknown muscle: {value}")
+        return value
+
+    @field_validator("secondary_muscles")
+    @classmethod
+    def _known_secondary(cls, value: list[str]) -> list[str]:
+        unknown = sorted(set(value) - MUSCLE_SET)
+        if unknown:
+            raise ValueError(f"unknown muscles: {', '.join(unknown)}")
+        return value
+
+    @field_validator("equipment")
+    @classmethod
+    def _known_equipment(cls, value: list[str]) -> list[str]:
+        if not value:
+            raise ValueError("at least one equipment item (use 'bodyweight')")
+        unknown = sorted(set(value) - EQUIPMENT_SET)
+        if unknown:
+            raise ValueError(f"unknown equipment: {', '.join(unknown)}")
+        return sorted(set(value))
+
+
+class CustomExerciseUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=2, max_length=200)
+    secondary_muscles: list[str] | None = None
+    equipment: list[str] | None = None
+    difficulty: Difficulty | None = None
+    default_rest_seconds: int | None = Field(default=None, ge=0, le=3600)
+    instructions: list[str] | None = None
+    bodyweight_load_factor: Decimal | None = Field(default=None, ge=0, le=2)
+
+
+class VocabularyOut(BaseModel):
+    """Everything the client needs to build filter controls without hardcoding
+    our vocabularies."""
+
+    equipment: list[str]
+    body_parts: list[str]
+    muscles: list[str]
+    body_part_muscles: dict[str, list[str]]
+    difficulties: list[str]
+    types: list[str]
+    metric_types: list[str]
+    set_types: list[str]
