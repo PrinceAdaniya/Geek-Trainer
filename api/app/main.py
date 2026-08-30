@@ -9,6 +9,7 @@ from app.config import get_settings
 from app.core.errors import register_error_handlers
 from app.repo import guard
 from app.routes import (
+    ai,
     auth,
     exercises,
     health,
@@ -57,6 +58,7 @@ def create_app() -> FastAPI:
     app.include_router(stats.router, prefix=API_PREFIX)
     app.include_router(sync.router, prefix=API_PREFIX)
     app.include_router(progress.router, prefix=API_PREFIX)
+    app.include_router(ai.router, prefix=API_PREFIX)
 
     return app
 
