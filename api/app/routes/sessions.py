@@ -37,6 +37,7 @@ from app.repo import exercises as exercise_repo
 from app.repo.plans import PlanRepo
 from app.repo.sessions import SessionRepo
 from app.repo.users import SettingsRepo
+from app.services.recompute import recompute_for_session
 from app.services.sets import validate_set
 
 router = APIRouter(tags=["sessions"])
@@ -226,6 +227,8 @@ def finish_session(
 ):
     repo = SessionRepo(db, user.id)
     session = repo.finish(repo.require(session_id))
+    # Sec 13.4 - derived data is rebuilt from the log, never patched.
+    recompute_for_session(db, user.id, session.id)
     return _session_out(db, user, session)
 
 
@@ -372,6 +375,10 @@ def update_set(
     for key, value in data.items():
         setattr(row, key, value.value if hasattr(value, "value") else value)
     db.flush()
+    # A correction to a past set must move every number that depended on it,
+    # including revoking a record it no longer deserves (A6).
+    if session.status == SessionStatus.COMPLETED.value:
+        recompute_for_session(db, user.id, session.id)
     return SetOut.model_validate(row)
 
 
@@ -388,3 +395,5 @@ def delete_set(
     if row is None or row.session_id != session.id:
         raise NotFound("No such set.")
     repo.delete_set(row)
+    if session.status == SessionStatus.COMPLETED.value:
+        recompute_for_session(db, user.id, session.id)

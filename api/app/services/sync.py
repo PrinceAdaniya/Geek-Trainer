@@ -30,7 +30,24 @@ from app.repo import exercises as exercise_repo
 from app.repo.plans import PlanRepo
 from app.repo.sessions import SessionRepo
 from app.repo.users import SettingsRepo
+from app.services.recompute import recompute_for_session
 from app.services.sets import validate_set
+
+# Mutations are applied in phases, not just by timestamp. A client that queues
+# offline may not carry usable timestamps, and even when it does, a `finish`
+# must never be applied before the sets it contains - the session would be
+# summarised while half its work is still in the queue.
+MUTATION_PHASE = {
+    "session.start": 0,
+    "session.update": 1,
+    "session_exercise.add": 1,
+    "session_exercise.update": 2,
+    "session_exercise.delete": 2,
+    "set.upsert": 2,
+    "set.delete": 3,
+    "session.finish": 4,
+    "session.cancel": 4,
+}
 
 MUTATION_TYPES = (
     "session.start",
@@ -86,9 +103,15 @@ class SyncService:
 
     def apply(self, mutations: list[dict]) -> SyncOutcome:
         outcome = SyncOutcome()
-        # Order matters: a set cannot be applied before the session that holds
-        # it, and the client may have queued them out of order after a retry.
-        ordered = sorted(mutations, key=lambda m: (m.get("at") or "", m.get("id") or ""))
+        touched: set[uuid.UUID] = set()
+        ordered = sorted(
+            mutations,
+            key=lambda m: (
+                MUTATION_PHASE.get(m.get("type"), 9),
+                m.get("at") or "",
+                str(m.get("id") or ""),
+            ),
+        )
 
         for mutation in ordered:
             try:
@@ -121,6 +144,14 @@ class SyncService:
                 savepoint.commit()
                 self._record(mutation_id, type_, "applied")
                 outcome.applied.append(mutation_id)
+                payload = mutation.get("payload") or {}
+                for key in ("session_id", "id"):
+                    value = payload.get(key)
+                    if value and type_.startswith(("session", "set")):
+                        try:
+                            touched.add(uuid.UUID(str(value)))
+                        except ValueError:
+                            pass
             except AppError as exc:
                 savepoint.rollback()
                 # Recorded so a retry does not loop forever on the same bad row.
@@ -135,6 +166,14 @@ class SyncService:
                     {"id": str(mutation_id), "code": "mutation_failed",
                      "message": str(exc)[:200]}
                 )
+
+        # A set that arrived after its session was already finished - the
+        # normal shape of a partial offline flush - still has to move the
+        # numbers that depend on it (Sec 13.4).
+        for session_id in touched:
+            session = self.sessions.get(session_id)
+            if session is not None and session.status == SessionStatus.COMPLETED.value:
+                recompute_for_session(self.db, self.user.id, session.id)
 
         return outcome
 
@@ -198,6 +237,7 @@ class SyncService:
         if session.status != SessionStatus.IN_PROGRESS.value:
             return
         self.sessions.finish(session)
+        recompute_for_session(self.db, self.user.id, session.id)
 
     def _session_cancel(self, payload: dict) -> None:
         session = self._session(payload)

@@ -15,6 +15,7 @@ import { ApiError, api, query } from "@/lib/api";
 import { useSession } from "@/lib/session";
 import { Button, Empty, ErrorNote, Input, Spinner } from "@/components/ui";
 import { SetEntry, type SetDraft } from "@/components/set-entry";
+import { ExerciseDemo } from "@/components/exercise-demo";
 import { formatClock, useElapsed, useRestTimer, useWakeLock, uuid7 } from "@/lib/hooks";
 import { cacheActiveSession, drain, enqueue, pending, readCachedSession } from "@/lib/offline";
 import { formatWeight, humanize } from "@/lib/units";
@@ -327,6 +328,10 @@ export default function SessionPage() {
 
               {openId === exercise.id && (
                 <div className="flex flex-col gap-3 border-t border-surface-edge p-4">
+                  {/* Sec 9 - instructions and media are viewable during the
+                      session, which is when you actually need them. */}
+                  <ExerciseDemo exercise={exercise.exercise} />
+
                   {exercise.last_performance && (
                     /* Sec 11.2 - always visible while logging. */
                     <div className="rounded-xl bg-surface px-3 py-2">

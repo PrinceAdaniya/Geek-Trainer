@@ -555,3 +555,79 @@ class SyncMutation(Base):
     result: Mapped[str] = mapped_column(String(20), nullable=False, server_default="applied")
 
     __table_args__ = (Index("ix_sync_mutations_user", "user_id", "applied_at"),)
+
+
+class PersonalRecord(Base, TimestampMixin):
+    """Sec 15.
+
+    A PR stores the set that achieved it, which is what makes revocation
+    possible: correct or delete that set and the record is recomputed from the
+    log rather than left standing (Sec 13.4, A6).
+    """
+
+    __tablename__ = "personal_records"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    exercise_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("exercises.id", ondelete="CASCADE"), nullable=False
+    )
+    record_type: Mapped[str] = mapped_column(String(30), nullable=False)
+    # For most-reps-at-a-weight there is one record per weight; everything else
+    # has a single record and leaves this at zero.
+    qualifier: Mapped[Decimal] = mapped_column(
+        WeightKg, nullable=False, server_default="0"
+    )
+
+    value: Mapped[Decimal] = mapped_column(Numeric(12, 3), nullable=False)
+    reps: Mapped[int | None] = mapped_column(Integer)
+    weight_kg: Mapped[Decimal | None] = mapped_column(WeightKg)
+    set_id: Mapped[uuid.UUID | None] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("sets.id", ondelete="SET NULL")
+    )
+    session_id: Mapped[uuid.UUID | None] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("workout_sessions.id", ondelete="SET NULL")
+    )
+    achieved_on: Mapped[date] = mapped_column(Date, nullable=False)
+
+    exercise: Mapped["Exercise"] = relationship(lazy="joined")
+
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id", "exercise_id", "record_type", "qualifier", name="uq_pr_slot"
+        ),
+        Index("ix_pr_user_exercise", "user_id", "exercise_id", "record_type"),
+    )
+
+
+class SessionSummary(Base, TimestampMixin):
+    """Sec 11 - written at finish, recomputed on any edit (PLAN.md D6)."""
+
+    __tablename__ = "session_summaries"
+
+    session_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True),
+        ForeignKey("workout_sessions.id", ondelete="CASCADE"),
+        primary_key=True,
+    )
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    total_exercises: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    total_sets: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    total_reps: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    total_volume_kg: Mapped[Decimal] = mapped_column(
+        Numeric(12, 3), nullable=False, server_default="0"
+    )
+    total_duration_seconds: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default="0"
+    )
+    total_distance_m: Mapped[Decimal] = mapped_column(
+        Numeric(12, 2), nullable=False, server_default="0"
+    )
+    muscles_trained: Mapped[dict] = mapped_column(JSONB, nullable=False, server_default="{}")
+    prs_achieved: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+
+    __table_args__ = (Index("ix_session_summaries_user", "user_id"),)

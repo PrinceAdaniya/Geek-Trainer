@@ -14,6 +14,7 @@ from app.routes import (
     health,
     plans,
     profile,
+    progress,
     sessions,
     stats,
     sync,
@@ -55,6 +56,7 @@ def create_app() -> FastAPI:
     app.include_router(sessions.router, prefix=API_PREFIX)
     app.include_router(stats.router, prefix=API_PREFIX)
     app.include_router(sync.router, prefix=API_PREFIX)
+    app.include_router(progress.router, prefix=API_PREFIX)
 
     return app
 

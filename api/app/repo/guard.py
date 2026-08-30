@@ -35,6 +35,8 @@ USER_OWNED_TABLES: set[str] = {
     "workout_sessions",
     "sets",
     "sync_mutations",
+    "personal_records",
+    "session_summaries",
 }
 
 # Columns that pin a statement to a specific parent row the caller already
@@ -52,6 +54,7 @@ USER_OWNED_TABLES: set[str] = {
 PARENT_SCOPED_KEYS: dict[str, tuple[str, ...]] = {
     "sets": ("session_exercise_id", "session_id"),
     "workout_sessions": ("workout_id",),
+    "session_summaries": ("session_id",),
 }
 
 _STATEMENT = re.compile(r"^\s*(select|insert|update|delete)\b", re.IGNORECASE)

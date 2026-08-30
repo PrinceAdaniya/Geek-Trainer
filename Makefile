@@ -26,6 +26,9 @@ api: ## run the API on :8000
 seed: ## load the seed exercise catalogue
 	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../$(PY) scripts/seed.py
 
+ingest: ## fetch the WGER catalogue into the local mirror
+	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../$(PY) scripts/ingest_wger.py
+
 web: ## run the web app on :3000 (proxies /api to :8000)
 	@cd web && npm run dev
 
