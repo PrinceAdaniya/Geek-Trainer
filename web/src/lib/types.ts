@@ -75,3 +75,41 @@ export interface BodyweightEntry {
   weight_kg: string;
   source: string;
 }
+
+export type DayOfWeek =
+  | "monday" | "tuesday" | "wednesday" | "thursday"
+  | "friday" | "saturday" | "sunday";
+
+export const DAYS: DayOfWeek[] = [
+  "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday",
+];
+
+export interface PlanExercise {
+  id: string;
+  exercise_id: string;
+  order_index: number;
+  planned_sets: number;
+  planned_reps_min: number | null;
+  planned_reps_max: number | null;
+  planned_weight_kg: string | null;
+  planned_rir: number | null;
+  superset_group: string | null;
+  notes: string | null;
+  exercise: Exercise;
+}
+
+export interface Plan {
+  id: string;
+  name: string;
+  day_of_week: DayOfWeek | null;
+  target_muscles: string[];
+  notes: string | null;
+  order_index: number;
+  created_at: string;
+  exercises: PlanExercise[];
+}
+
+export interface Week {
+  days: Record<DayOfWeek, Plan[]>;
+  unscheduled: Plan[];
+}
