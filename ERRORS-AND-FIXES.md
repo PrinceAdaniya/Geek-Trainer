@@ -216,3 +216,44 @@ relationship itself, expire it. Re-issuing the query is not enough — and the
 symptom (right in the database, wrong in the response) points at the API layer
 rather than at the ORM, which is where the time went.
 
+---
+
+## E11. The rules-based planner offered a neck stretch for a back day
+
+**Symptom:** asking for a back session returned "Archer Pull Up, Arm and neck
+stretch, Arnold Shoulder Press, Assisted chin-ups, Back Squat, Back bridge" —
+alphabetical, half of it not back work at all.
+
+**Cause:** two things at once.
+1. The candidate query used the default `include_secondary=True`, so anything
+   the lower back *assists* qualified for a back day. A back squat genuinely
+   involves the lower back; that is true and useless as a suggestion.
+2. The generator took the first N candidates after sorting by (type, name), so
+   within compounds it was picking alphabetically.
+
+**Fix:** candidates match on primary muscle only and exclude `mobility`; the
+generator round-robins across the muscles present, two per muscle, then sorts
+compounds first within the final selection.
+
+**Lesson:** the fallback is the primary path whenever AI is off, so its output
+quality is a product surface, not a safety net nobody sees. It was only caught
+by reading an actual response — every test passed throughout, because they
+asserted the *shape* of a plan and never that the plan was sensible.
+
+---
+
+## E12. Two long debugging sessions on a server running old code
+
+**Symptom:** `POST /api/v1/sessions` returning 404 for routes that demonstrably
+existed; later, a fix to the candidate query having no effect on the response.
+
+**Cause:** the API was started with `uvicorn` and no `--reload`, so it was
+serving whatever code existed when it launched. Twice.
+
+**Fix:** `--reload` in development, which is what the Makefile target already
+used — the long-running instances were started by hand without it.
+
+**Lesson:** when a change has *no* effect rather than the wrong effect, suspect
+the process before the code. Both times the symptom looked like a routing bug
+and neither was.
+
