@@ -249,3 +249,37 @@ export interface Progress {
   adherence: number | null;
   consistency_weeks: number;
 }
+
+export interface ProposedExercise {
+  exercise: Exercise;
+  sets: number;
+  reps_min: number;
+  reps_max: number;
+  rationale: string;
+}
+
+export interface WorkoutProposal {
+  name: string;
+  target_muscles: string[];
+  exercises: ProposedExercise[];
+  notes: string;
+  source: "ai" | "rules";
+  warnings: string[];
+}
+
+export interface AiBudget {
+  ai_configured: boolean;
+  used_today: number;
+  daily_limit: number;
+  remaining: number;
+}
+
+export interface Analysis {
+  exercise_name: string;
+  sessions: number;
+  observed: string[];
+  interpretation: string[];
+  suggestion: string;
+  enough_data: boolean;
+  source: "ai" | "rules";
+}

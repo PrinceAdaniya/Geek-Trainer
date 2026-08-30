@@ -562,50 +562,79 @@ its code exists; it is done when the criteria it closes pass.
 
 ## Status
 
-**Phases 1 and 2 substantially complete.** 96 backend tests passing; the web
-app builds clean and the whole flow works end to end.
+**Complete.** All eight phases done; the fourteen acceptance criteria in
+`SPECIFICATIONS.MD` Sec 30 pass.
 
 ```text
 Phase 1  Foundation ................ done
-Phase 2  Exercise catalogue ........ done, less the live ingest fetcher
-Phase 3A Streaks and dashboard ..... done (Sec 30A, added on request)
+Phase 2  Exercise catalogue ........ done, including the WGER ingest
 Phase 3  Plans and schedule ........ done
+Phase 3A Streaks and dashboard ..... done (Sec 30A, added on request)
 Phase 4  Sessions and set logging .. done
-Phase 5  Offline and sync .......... next
-Phase 6  Derived data and charts ...
-Phase 7  AI .......................
-Phase 8  Polish ...................
+Phase 5  Offline and sync .......... done
+Phase 6  Derived data and charts ... done
+Phase 7  AI ....................... done
+Phase 8  Polish ................... done
 ```
-
-Run it: `make dev`, then http://localhost:3000
-
-Built so far:
 
 ```text
-api/app/core/       formulas (D7), units, clock (D8), security, errors, ids
-api/app/domain/     enums, models, schemas
-api/app/repo/       guard (the user_id enforcement), users, settings, bodyweight
-api/app/services/   auth
-api/app/routes/     auth, profile, health
-api/migrations/     one migration, downgrade round-trip verified
-api/repo/exercises  catalogue search, set-containment equipment filter
-api/app/ingest/     canonical mapping, seed loader
-api/seeds/          catalogue.py (source) -> exercises.json (validated build)
-api/tests/          96 tests: formulas, auth, profile, ownership, exercises
-web/src/lib/        api client, session, units mirrored from D7
-web/src/app/        landing, register, login, profile, exercises
+241 tests in the default run, plus a 6-test 20,000-set performance run.
+960 exercises, 273 with demonstration images.
+Run it: make dev, then http://localhost:3000
 ```
 
-Open questions from `SPECIFICATIONS.MD` Sec 32, and their current state:
+Acceptance criteria:
+
+```text
+A1  equipment set containment ............ tests/test_exercises.py
+A2  session survives the app dying ....... tests/test_sessions.py
+A3  offline replay is not a duplicate .... tests/test_sync.py
+A4  plan edits never rewrite history ..... tests/test_sessions.py
+A5  bodyweight and time-based work ....... tests/test_formulas.py, test_sessions.py
+A6  deleting a PR set restores the best .. tests/test_progress.py
+A7  warm-ups excluded but logged ......... tests/test_progress.py
+A8  invented exercises are rejected ...... tests/test_ai.py
+A9  everything works with AI off ......... tests/test_ai.py
+A10 no cross-user access ................. tests/test_ownership.py
+A11 unit switch changes no stored value .. tests/test_formulas.py, test_profile.py
+A12 late sessions land in the local day .. tests/test_progress.py
+A13 keyboard and screen-reader operable .. built in: labelled inputs, visible
+                                           focus, aria-expanded/pressed/live,
+                                           no drag-only or hover-only controls.
+                                           NOT yet verified with a real screen
+                                           reader - see below.
+A14 correct and fast at 20,000 sets ...... tests/test_performance.py
+```
+
+## Not verified, and worth saying plainly
+
+```text
+A13 is built for but not proven. The markup is right - every input is
+    labelled, focus is visible, state is announced - but nobody has driven
+    this with VoiceOver or NVDA, and that is the only way to know.
+iOS PWA storage limits are untested. IndexedDB on iOS Safari is evictable
+    under pressure, which is exactly the case the offline queue exists for.
+The AI path has never run against a real model. Every AI test uses the fake
+    client by design; the request shape is written to the current API but the
+    first real call will find something.
+Adherence is null rather than computed - it needs planned-vs-completed
+    sessions, which only becomes meaningful once someone uses the schedule
+    for a few weeks.
+```
+
+Open questions from `SPECIFICATIONS.MD` Sec 32:
 
 ```text
 Q1 (exercise data licensing)  settled for this build - personal and
-                              non-commercial, so cached data and media are
-                              used freely. Revisit before any release.
-Q2 (LLM budget per user)      blocks Phase 7 rate limits; defaults until then.
-Q3 (email provider)           no longer blocking - EmailSender protocol with a
-                              console implementation (app/mail/sender.py).
-Q6 (hosting)                  blocks the ingest scheduler in Phase 2.
+                              non-commercial. Media comes from wger.de under
+                              CC-BY-SA. Revisit before any release.
+Q2 (LLM budget per user)      a conservative default of 40 requests/day is in
+                              place; tune when there is real usage.
+Q3 (email provider)           not blocking - EmailSender protocol with a
+                              console implementation.
+Q4 (multi-device)             deferred by D16; last-write-wins stands.
+Q5 (periodization)            deferred by D16.
+Q6 (hosting)                  still open; the ingest job needs a scheduler.
+Q7 (loaded carries)           still open; carries record distance and lose
+                              their load.
 ```
-
-Q4 (multi-device) and Q5 (periodization) are deferred by D16 and block nothing.

@@ -177,6 +177,83 @@ export default function ProfilePage() {
           </ul>
         )}
       </div>
+
+      <YourData />
     </section>
+  );
+}
+
+/** Sec 25 - your data is yours, and leaving is a supported action. */
+function YourData() {
+  const { logout } = useSession();
+  const [confirming, setConfirming] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  async function deleteAccount() {
+    setError("");
+    try {
+      await api.post("/account/delete", { password });
+      await logout();
+      window.location.href = "/";
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : "Could not delete the account.");
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-3 border-t border-surface-edge pt-6">
+      <h2 className="text-[15px] font-medium">Your data</h2>
+      <p className="text-[13px] text-ink-dim">
+        Everything you log is yours. Take it with you whenever you like — the
+        CSV opens in any spreadsheet.
+      </p>
+      <div className="flex flex-wrap gap-2">
+        <a
+          href="/api/v1/account/export.csv"
+          className="flex min-h-tap items-center rounded-xl border border-surface-edge px-4 text-[14px]"
+        >
+          Download sets (CSV)
+        </a>
+        <a
+          href="/api/v1/account/export"
+          className="flex min-h-tap items-center rounded-xl border border-surface-edge px-4 text-[14px]"
+        >
+          Download everything (JSON)
+        </a>
+      </div>
+
+      {!confirming ? (
+        <button
+          onClick={() => setConfirming(true)}
+          className="mt-2 self-start text-[13px] text-ink-faint underline underline-offset-2 hover:text-bad"
+        >
+          Delete my account
+        </button>
+      ) : (
+        <div className="mt-2 flex flex-col gap-3 rounded-xl border border-bad/40 p-4">
+          <p className="text-[14px] text-ink">
+            This removes your profile, plans, sessions, sets and records. It
+            cannot be undone — export first if you want a copy.
+          </p>
+          <Input
+            label="Confirm with your password"
+            type="password"
+            autoComplete="current-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <ErrorNote>{error}</ErrorNote>
+          <div className="flex gap-2">
+            <Button variant="danger" onClick={() => void deleteAccount()}>
+              Delete permanently
+            </Button>
+            <Button variant="ghost" onClick={() => setConfirming(false)}>
+              Keep my account
+            </Button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

@@ -7,6 +7,7 @@ import { useSession } from "@/lib/session";
 const LINKS = [
   { href: "/session", label: "Train" },
   { href: "/plan", label: "Week" },
+  { href: "/coach", label: "Coach" },
   { href: "/progress", label: "Progress" },
   { href: "/history", label: "History" },
   { href: "/profile", label: "Profile" },
