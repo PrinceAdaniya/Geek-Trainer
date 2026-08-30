@@ -5,8 +5,9 @@ import { usePathname } from "next/navigation";
 import { useSession } from "@/lib/session";
 
 const LINKS = [
+  { href: "/session", label: "Train" },
   { href: "/plan", label: "Week" },
-  { href: "/exercises", label: "Exercises" },
+  { href: "/history", label: "History" },
   { href: "/profile", label: "Profile" },
 ];
 

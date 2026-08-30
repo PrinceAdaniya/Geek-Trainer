@@ -113,3 +113,74 @@ export interface Week {
   days: Record<DayOfWeek, Plan[]>;
   unscheduled: Plan[];
 }
+
+export type SetType =
+  | "warmup" | "working" | "drop_set" | "failure"
+  | "rest_pause" | "amrap" | "backoff" | "other";
+
+export type MetricType =
+  | "weight_reps" | "bodyweight_reps" | "weighted_bodyweight"
+  | "time" | "distance" | "time_distance";
+
+export type SessionStatus = "planned" | "in_progress" | "completed" | "cancelled";
+
+export interface SetRecord {
+  id: string;
+  set_number: number;
+  weight_kg: string | null;
+  reps: number | null;
+  duration_seconds: number | null;
+  distance_m: string | null;
+  rir: number | null;
+  rpe: string | null;
+  failure: boolean;
+  set_type: SetType;
+  rest_seconds: number | null;
+  notes: string | null;
+  performed_at: string;
+}
+
+export interface LastPerformance {
+  date: string;
+  sets: SetRecord[];
+}
+
+export interface SessionExercise {
+  id: string;
+  exercise_id: string;
+  order_index: number;
+  planned_sets: number | null;
+  planned_reps_min: number | null;
+  planned_reps_max: number | null;
+  replaced_from_exercise_id: string | null;
+  superset_group: string | null;
+  skipped: boolean;
+  notes: string | null;
+  exercise: Exercise;
+  sets: SetRecord[];
+  last_performance: LastPerformance | null;
+}
+
+export interface WorkoutSession {
+  id: string;
+  workout_id: string | null;
+  name: string;
+  date: string;
+  start_time: string;
+  end_time: string | null;
+  status: SessionStatus;
+  duration_seconds: number | null;
+  notes: string | null;
+  exercises: SessionExercise[];
+}
+
+export interface SessionSummary {
+  id: string;
+  name: string;
+  date: string;
+  status: SessionStatus;
+  duration_seconds: number | null;
+  notes: string | null;
+  exercise_count: number;
+  set_count: number;
+}
