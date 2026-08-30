@@ -131,3 +131,57 @@ EQUIPMENT_SET = frozenset(EQUIPMENT)
 
 # Sec 4 - always available, cannot be deselected.
 IMPLICIT_EQUIPMENT = "bodyweight"
+
+
+# Sec 4, Sec 6 - canonical body parts and muscles. External sources map into
+# these through app/ingest/mapping.py; an unmapped value is a data error.
+BODY_PARTS = (
+    "chest",
+    "back",
+    "shoulders",
+    "arms",
+    "legs",
+    "core",
+    "full-body",
+    "cardio",
+)
+BODY_PART_SET = frozenset(BODY_PARTS)
+
+MUSCLES = (
+    # chest
+    "pectorals",
+    # back
+    "lats", "traps", "rhomboids", "lower-back", "teres-major",
+    # shoulders
+    "front-delts", "side-delts", "rear-delts", "rotator-cuff",
+    # arms
+    "biceps", "triceps", "forearms",
+    # legs
+    "quads", "hamstrings", "glutes", "calves", "adductors", "abductors",
+    "hip-flexors",
+    # core
+    "abs", "obliques", "transverse-abdominis",
+    # other
+    "neck", "cardiovascular",
+)
+MUSCLE_SET = frozenset(MUSCLES)
+
+# Which body part a muscle belongs to, so a "train back" request can expand to
+# the muscles that means.
+MUSCLE_BODY_PART = {
+    "pectorals": "chest",
+    "lats": "back", "traps": "back", "rhomboids": "back",
+    "lower-back": "back", "teres-major": "back",
+    "front-delts": "shoulders", "side-delts": "shoulders",
+    "rear-delts": "shoulders", "rotator-cuff": "shoulders",
+    "biceps": "arms", "triceps": "arms", "forearms": "arms",
+    "quads": "legs", "hamstrings": "legs", "glutes": "legs",
+    "calves": "legs", "adductors": "legs", "abductors": "legs",
+    "hip-flexors": "legs",
+    "abs": "core", "obliques": "core", "transverse-abdominis": "core",
+    "neck": "full-body", "cardiovascular": "cardio",
+}
+
+BODY_PART_MUSCLES: dict[str, tuple[str, ...]] = {}
+for _muscle, _part in MUSCLE_BODY_PART.items():
+    BODY_PART_MUSCLES[_part] = BODY_PART_MUSCLES.get(_part, ()) + (_muscle,)

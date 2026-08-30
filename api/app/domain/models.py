@@ -30,7 +30,7 @@ from sqlalchemy.dialects.postgresql import ARRAY, JSONB, UUID as PgUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
-from app.domain.enums import Unit, WeekStart
+from app.domain.enums import ExerciseSource, MetricType, Unit, WeekStart
 
 # NUMERIC(7,3) kg - SPECIFICATIONS.MD 3.1. Never Float.
 WeightKg = Numeric(7, 3)
@@ -198,3 +198,105 @@ class LoginAttempt(Base):
         Index("ix_login_attempts_email_at", "email", "at"),
         Index("ix_login_attempts_ip_at", "ip", "at"),
     )
+
+
+class Exercise(Base, TimestampMixin):
+    """SPECIFICATIONS.MD 5.3.
+
+    exercise_id is ours, not the provider's (5.3), so a change of data source
+    does not orphan a single logged set. Provider identity lives in
+    (source, source_id).
+    """
+
+    __tablename__ = "exercises"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+
+    source: Mapped[str] = mapped_column(String(20), nullable=False)
+    source_id: Mapped[str | None] = mapped_column(String(120))
+    source_version: Mapped[str | None] = mapped_column(String(40))
+    ingested_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    name: Mapped[str] = mapped_column(String(200), nullable=False)
+    name_normalized: Mapped[str] = mapped_column(String(200), nullable=False)
+    aliases: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, server_default="{}"
+    )
+
+    body_part: Mapped[str] = mapped_column(String(40), nullable=False)
+    primary_muscle: Mapped[str] = mapped_column(String(40), nullable=False)
+    secondary_muscles: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, server_default="{}"
+    )
+    equipment: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, server_default="{}"
+    )
+
+    difficulty: Mapped[str] = mapped_column(String(20), nullable=False)
+    type: Mapped[str] = mapped_column(String(20), nullable=False)
+    metric_type: Mapped[str] = mapped_column(
+        String(30), nullable=False, server_default=MetricType.WEIGHT_REPS.value
+    )
+    # Sec 13.2 - what fraction of bodyweight the movement actually loads.
+    bodyweight_load_factor: Mapped[Decimal | None] = mapped_column(Numeric(4, 3))
+    default_rest_seconds: Mapped[int] = mapped_column(
+        Integer, nullable=False, server_default="120"
+    )
+
+    instructions: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, server_default="{}"
+    )
+    image_url: Mapped[str | None] = mapped_column(Text)
+    gif_url: Mapped[str | None] = mapped_column(Text)
+    video_url: Mapped[str | None] = mapped_column(Text)
+    media_licence: Mapped[str | None] = mapped_column(String(120))
+
+    # Sec 5.4 - a user's own exercise. Private, and never in anyone else's search.
+    is_custom: Mapped[bool] = mapped_column(nullable=False, server_default="false")
+    owner_user_id: Mapped[uuid.UUID | None] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE")
+    )
+
+    # Sec 16.1 - an exercise referenced by history is retired, never removed.
+    is_archived: Mapped[bool] = mapped_column(nullable=False, server_default="false")
+
+    __table_args__ = (
+        UniqueConstraint("source", "source_id", name="uq_exercise_source"),
+        CheckConstraint(
+            "(is_custom = false and owner_user_id is null) or "
+            "(is_custom = true and owner_user_id is not null)",
+            name="ck_exercise_custom_owner",
+        ),
+        CheckConstraint(
+            "bodyweight_load_factor is null or "
+            "(bodyweight_load_factor >= 0 and bodyweight_load_factor <= 2)",
+            name="ck_exercise_bw_factor",
+        ),
+        Index("ix_exercises_primary_muscle", "primary_muscle"),
+        Index("ix_exercises_body_part", "body_part"),
+        Index("ix_exercises_owner", "owner_user_id"),
+        Index("ix_exercises_name_normalized", "name_normalized"),
+        Index("ix_exercises_equipment", "equipment", postgresql_using="gin"),
+        Index("ix_exercises_secondary", "secondary_muscles", postgresql_using="gin"),
+    )
+
+
+class IngestRun(Base):
+    """Sec 5.1 - every exercise row is traceable to the run that wrote it, and a
+    partial ingest never replaces a good dataset."""
+
+    __tablename__ = "ingest_runs"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    source: Mapped[str] = mapped_column(String(20), nullable=False)
+    started_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    status: Mapped[str] = mapped_column(
+        String(20), nullable=False, server_default="running"
+    )
+    rows_seen: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    rows_written: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    rows_rejected: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    notes: Mapped[str | None] = mapped_column(Text)
