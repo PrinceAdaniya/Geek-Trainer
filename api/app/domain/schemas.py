@@ -10,13 +10,21 @@ import uuid
 from datetime import date, datetime
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    EmailStr,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 from app.domain.enums import (
     BODY_PART_SET,
     EQUIPMENT_SET,
     IMPLICIT_EQUIPMENT,
     MUSCLE_SET,
+    DayOfWeek,
     Difficulty,
     ExerciseType,
     MetricType,
@@ -240,3 +248,96 @@ class VocabularyOut(BaseModel):
     types: list[str]
     metric_types: list[str]
     set_types: list[str]
+
+
+# --- workout plans --------------------------------------------------------
+
+
+class PlanExerciseIn(BaseModel):
+    exercise_id: uuid.UUID
+    planned_sets: int = Field(default=3, ge=1, le=20)
+    planned_reps_min: int | None = Field(default=None, ge=1, le=200)
+    planned_reps_max: int | None = Field(default=None, ge=1, le=200)
+    planned_weight: Decimal | None = Field(default=None, ge=0, le=2000)
+    planned_rir: int | None = Field(default=None, ge=0, le=10)
+    superset_group: str | None = Field(default=None, max_length=8)
+    notes: str | None = Field(default=None, max_length=1000)
+
+    @model_validator(mode="after")
+    def _rep_range_makes_sense(self):
+        if (
+            self.planned_reps_min is not None
+            and self.planned_reps_max is not None
+            and self.planned_reps_min > self.planned_reps_max
+        ):
+            raise ValueError("planned_reps_min cannot exceed planned_reps_max")
+        return self
+
+
+class PlanExerciseUpdate(BaseModel):
+    planned_sets: int | None = Field(default=None, ge=1, le=20)
+    planned_reps_min: int | None = Field(default=None, ge=1, le=200)
+    planned_reps_max: int | None = Field(default=None, ge=1, le=200)
+    planned_weight: Decimal | None = Field(default=None, ge=0, le=2000)
+    planned_rir: int | None = Field(default=None, ge=0, le=10)
+    superset_group: str | None = Field(default=None, max_length=8)
+    notes: str | None = Field(default=None, max_length=1000)
+
+
+class PlanExerciseOut(ORMModel):
+    id: uuid.UUID
+    exercise_id: uuid.UUID
+    order_index: int
+    planned_sets: int
+    planned_reps_min: int | None
+    planned_reps_max: int | None
+    planned_weight_kg: Decimal | None
+    planned_rir: int | None
+    superset_group: str | None
+    notes: str | None
+    exercise: ExerciseOut
+
+
+class PlanIn(BaseModel):
+    name: str = Field(min_length=1, max_length=120)
+    day_of_week: DayOfWeek | None = None
+    target_muscles: list[str] = []
+    notes: str | None = Field(default=None, max_length=2000)
+
+    @field_validator("target_muscles")
+    @classmethod
+    def _known_muscles(cls, value: list[str]) -> list[str]:
+        unknown = sorted(set(value) - MUSCLE_SET - BODY_PART_SET)
+        if unknown:
+            raise ValueError(f"unknown muscles or body parts: {', '.join(unknown)}")
+        return value
+
+
+class PlanUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=120)
+    day_of_week: DayOfWeek | None = None
+    clear_day: bool = False
+    target_muscles: list[str] | None = None
+    notes: str | None = Field(default=None, max_length=2000)
+
+
+class PlanOut(ORMModel):
+    id: uuid.UUID
+    name: str
+    day_of_week: DayOfWeek | None
+    target_muscles: list[str]
+    notes: str | None
+    order_index: int
+    created_at: datetime
+    exercises: list[PlanExerciseOut]
+
+
+class ReorderIn(BaseModel):
+    exercise_ids: list[uuid.UUID] = Field(min_length=1)
+
+
+class WeekOut(BaseModel):
+    """The whole week in one request - the schedule screen's only call."""
+
+    days: dict[str, list[PlanOut]]
+    unscheduled: list[PlanOut]

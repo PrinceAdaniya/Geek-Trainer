@@ -300,3 +300,82 @@ class IngestRun(Base):
     rows_written: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
     rows_rejected: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
     notes: Mapped[str | None] = mapped_column(Text)
+
+
+class WorkoutPlan(Base, TimestampMixin):
+    """A recurring template. SPECIFICATIONS.MD 7.1, 7.2.
+
+    A plan is not a session. Sessions copy the plan at start time, which is
+    what makes "history must not be overwritten when future workouts are
+    edited" (Sec 16.1) actually true.
+    """
+
+    __tablename__ = "workout_plans"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    # Null means an unscheduled plan - a workout you own but have not put on a day.
+    day_of_week: Mapped[str | None] = mapped_column(String(10))
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    target_muscles: Mapped[list[str]] = mapped_column(
+        ARRAY(Text), nullable=False, server_default="{}"
+    )
+    notes: Mapped[str | None] = mapped_column(Text)
+    order_index: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+    # Sec 7.2 - a plan referenced by a session is archived, never hard-deleted.
+    is_archived: Mapped[bool] = mapped_column(nullable=False, server_default="false")
+
+    exercises: Mapped[list["WorkoutExercise"]] = relationship(
+        back_populates="plan",
+        cascade="all, delete-orphan",
+        order_by="WorkoutExercise.order_index",
+    )
+
+    __table_args__ = (
+        Index("ix_workout_plans_user", "user_id"),
+        Index("ix_workout_plans_user_day", "user_id", "day_of_week"),
+    )
+
+
+class WorkoutExercise(Base, TimestampMixin):
+    """One exercise inside a plan. Sec 7.2."""
+
+    __tablename__ = "workout_exercises"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    workout_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True),
+        ForeignKey("workout_plans.id", ondelete="CASCADE"),
+        nullable=False,
+    )
+    # Sec 22 - never cascade from an exercise into anything a user built.
+    exercise_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("exercises.id", ondelete="RESTRICT"), nullable=False
+    )
+    order_index: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
+
+    planned_sets: Mapped[int] = mapped_column(Integer, nullable=False, server_default="3")
+    planned_reps_min: Mapped[int | None] = mapped_column(Integer)
+    planned_reps_max: Mapped[int | None] = mapped_column(Integer)
+    planned_weight_kg: Mapped[Decimal | None] = mapped_column(WeightKg)
+    planned_rir: Mapped[int | None] = mapped_column(Integer)
+    # Sec 10.5 - exercises sharing a group are performed alternating.
+    superset_group: Mapped[str | None] = mapped_column(String(8))
+    notes: Mapped[str | None] = mapped_column(Text)
+
+    plan: Mapped[WorkoutPlan] = relationship(back_populates="exercises")
+    exercise: Mapped["Exercise"] = relationship(lazy="joined")
+
+    __table_args__ = (
+        Index("ix_workout_exercises_plan", "workout_id", "order_index"),
+        CheckConstraint(
+            "planned_sets >= 1 and planned_sets <= 20", name="ck_we_sets"
+        ),
+        CheckConstraint(
+            "planned_reps_min is null or planned_reps_max is null "
+            "or planned_reps_min <= planned_reps_max",
+            name="ck_we_rep_range",
+        ),
+    )

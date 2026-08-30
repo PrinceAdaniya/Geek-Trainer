@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.core.errors import register_error_handlers
 from app.repo import guard
-from app.routes import auth, exercises, health, profile
+from app.routes import auth, exercises, health, plans, profile
 
 API_PREFIX = "/api/v1"
 
@@ -42,6 +42,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router, prefix=API_PREFIX)
     app.include_router(profile.router, prefix=API_PREFIX)
     app.include_router(exercises.router, prefix=API_PREFIX)
+    app.include_router(plans.router, prefix=API_PREFIX)
 
     return app
 

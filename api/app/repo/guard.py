@@ -31,6 +31,7 @@ from sqlalchemy.engine import Engine
 USER_OWNED_TABLES: set[str] = {
     "user_settings",
     "bodyweight_log",
+    "workout_plans",
 }
 
 _STATEMENT = re.compile(r"^\s*(select|insert|update|delete)\b", re.IGNORECASE)
