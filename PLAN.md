@@ -288,6 +288,37 @@ Native apps                           — the PWA is the answer for v1
 Media re-hosting                      — blocked on §32 Q1, hot-link until then
 ```
 
+### D17. The development and test database is a Python wheel, not Docker.
+
+`pgserver` ships real PostgreSQL 16 binaries in a wheel. `scripts/devdb.py`
+starts one against `.pgdata/`, and the test suite starts its own against
+`.pgdata-test/`.
+
+```text
+No Docker daemon, no apt, no sudo, no system service.
+The version is pinned by a Python dependency like everything else.
+The test suite builds its schema by running the real migrations, so a
+  migration that does not apply fails the suite.
+```
+
+This replaces the `docker-compose.yml` named in D1. It was forced — this
+machine has neither Docker nor passwordless sudo — but it is the better default
+regardless: a contributor with Python and nothing else can run the whole stack.
+
+Production still runs a managed Postgres; nothing in the app knows the
+difference, because the only coupling is a URL.
+
+### D18. Synchronous SQLAlchemy, not async.
+
+FastAPI runs sync handlers in a threadpool. Every request here is a handful of
+indexed queries against a database on the same network; there is no fan-out to
+slow external services on the request path — the AI calls are the exception and
+they are already their own endpoints.
+
+Async would buy nothing measurable and would cost the greenlet debugging, the
+two-coloured repo layer, and the async test fixtures. If a Phase 7 endpoint
+turns out to need concurrency, it can be async on its own.
+
 ---
 
 ## Architecture
@@ -487,14 +518,39 @@ its code exists; it is done when the criteria it closes pass.
 
 ## Status
 
-Nothing built yet. Phase 1 is next.
-
-Open questions from `SPECIFICATIONS.MD` §32 that block work, and when:
+**Phase 1 backend complete.** 65 tests passing.
 
 ```text
-Q1 (exercise data licensing)  blocks Phase 2's ingest, not its seed path (D5).
-Q2 (LLM budget per user)      blocks Phase 7's rate limits; defaults until then.
-Q3 (email provider)           blocks password reset in Phase 1 — pick early.
+Phase 1  Foundation ................ done (backend); PWA shell moved to Phase 2
+Phase 2  Exercise catalogue ........ next
+Phase 3  Plans and schedule ........
+Phase 4  Sessions and set logging ..
+Phase 5  Offline and sync ..........
+Phase 6  Derived data and charts ...
+Phase 7  AI .......................
+Phase 8  Polish ...................
+```
+
+Built so far:
+
+```text
+api/app/core/       formulas (D7), units, clock (D8), security, errors, ids
+api/app/domain/     enums, models, schemas
+api/app/repo/       guard (the user_id enforcement), users, settings, bodyweight
+api/app/services/   auth
+api/app/routes/     auth, profile, health
+api/migrations/     one migration, downgrade round-trip verified
+api/tests/          65 tests: formulas, auth, profile, ownership
+```
+
+Open questions from `SPECIFICATIONS.MD` Sec 32, and their current state:
+
+```text
+Q1 (exercise data licensing)  blocks Phase 2 ingest, not its seed path (D5).
+                              NEEDS AN ANSWER BEFORE PHASE 2 SHIPS.
+Q2 (LLM budget per user)      blocks Phase 7 rate limits; defaults until then.
+Q3 (email provider)           no longer blocking - EmailSender protocol with a
+                              console implementation (app/mail/sender.py).
 Q6 (hosting)                  blocks the ingest scheduler in Phase 2.
 ```
 

@@ -1,0 +1,29 @@
+# Geek-Trainer. See PLAN.md for what each stage is for.
+.PHONY: help devdb devdb-stop migrate revision api test test-api types seed fmt
+
+PY := api/.venv/bin/python
+PIP := api/.venv/bin/pip
+DBURL = $(shell cd api && $(CURDIR)/$(PY) scripts/devdb.py url)
+
+help:
+	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "};{printf "  %-14s %s\n", $$1, $$2}'
+
+devdb: ## start the local Postgres (pgserver wheel; no Docker, no sudo)
+	@cd api && ../$(PY) scripts/devdb.py start
+
+devdb-stop: ## stop it
+	@cd api && ../$(PY) scripts/devdb.py stop
+
+migrate: ## apply migrations to the dev database
+	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../api/.venv/bin/alembic upgrade head
+
+revision: ## autogenerate a migration: make revision m="what changed"
+	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../api/.venv/bin/alembic revision --autogenerate -m "$(m)"
+
+api: ## run the API on :8000
+	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../api/.venv/bin/uvicorn app.main:app --reload --port 8000
+
+test: test-api ## run everything
+
+test-api: ## backend tests (spins up its own Postgres)
+	@cd api && ../$(PY) -m pytest -q

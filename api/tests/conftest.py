@@ -58,9 +58,13 @@ def database() -> str:
 
     from app.config import get_settings
     from app.db import reset_engine
+    from app.repo import guard
 
     reset_engine()
     get_settings.cache_clear()
+    # Install the scoping guard for the whole suite, not just for tests that
+    # happen to build an app first.
+    guard.install()
     return url
 
 

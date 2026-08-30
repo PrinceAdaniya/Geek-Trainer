@@ -27,6 +27,13 @@ def _q(value: Decimal) -> Decimal:
     return value.quantize(WEIGHT_QUANT, rounding=ROUND_HALF_UP)
 
 
+def quantize_kg(value: Decimal) -> Decimal:
+    """Match NUMERIC(7,3) exactly, so a value reads the same before and after a
+    database round-trip. Without this the API returns 72.5 on write and 72.500
+    on read, and the client has to normalize what the server should have."""
+    return _q(Decimal(value))
+
+
 def lb_to_kg(pounds: Decimal) -> Decimal:
     return _q(Decimal(pounds) * LB_PER_KG)
 

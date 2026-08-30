@@ -36,3 +36,8 @@ htmlcov/
 *.swp
 .idea/
 .vscode/
+
+# Local dev database (pgserver, D17)
+.pgdata/
+.pgdata-test/
+.devdb-url

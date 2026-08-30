@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from decimal import Decimal
 
-from app.core.formulas import kg_to_lb, lb_to_kg
+from app.core.formulas import kg_to_lb, lb_to_kg, quantize_kg
 from app.domain.enums import Unit
 
 
@@ -17,4 +17,4 @@ def to_display(weight_kg: Decimal | None, unit: Unit) -> Decimal | None:
 def to_storage(value: Decimal | None, unit: Unit) -> Decimal | None:
     if value is None:
         return None
-    return Decimal(value) if unit is Unit.KG else lb_to_kg(value)
+    return quantize_kg(value) if unit is Unit.KG else lb_to_kg(value)

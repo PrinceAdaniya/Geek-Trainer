@@ -33,7 +33,8 @@ USER_OWNED_TABLES: set[str] = {
     "bodyweight_log",
 }
 
-_MUTATING = re.compile(r"^\s*(select|insert|update|delete)\b", re.IGNORECASE)
+_STATEMENT = re.compile(r"^\s*(select|insert|update|delete)\b", re.IGNORECASE)
+_WHITESPACE = re.compile(r"\s+")
 _state = threading.local()
 
 
@@ -56,26 +57,62 @@ def unscoped(reason: str) -> Iterator[None]:
 
 
 def _tables_in(sql: str) -> set[str]:
-    lowered = sql.lower()
-    return {t for t in USER_OWNED_TABLES if t in lowered}
+    return {t for t in USER_OWNED_TABLES if t in sql}
 
 
-def _check(sql: str) -> None:
+def _predicate_mentions_user(sql: str, touched: set[str]) -> bool:
+    """Look for user_id in the *predicate*, not anywhere in the statement.
+
+    Checking the whole statement is useless: every `SELECT` of a user-owned
+    table lists `user_id` among its columns, so a substring test passes
+    everything. See ERRORS-AND-FIXES.md E3.
+    """
+    kind = _STATEMENT.match(sql).group(1).lower()
+
+    if kind == "insert":
+        # The scoping is the inserted user_id column itself.
+        head, _, _ = sql.partition(" values")
+        columns = head[head.find("(") + 1 : head.rfind(")")] if "(" in head else ""
+        return "user_id" in columns
+
+    if " where " not in sql:
+        return False
+    predicate = sql.split(" where ", 1)[1]
+
+    if "user_id" in predicate:
+        return True
+
+    # A single row addressed by its own primary key. The ORM emits this shape
+    # for every flush of a loaded object, and the object can only have been
+    # loaded through a scoped read - so re-scoping here would mean fighting the
+    # unit of work on every write in the app.
+    #
+    # This is a deliberate limit, not an oversight: the guard defends against
+    # queries that fan out across users. A statement addressing one row by a
+    # primary key the caller already holds is the IDOR question instead, and
+    # that is covered by the endpoint tests for A10 in tests/test_ownership.py.
+    return any(f"{table}.id =" in predicate for table in touched)
+
+
+def _check(raw_sql: str) -> None:
     if getattr(_state, "allow", None):
         return
-    if not _MUTATING.match(sql):
+    if not _STATEMENT.match(raw_sql):
         return
+
+    sql = _WHITESPACE.sub(" ", raw_sql).lower()
     touched = _tables_in(sql)
     if not touched:
         return
-    if "user_id" in sql.lower():
+    if _predicate_mentions_user(sql, touched):
         return
+
     raise UnscopedQueryError(
         "Statement touches user-owned table(s) "
         f"{sorted(touched)} without a user_id predicate. Scope it to the "
         "current user, or wrap it in repo.guard.unscoped('reason') if it is "
         "genuinely cross-user.\n"
-        f"SQL: {sql[:400]}"
+        f"SQL: {raw_sql[:400]}"
     )
 
 
