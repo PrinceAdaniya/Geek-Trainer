@@ -42,18 +42,30 @@ def generate_workout(
     budget = max(1, (session_minutes // MINUTES_PER_SET) // sets_each)
     avoid = avoid_exercise_ids or set()
 
-    picked = []
-    used_muscles: dict[str, int] = {}
+    # Round-robin across the muscles present in the candidate list, so a back
+    # day is not six lat movements in alphabetical order.
+    by_muscle: dict[str, list] = {}
     for row in candidates.rows:
-        if row.id in avoid:
-            continue
-        # Two exercises per muscle keeps a session from becoming six rows.
-        if used_muscles.get(row.primary_muscle, 0) >= 2:
-            continue
-        picked.append(row)
-        used_muscles[row.primary_muscle] = used_muscles.get(row.primary_muscle, 0) + 1
-        if len(picked) >= budget:
+        if row.id not in avoid:
+            by_muscle.setdefault(row.primary_muscle, []).append(row)
+
+    picked = []
+    while len(picked) < budget:
+        added = False
+        for muscle in list(by_muscle):
+            # Two per muscle keeps a session from becoming a specialisation.
+            taken = sum(1 for row in picked if row.primary_muscle == muscle)
+            if taken >= 2 or not by_muscle[muscle]:
+                continue
+            picked.append(by_muscle[muscle].pop(0))
+            added = True
+            if len(picked) >= budget:
+                break
+        if not added:
             break
+
+    # Compounds first within the final selection.
+    picked.sort(key=lambda r: (0 if r.type == "compound" else 1, r.name))
 
     return GeneratedWorkout(
         name=" + ".join(t.title() for t in targets[:2]) or "Workout",

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { api, query } from "@/lib/api";
 import { useSession } from "@/lib/session";
+import Link from "next/link";
 import { Button, Chip, Empty, Input, Select, Spinner } from "@/components/ui";
 import { humanize } from "@/lib/units";
 import type { Exercise, ExercisePage, Vocabulary } from "@/lib/types";
@@ -122,14 +123,23 @@ export default function ExercisesPage() {
               <button
                 onClick={() => setOpen(open === exercise.id ? null : exercise.id)}
                 aria-expanded={open === exercise.id}
-                className={`w-full rounded-2xl border bg-surface-raised p-4 text-left transition-colors ${
+                className={`panel w-full p-4 text-left transition-colors ${
                   exercise.compatible
                     ? "border-surface-edge hover:border-ink-faint"
                     : "border-surface-edge/60 opacity-60"
                 }`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div>
+                  {exercise.image_url && (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={exercise.image_url}
+                      alt=""
+                      loading="lazy"
+                      className="h-14 w-14 shrink-0 rounded-lg bg-surface object-contain"
+                    />
+                  )}
+                  <div className="min-w-0 flex-1">
                     <p className="text-[15px] font-medium">{exercise.name}</p>
                     <p className="mt-0.5 text-[13px] text-ink-dim">
                       {humanize(exercise.primary_muscle)} ·{" "}
@@ -155,23 +165,18 @@ export default function ExercisesPage() {
                         {line}
                       </p>
                     ))}
-                    <dl className="mt-1 grid grid-cols-2 gap-2 text-[13px]">
-                      <div>
-                        <dt className="text-ink-faint">Also works</dt>
-                        <dd>
-                          {exercise.secondary_muscles.length
-                            ? exercise.secondary_muscles.map(humanize).join(", ")
-                            : "—"}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-ink-faint">Recorded as</dt>
-                        <dd>{humanize(exercise.metric_type)}</dd>
-                      </div>
-                    </dl>
+                    <span className="text-[13px] text-accent">
+                      Open the full page for the demonstration →
+                    </span>
                   </div>
                 )}
               </button>
+              <Link
+                href={`/exercises/${exercise.id}`}
+                className="label mt-1 inline-block px-4 hover:text-accent"
+              >
+                open full page →
+              </Link>
             </li>
           ))}
         </ul>

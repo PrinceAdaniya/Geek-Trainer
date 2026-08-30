@@ -315,7 +315,24 @@ equipment
 difficulty
 visual demonstration (lazy-loaded, optional)
 instructions
-your last performance, if any   ← see §11.2
+your last performance, if any   ← see 11.2
+```
+
+### 6.3 Exercise detail
+
+Every exercise has its own page, reachable from search and from a session:
+
+```text
+The demonstration at a readable size - image, GIF or video where the
+  catalogue has one, and never a broken frame where it does not.
+A link out to a video search for the movement, because a still image does
+  not answer "am I doing this right" and the catalogue will never carry a
+  clip for everything.
+Full instructions, primary and secondary muscles, equipment, difficulty,
+  how it is recorded, suggested rest, and its bodyweight load factor.
+Your own history with the movement, and its records.
+Add-to-a-workout, so looking something up leads somewhere.
+Media attribution wherever a third-party image is shown.
 ```
 
 Results are paginated (cursor-based, 30 per page) and searchable offline from

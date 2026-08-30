@@ -45,11 +45,15 @@ def exercise_id(client, name: str) -> str:
     raise AssertionError(name)
 
 
-def candidates_for(client, targets) -> list[str]:
-    rows = client.get(
-        f"{API}/exercises", params={"muscle": targets, "limit": 100}
-    ).json()["data"]
-    return [row["id"] for row in rows]
+def candidates_for(client, target) -> list[str]:
+    """Ids the generator would actually offer the model.
+
+    Taken from the rules-based proposal rather than from a plain exercise
+    search, because the candidate query is primary-muscle-only and excludes
+    mobility work - a search would hand back ids the validator then rejects.
+    """
+    body = client.post(f"{API}/ai/workout", json={"targets": [target]}).json()
+    return [row["exercise"]["id"] for row in body["exercises"]]
 
 
 class TestA9WorksWithoutAI:
@@ -120,7 +124,7 @@ class TestA8CandidateConstraint:
         assert any("validation" in w for w in body["warnings"])
 
     def test_a_repair_round_trip_is_allowed_once(self, gym):
-        good_id = candidates_for(gym, "lats")[0]
+        good_id = candidates_for(gym, "back")[0]
         bad = GeneratedWorkout(
             name="First try", target_muscles=["back"],
             exercises=[PlannedExercise(exercise_id=uuid.uuid4(), sets=3,
@@ -143,7 +147,7 @@ class TestA8CandidateConstraint:
         assert "was not in the candidate list" in fake.calls[1]["user"]
 
     def test_a_valid_plan_is_returned_as_a_proposal(self, gym):
-        ids = candidates_for(gym, "lats")[:3]
+        ids = candidates_for(gym, "back")[:3]
         plan = GeneratedWorkout(
             name="Back Day", target_muscles=["back"],
             exercises=[
@@ -293,7 +297,7 @@ class TestAnalysis:
 
 class TestBudget:
     def test_ai_calls_are_counted(self, gym):
-        ids = candidates_for(gym, "lats")[:1]
+        ids = candidates_for(gym, "back")[:1]
         plan = GeneratedWorkout(
             name="Back", target_muscles=["back"],
             exercises=[PlannedExercise(exercise_id=uuid.UUID(ids[0]), sets=3,

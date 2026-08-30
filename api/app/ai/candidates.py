@@ -55,18 +55,28 @@ def for_targets(
         muscles.extend(BODY_PART_MUSCLES.get(target, (target,)))
 
     seen: dict[uuid.UUID, Exercise] = {}
-    per_muscle = max(4, limit // max(len(muscles), 1))
+    per_muscle = max(6, limit // max(len(muscles), 1))
 
     for muscle in muscles:
         rows, _ = exercise_repo.search(
             db,
             user_id=user_id,
             filters=exercise_repo.ExerciseFilters(
-                muscle=muscle, equipment=equipment, difficulty=difficulty
+                muscle=muscle,
+                equipment=equipment,
+                difficulty=difficulty,
+                # Primary muscle only. Matching secondaries offers a back squat
+                # for a back day, because the lower back assists it - true, and
+                # useless as a suggestion.
+                include_secondary=False,
             ),
             limit=per_muscle,
         )
         for row in rows:
+            # Mobility and stretching belong in a session, but not as the
+            # exercises a training plan is built from.
+            if row.type in ("mobility",):
+                continue
             seen.setdefault(row.id, row)
         if len(seen) >= limit:
             break
