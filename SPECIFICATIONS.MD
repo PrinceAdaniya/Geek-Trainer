@@ -1,6 +1,6 @@
 # Geek-Trainer — Specification
 
-> Revision 2 — 2026-08-31. See §33 for what changed since revision 1 and why.
+> Revision 3 — 2026-08-31. See §33 for the revision log.
 > Sections marked **Rationale** record a decision that is not obvious from the
 > requirement itself; they exist so the reasoning survives implementation.
 
@@ -1592,6 +1592,66 @@ A14 With 20k sets seeded, history and progress views stay within the §26
 
 ---
 
+## 30A. Streaks and Power Levels
+
+Added in revision 3. A tracker that only records is a spreadsheet; the reason
+people open one daily is to see the streak survive.
+
+### 30A.1 The streak
+
+```text
+Counted in distinct days with a completed session, in the user's timezone.
+A gap of up to 2 days does not break it - rest is training, and an app that
+  punishes a sensible rest day teaches people to train when they should not.
+A longer gap resets the current streak; the longest streak is kept forever.
+```
+
+### 30A.2 Power levels
+
+A ten-rung ladder keyed to the current streak. Each rank has a level number, a
+name, a threshold and one line of flavour. The rank is displayed with an aura
+whose intensity follows the level, and crossing a threshold plays a one-off
+power-up animation.
+
+```text
+0  Dormant         0 days
+1  Awakened        1
+2  Focused         3
+3  Charged         5
+4  Overdrive       8
+5  Limit Break    12
+6  Ascended       18
+7  Zenkai         25
+8  Ultra Instinct 35
+9  Beyond Limit   50
+```
+
+Requirements:
+
+```text
+The ladder is served by the API, never hardcoded in the client, so the two
+  cannot drift.
+The power-up animation fires on a real transition, once - the last rank seen
+  is remembered per browser. It respects prefers-reduced-motion.
+The rank colour never carries meaning alone: the level number and rank name
+  are always rendered beside it. Ten distinguishable hues do not exist for a
+  colourblind viewer, so the ladder uses four validated accents and escalates
+  through them.
+The next rank and the distance to it are always visible. A streak with no
+  visible next step is just a number.
+```
+
+### 30A.3 Dashboard
+
+```text
+Current streak, longest streak, sessions, volume this week, total volume.
+A twelve-week training heatmap: one cell per day, a sequential single-hue
+  ramp - it encodes whether you trained, which is magnitude, not identity.
+Warm-up sets are excluded from every headline number, and the tile says so.
+```
+
+---
+
 ## 31. Safety Boundary
 
 Geek-Trainer is a fitness training and tracking application.
@@ -1652,6 +1712,16 @@ Q6  Hosting target — this determines the ingest job's scheduler and whether
 ---
 
 ## 33. Revision Log
+
+### Revision 3 — 2026-08-31
+
+```text
+Added 30A - streaks, power levels and the dashboard. The tracker was correct
+but gave nobody a reason to open it on a rest day; the streak is that reason.
+Recorded because it changes what the product is, not just how it looks.
+Q1 settled for this build (personal, non-commercial).
+Q7 added - loaded carries lose their load, since 10.2 has no weight_distance.
+```
 
 ### Revision 2 — 2026-08-31
 

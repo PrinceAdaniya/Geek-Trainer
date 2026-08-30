@@ -184,3 +184,30 @@ export interface SessionSummary {
   exercise_count: number;
   set_count: number;
 }
+
+export interface Rank {
+  level: number;
+  name: string;
+  threshold: number;
+  band: number;
+  color: string;
+  blurb: string;
+}
+
+export interface Stats {
+  current_streak: number;
+  longest_streak: number;
+  total_sessions: number;
+  sessions_this_week: number;
+  sets_this_week: number;
+  volume_this_week_kg: string;
+  total_volume_kg: string;
+  last_session_date: string | null;
+  trained_today: boolean;
+  active_days: string[];
+  rank: Rank;
+  next_rank: Rank | null;
+  progress_to_next: number;
+  ladder: Rank[];
+  heatmap_ramp: string[];
+}

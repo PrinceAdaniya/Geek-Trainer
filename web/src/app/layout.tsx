@@ -21,14 +21,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className="min-h-dvh antialiased">
         <SessionProvider>
-          <div className="mx-auto flex min-h-dvh w-full max-w-3xl flex-col">
-            <header className="flex items-center justify-between px-4 py-4">
-              <Link href="/" className="text-[17px] font-semibold tracking-tight">
-                Geek<span className="text-accent">-</span>Trainer
+          <div className="relative z-[1] flex min-h-dvh w-full flex-col">
+            <header className="sticky top-0 z-20 flex items-center justify-between border-b border-surface-edge bg-surface/80 px-4 py-3 backdrop-blur-md sm:px-6">
+              <Link href="/" className="flex items-baseline gap-2">
+                <span className="font-mono text-[15px] font-semibold tracking-tight">
+                  GEEK<span className="text-accent">/</span>TRAINER
+                </span>
+                <span className="label hidden sm:inline">v0.1</span>
               </Link>
               <Nav />
             </header>
-            <main className="flex-1 px-4 pb-24">{children}</main>
+            <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 pb-24 sm:px-6">{children}</main>
           </div>
         </SessionProvider>
       </body>

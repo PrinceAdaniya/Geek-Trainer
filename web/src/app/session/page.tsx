@@ -154,10 +154,10 @@ export default function SessionPage() {
 
   return (
     <section className="flex flex-col gap-4 py-4">
-      <header className="sticky top-0 z-10 -mx-4 flex items-center justify-between gap-3 border-b border-surface-edge bg-surface/95 px-4 py-3 backdrop-blur">
+      <header className="sticky top-[57px] z-10 -mx-4 flex items-center justify-between gap-3 border-b border-surface-edge bg-surface/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
         <div className="min-w-0">
           <h1 className="truncate text-[17px] font-semibold">{session.name}</h1>
-          <p className="text-[13px] text-ink-dim">
+          <p className="readout text-[13px] text-ink-dim">
             {formatClock(elapsed)} · {totalSets} set{totalSets === 1 ? "" : "s"}
           </p>
         </div>
@@ -187,8 +187,8 @@ export default function SessionPage() {
           {session.exercises.map((exercise, index) => (
             <li
               key={exercise.id}
-              className={`rounded-2xl border bg-surface-raised ${
-                openId === exercise.id ? "border-accent/40" : "border-surface-edge"
+              className={`panel ${
+                openId === exercise.id ? "!border-accent/40" : ""
               } ${exercise.skipped ? "opacity-50" : ""}`}
             >
               <button
@@ -273,6 +273,7 @@ export default function SessionPage() {
                     unit={unit}
                     previous={exercise.sets[exercise.sets.length - 1]}
                     busy={busy}
+                    draftKey={`${session.id}:${exercise.id}`}
                     onLog={(draft) => void logSet(exercise, draft)}
                   />
 

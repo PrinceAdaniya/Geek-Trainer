@@ -277,6 +277,27 @@ features they describe. A1–A14 are the definition of done, not a summary of it
 No schema change without a migration; no migration without a tested
 downgrade. The seed loader is idempotent and separate from migrations.
 
+### D21. The interface is a HUD, and the colour rules are computed, not judged.
+
+The app is a training instrument, so it reads like one: a faint grid ground,
+corner-bracketed panels, monospace tabular readouts, full-bleed layout rather
+than a narrow column.
+
+The colour decisions were run through a validator rather than eyeballed, and
+two of them changed as a result:
+
+```text
+The ten-hue rank ladder FAILED - #e879f9 against #a78bfa is a Delta E of 0.4
+  for a protan viewer, which is invisible. Replaced with four validated
+  accents, escalating, with the level number and name always beside them.
+The training heatmap is a MAGNITUDE encoding, so it is one hue on a
+  sequential ramp: monotone lightness, adjacent gaps >= 0.06, light end
+  clearing the surface. Validated: all checks pass.
+```
+
+The lesson worth keeping: a palette that looks fine is not evidence. Both of
+these read well on my screen and one of them was unreadable.
+
 ### D16. Deferred, explicitly.
 
 ```text
@@ -547,9 +568,10 @@ app builds clean and the whole flow works end to end.
 ```text
 Phase 1  Foundation ................ done
 Phase 2  Exercise catalogue ........ done, less the live ingest fetcher
-Phase 3  Plans and schedule ........ next
-Phase 4  Sessions and set logging ..
-Phase 5  Offline and sync ..........
+Phase 3A Streaks and dashboard ..... done (Sec 30A, added on request)
+Phase 3  Plans and schedule ........ done
+Phase 4  Sessions and set logging .. done
+Phase 5  Offline and sync .......... next
 Phase 6  Derived data and charts ...
 Phase 7  AI .......................
 Phase 8  Polish ...................

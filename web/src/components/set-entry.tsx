@@ -62,23 +62,43 @@ export function SetEntry({
   unit,
   previous,
   busy,
+  draftKey,
   onLog,
 }: {
   metric: MetricType;
   unit: Unit;
   previous: SetRecord | undefined;
   busy: boolean;
+  /** Identifies this exercise-in-this-session, so a half-typed set is kept. */
+  draftKey: string;
   onLog: (draft: SetDraft) => void;
 }) {
   const [draft, setDraft] = useState<SetDraft>(() => draftFromPrevious(metric, previous, unit));
   const fields = fieldsFor(metric);
   const step = INCREMENT[unit] ?? 2.5;
+  const storageKey = `gt:draft:${draftKey}`;
 
-  // Re-prefill when the last set changes, so the next set starts from what you
-  // actually just did rather than from what you did when the page loaded.
+  // A set typed but not yet logged survives a refresh, a phone locking, or a
+  // stray back-swipe mid-workout. Storage can throw in a private window, so
+  // both the read and the write are guarded and the UI works without it.
   useEffect(() => {
-    setDraft(draftFromPrevious(metric, previous, unit));
-  }, [metric, previous, unit]);
+    let saved: SetDraft | null = null;
+    try {
+      const raw = localStorage.getItem(storageKey);
+      if (raw) saved = JSON.parse(raw) as SetDraft;
+    } catch {
+      saved = null;
+    }
+    setDraft(saved ?? draftFromPrevious(metric, previous, unit));
+  }, [metric, previous, unit, storageKey]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(draft));
+    } catch {
+      /* nothing to do - the draft simply will not survive a reload */
+    }
+  }, [draft, storageKey]);
 
   function set<K extends keyof SetDraft>(key: K, value: SetDraft[K]) {
     setDraft((d) => ({ ...d, [key]: value }));
@@ -159,7 +179,18 @@ export function SetEntry({
           To failure
         </label>
 
-        <Button className="ml-auto px-6" disabled={busy} onClick={() => onLog(draft)}>
+        <Button
+          className="ml-auto px-6"
+          disabled={busy}
+          onClick={() => {
+            onLog(draft);
+            try {
+              localStorage.removeItem(storageKey);
+            } catch {
+              /* nothing to clear */
+            }
+          }}
+        >
           {busy ? "Saving…" : "Log set"}
         </Button>
       </div>
