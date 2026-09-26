@@ -6,7 +6,9 @@ import { useState } from "react";
 import { ApiError, api } from "@/lib/api";
 import { useSession } from "@/lib/session";
 import { Button, ErrorNote, Input } from "@/components/ui";
+import { AuthShell } from "@/components/auth-shell";
 import type { Profile } from "@/lib/types";
+import { GYM, GYM_EQUIPMENT } from "@/lib/gym";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -27,8 +29,14 @@ export default function RegisterPage() {
         // Sec 3.3 - the browser knows the user's timezone; do not make them pick.
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
       });
-      setProfile(profile);
-      router.push("/profile");
+      // Members train here, so start them with the gym's full equipment list:
+      // the exercise library then shows everything the floor can load.
+      try {
+        setProfile(await api.put<Profile>("/profile", { available_equipment: GYM_EQUIPMENT }));
+      } catch {
+        setProfile(profile);
+      }
+      router.push("/");
     } catch (err) {
       setError(err instanceof ApiError ? err.message : "Something went wrong.");
     } finally {
@@ -37,10 +45,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <section className="mx-auto flex w-full max-w-sm flex-col gap-5 py-14">
+    <AuthShell>
       <div className="flex flex-col gap-1.5">
-        <h1 className="text-[26px] font-semibold">Create your account</h1>
-        <p className="text-[14px] leading-relaxed text-ink-dim">Takes a minute. Set your equipment next and the catalogue narrows to what you can actually train.</p>
+        <h1 className="font-display text-[44px] uppercase leading-none">Create your account</h1>
+        <p className="text-[14px] leading-relaxed text-ink-dim">Create your {GYM.name} member account to log workouts, check the class timetable and contact the team.</p>
       </div>
       <form onSubmit={submit} className="flex flex-col gap-4">
         <Input label="Name" name="name" autoComplete="name" required />
@@ -55,8 +63,8 @@ export default function RegisterPage() {
         />
         <p className="-mt-1 text-[13px] text-ink-faint">At least 10 characters.</p>
         <ErrorNote>{error}</ErrorNote>
-        <Button type="submit" disabled={busy}>
-          {busy ? "Creating…" : "Create account"}
+        <Button type="submit" disabled={busy} className="!min-h-[52px] !rounded-full bg-brand-gradient !text-[16px] !font-bold">
+          {busy ? "Creating account…" : "Create account"}
         </Button>
       </form>
       <p className="text-[14px] text-ink-dim">
@@ -65,6 +73,6 @@ export default function RegisterPage() {
           Log in
         </Link>
       </p>
-    </section>
+    </AuthShell>
   );
 }

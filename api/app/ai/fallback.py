@@ -83,7 +83,7 @@ def generate_workout(
             )
             for row in picked
         ],
-        notes="Built from your equipment and target muscles without AI.",
+        notes="Built from the equipment available and your chosen focus.",
     )
 
 
@@ -113,7 +113,7 @@ def analyse(series: list[dict], *, exercise_name: str, unit: str = "kg") -> Anal
                 f"{'' if len(series) == 1 else 's'}."
             ],
             interpretation=[],
-            suggestion="Log a few more sessions and this will have something to say.",
+            suggestion="Log at least three sessions of this exercise to see a trend.",
             enough_data=False,
         )
 

@@ -114,7 +114,7 @@ def me(db: Session = Depends(get_db), user: User = Depends(current_user)):
 @router.post("/password/reset-request", response_model=MessageResponse)
 def reset_request(payload: PasswordResetRequest, db: Session = Depends(get_db)):
     message = auth_service.request_password_reset(
-        db, email=payload.email, reset_url_base="http://localhost:3000/reset"
+        db, email=payload.email, reset_url_base=f"{get_settings().public_url.rstrip('/')}/reset"
     )
     return MessageResponse(message=message)
 

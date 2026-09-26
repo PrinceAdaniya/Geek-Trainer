@@ -14,8 +14,8 @@
 
 import { useId, useState } from "react";
 
-const GRID = "#23262d";
-const AXIS_TEXT = "#5f6368";
+const GRID = "#2d2754";
+const AXIS_TEXT = "#8580ab";
 
 export function BarSeries({
   data,
@@ -35,7 +35,7 @@ export function BarSeries({
   if (data.every((d) => d.value === 0)) {
     return (
       <p className="py-8 text-center text-[13px] text-ink-faint">
-        Nothing logged in this window yet.
+        No workouts logged in this period.
       </p>
     );
   }
@@ -71,7 +71,7 @@ export function BarSeries({
                 y={height - barHeight}
                 height={Math.max(barHeight, point.value > 0 ? 2 : 0)}
                 rx="1"
-                fill={hover === index ? "#8ee9bd" : "#44916d"}
+                fill={hover === index ? "#ffa3c8" : "#ff4d8d"}
                 onMouseEnter={() => setHover(index)}
                 onMouseLeave={() => setHover(null)}
               />
@@ -157,7 +157,7 @@ export function LineSeries({
             <path
               d={path}
               fill="none"
-              stroke="#57bb8d"
+              stroke="#2ee6d6"
               strokeWidth="2"
               vectorEffect="non-scaling-stroke"
               clipPath={`url(#${clipId})`}
@@ -169,7 +169,7 @@ export function LineSeries({
               cx={x(index)}
               cy={y(point.y)}
               r={hover === index ? 3 : 2}
-              fill={hover === index ? "#8ee9bd" : "#57bb8d"}
+              fill={hover === index ? "#b8fff8" : "#2ee6d6"}
               vectorEffect="non-scaling-stroke"
               onMouseEnter={() => setHover(index)}
               onMouseLeave={() => setHover(null)}
@@ -214,7 +214,7 @@ export function RankedBars({
 }) {
   const max = Math.max(1, ...rows.map((r) => r.value));
   if (rows.length === 0) {
-    return <p className="py-6 text-center text-[13px] text-ink-faint">Nothing yet.</p>;
+    return <p className="py-6 text-center text-[13px] text-ink-faint">No data yet.</p>;
   }
   return (
     <ul className="flex flex-col gap-2">

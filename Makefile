@@ -1,5 +1,5 @@
 # Geek-Trainer. See PLAN.md for what each stage is for.
-.PHONY: help devdb devdb-stop migrate revision seed api web dev test test-api typecheck build
+.PHONY: help staff devdb devdb-stop migrate revision seed api web dev test test-api typecheck build
 
 PY := api/.venv/bin/python
 PIP := api/.venv/bin/pip
@@ -28,6 +28,9 @@ seed: ## load the seed exercise catalogue
 
 ingest: ## fetch the WGER catalogue into the local mirror
 	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../$(PY) scripts/ingest_wger.py
+
+staff: ## give an existing account gym-staff access: make staff email=you@yourgym.com
+	@cd api && DATABASE_URL="$$(../$(PY) scripts/devdb.py url)" ../$(PY) scripts/make_staff.py "$(email)"
 
 web: ## run the web app on :3000 (proxies /api to :8000)
 	@cd web && npm run dev

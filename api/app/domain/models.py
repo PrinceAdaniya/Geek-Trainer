@@ -14,6 +14,7 @@ from datetime import date, datetime
 from decimal import Decimal
 
 from sqlalchemy import (
+    Boolean,
     CheckConstraint,
     text,
     Date,
@@ -75,6 +76,12 @@ class User(Base, TimestampMixin):
     injury_notes: Mapped[str | None] = mapped_column(Text)
 
     deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    # Gym staff see every member's support tickets and the free-pass / tour
+    # enquiries. Granted with `make staff email=...`, never through the API.
+    is_staff: Mapped[bool] = mapped_column(
+        Boolean, nullable=False, server_default=text("false")
+    )
 
     settings: Mapped["UserSettings"] = relationship(
         back_populates="user", uselist=False, cascade="all, delete-orphan"
@@ -636,3 +643,63 @@ class SessionSummary(Base, TimestampMixin):
     prs_achieved: Mapped[int] = mapped_column(Integer, nullable=False, server_default="0")
 
     __table_args__ = (Index("ix_session_summaries_user", "user_id"),)
+
+
+class SupportTicket(Base, TimestampMixin):
+    """A member's complaint or request to the gym.
+
+    User-owned like everything else a member writes, so the member side goes
+    through a scoped repo; staff read across members through the explicitly
+    unscoped inbox in app/repo/tickets.py.
+    """
+
+    __tablename__ = "support_tickets"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+    )
+    category: Mapped[str] = mapped_column(String(30), nullable=False)
+    area: Mapped[str | None] = mapped_column(String(60))
+    subject: Mapped[str] = mapped_column(String(120), nullable=False)
+    description: Mapped[str] = mapped_column(Text, nullable=False)
+    priority: Mapped[str] = mapped_column(
+        String(10), nullable=False, server_default="normal"
+    )
+    status: Mapped[str] = mapped_column(String(20), nullable=False, server_default="open")
+    staff_response: Mapped[str | None] = mapped_column(Text)
+    responded_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    resolved_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    user: Mapped["User"] = relationship(lazy="joined")
+
+    __table_args__ = (
+        Index("ix_support_tickets_user", "user_id"),
+        Index("ix_support_tickets_status", "status"),
+    )
+
+
+class Lead(Base, TimestampMixin):
+    """A free-pass claim or tour booking from the public site. Not user-owned:
+    the person is not a member yet."""
+
+    __tablename__ = "leads"
+
+    id: Mapped[uuid.UUID] = _uuid_pk()
+    kind: Mapped[str] = mapped_column(String(20), nullable=False)
+    name: Mapped[str] = mapped_column(String(120), nullable=False)
+    email: Mapped[str] = mapped_column(String(320), nullable=False)
+    phone: Mapped[str | None] = mapped_column(String(40))
+    preferred_date: Mapped[date | None] = mapped_column(Date)
+    # For membership enquiries: which plan on the pricing table they picked.
+    plan: Mapped[str | None] = mapped_column(String(40))
+    message: Mapped[str | None] = mapped_column(Text)
+    # The member who sent the invite, resolved from their referral code.
+    referred_by_user_id: Mapped[uuid.UUID | None] = mapped_column(
+        PgUUID(as_uuid=True), ForeignKey("users.id", ondelete="SET NULL")
+    )
+    status: Mapped[str] = mapped_column(String(20), nullable=False, server_default="new")
+
+    referred_by: Mapped["User | None"] = relationship(lazy="joined")
+
+    __table_args__ = (Index("ix_leads_status", "status"),)

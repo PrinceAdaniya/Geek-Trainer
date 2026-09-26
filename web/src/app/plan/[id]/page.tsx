@@ -108,7 +108,7 @@ export default function PlanPage() {
       {plan.exercises.length === 0 ? (
         <Empty
           title="No exercises yet."
-          hint="Add the movements you want to do on this day. You can reorder them at any time."
+          hint="Add the exercises for this workout. You can reorder them at any time."
           action={<Button onClick={() => setPicking(true)}>Add an exercise</Button>}
         />
       ) : (
@@ -291,7 +291,7 @@ function ExercisePicker({
             </li>
           ))}
           {rows.length === 0 && (
-            <li className="px-3 py-6 text-[14px] text-ink-faint">Nothing matches that.</li>
+            <li className="px-3 py-6 text-[14px] text-ink-faint">No matching exercises.</li>
           )}
         </ul>
       </div>

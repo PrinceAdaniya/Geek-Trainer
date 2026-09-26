@@ -103,10 +103,10 @@ export default function ExerciseDetailPage() {
           ) : video ? null : (
             <div className="flex flex-col items-center gap-2 rounded-lg border border-dashed border-surface-edge px-6 py-12 text-center">
               <p className="text-[14px] text-ink-dim">
-                No image for this movement in the catalogue.
+                No image available for this exercise.
               </p>
               <p className="text-[12px] text-ink-faint">
-                The written cues are the whole instruction — or watch someone do it.
+                See the written instructions, or watch a video demonstration.
               </p>
             </div>
           )}
@@ -175,7 +175,7 @@ export default function ExerciseDetailPage() {
               </ol>
             ) : (
               <p className="text-[13px] text-ink-faint">
-                No written instructions for this one yet.
+                Instructions for this exercise are not available yet.
               </p>
             )}
           </Panel>
@@ -208,7 +208,7 @@ export default function ExerciseDetailPage() {
       </div>
 
       {progress && progress.points.length > 0 && (
-        <Panel title="Your history with this">
+        <Panel title="Your history">
           <div className="flex flex-wrap gap-4">
             <span className="readout text-[13px]">
               {progress.points.length} session
@@ -221,9 +221,7 @@ export default function ExerciseDetailPage() {
                   Best {parseFloat(r.value)} kg × {r.reps}
                 </span>
               ))}
-            <Link href="/progress" className="label hover:text-accent">
-              full progress →
-            </Link>
+            <Link href="/progress" className="label hover:text-accent">View full progress →</Link>
           </div>
         </Panel>
       )}

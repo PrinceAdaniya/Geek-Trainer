@@ -8,6 +8,7 @@ Two rules hold everywhere in this file:
 
 from __future__ import annotations
 
+import logging
 import uuid
 from datetime import timedelta
 from decimal import Decimal
@@ -33,6 +34,7 @@ from app.domain.schemas import ExerciseOut
 from app.repo import exercises as exercise_repo
 from app.repo.users import SettingsRepo
 
+log = logging.getLogger("geektrainer.ai")
 router = APIRouter(prefix="/ai", tags=["ai"])
 
 # Sec 21.5. Deliberately conservative until Sec 32 Q2 is answered.
@@ -123,7 +125,7 @@ def _spend(db: Session, user: User) -> int:
     ).scalar_one()
     if used >= DAILY_REQUEST_BUDGET:
         raise RateLimited(
-            "You have used today's AI budget. Everything else still works.",
+            "You have reached today's limit for generated workouts. Try again tomorrow.",
             code="ai_budget_exhausted",
         )
     db.add(
@@ -191,7 +193,8 @@ def generate(
                     system=prompts.GENERATE, user=user_message, schema=GeneratedWorkout
                 )
             except LLMUnavailable as exc:
-                warnings.append(str(exc))
+                # Operator detail, not member-facing: the plan below still gets built.
+                log.warning("workout generation fell back to rules: %s", exc)
                 break
 
             problems = validate_workout(
@@ -208,7 +211,7 @@ def generate(
                     + "\nAnswer again, choosing only from the candidate list."
                 )
             else:
-                warnings.append("The AI's plan failed validation twice.")
+                log.warning("generated workout failed validation twice; using rules")
 
     if workout is None:
         workout = fallback.generate_workout(
@@ -217,8 +220,6 @@ def generate(
             goal=payload.goal,
             session_minutes=payload.session_minutes,
         )
-        if not client.available:
-            warnings.append("AI is not configured, so this plan was built from rules.")
 
     by_id = {row.id: row for row in candidates.rows}
     return WorkoutProposal(

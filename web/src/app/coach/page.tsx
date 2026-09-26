@@ -4,8 +4,8 @@
  * The coach. SPECIFICATIONS.MD Sec 17-21.
  *
  * Everything here is a *proposal*. Nothing changes your data until you press
- * save, which is what keeps a hallucination an annoyance rather than silent
- * corruption (Sec 17.2).
+ * save (Sec 17.2). Whether a plan came from the AI or the rules fallback is an
+ * operator concern and is not shown to members.
  */
 
 import { useEffect, useState } from "react";
@@ -16,7 +16,6 @@ import { Button, Chip, ErrorNote, Input, Select, Spinner } from "@/components/ui
 import { Panel } from "@/components/hud";
 import { humanize } from "@/lib/units";
 import type {
-  AiBudget,
   Analysis,
   Exercise,
   ExercisePage,
@@ -31,7 +30,6 @@ export default function CoachPage() {
   const router = useRouter();
   const { profile, loading } = useSession();
   const [vocab, setVocab] = useState<Vocabulary | null>(null);
-  const [budget, setBudget] = useState<AiBudget | null>(null);
 
   const [targets, setTargets] = useState<string[]>(["back"]);
   const [goal, setGoal] = useState("hypertrophy");
@@ -48,7 +46,6 @@ export default function CoachPage() {
   useEffect(() => {
     if (!profile) return;
     void api.get<Vocabulary>("/vocabulary").then(setVocab);
-    void api.get<AiBudget>("/ai/budget").then(setBudget);
   }, [profile]);
 
   if (loading || !profile) return <Spinner />;
@@ -65,9 +62,8 @@ export default function CoachPage() {
           session_minutes: minutes,
         }),
       );
-      setBudget(await api.get<AiBudget>("/ai/budget"));
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Could not build a plan.");
+      setError(err instanceof ApiError ? err.message : "Could not build a workout. Please try again.");
       setProposal(null);
     } finally {
       setBusy(false);
@@ -95,7 +91,7 @@ export default function CoachPage() {
       }
       setSaved(plan.id);
     } catch {
-      setError("Could not save that plan.");
+      setError("Could not save this workout. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -103,34 +99,20 @@ export default function CoachPage() {
 
   return (
     <section className="flex flex-col gap-4 py-5">
-      <header className="flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <p className="label">Assistant</p>
-          <h1 className="text-[24px] font-semibold">Coach</h1>
-        </div>
-        {budget && (
-          <p className="readout text-[12px] text-ink-faint">
-            {budget.ai_configured
-              ? `${budget.remaining} of ${budget.daily_limit} AI requests left today`
-              : "AI not configured — plans are built from rules"}
-          </p>
-        )}
+      <header className="flex flex-col gap-2">
+        <p className="label text-brand-orange">Coach</p>
+        <h1 className="font-display text-[40px] uppercase leading-none">Workout builder</h1>
+        <p className="max-w-xl text-[15px] text-ink-dim">
+          Choose what you want to train, your goal and how long you have. We&rsquo;ll
+          suggest a workout using the equipment at the gym. Nothing is saved
+          until you choose to save it.
+        </p>
       </header>
 
-      {budget && !budget.ai_configured && (
-        /* Sec 21.6 - visibly disabled with a reason, never silently broken. */
-        <p className="rounded-lg border border-surface-edge bg-surface-raised px-4 py-3 text-[13px] text-ink-dim">
-          No AI provider is configured, so everything below is built by rules
-          instead: filtered to your equipment, compounds first, capped by session
-          length. Set <code className="text-accent">ANTHROPIC_API_KEY</code> on the
-          API to turn the assistant on.
-        </p>
-      )}
-
-      <Panel title="Build me a session">
+      <Panel title="Build a workout">
         <div className="flex flex-col gap-4">
           <div>
-            <p className="label mb-2">Train what?</p>
+            <p className="label mb-2">Focus</p>
             <div className="flex flex-wrap gap-2">
               {vocab?.body_parts.map((part) => (
                 <Chip
@@ -159,7 +141,7 @@ export default function CoachPage() {
               ))}
             </Select>
             <Input
-              label="Minutes"
+              label="Time available (minutes)"
               type="number"
               inputMode="numeric"
               value={minutes}
@@ -171,7 +153,7 @@ export default function CoachPage() {
                 disabled={busy || targets.length === 0}
                 onClick={() => void generate()}
               >
-                {busy ? "Building…" : "Build it"}
+                {busy ? "Building…" : "Build workout"}
               </Button>
             </div>
           </div>
@@ -182,11 +164,11 @@ export default function CoachPage() {
 
       {proposal && (
         <Panel
-          title={`Proposal · built by ${proposal.source === "ai" ? "AI" : "rules"}`}
+          title="Suggested workout"
           right={
             saved ? (
               <a href={`/plan/${saved}`} className="label text-accent">
-                saved → open it
+                Saved. Open workout →
               </a>
             ) : (
               <Button onClick={() => void savePlan()} disabled={busy}>
@@ -237,8 +219,8 @@ export default function CoachPage() {
             </ol>
 
             <p className="text-[12px] text-ink-faint">
-              Nothing has been saved yet. Review it, then save — or change the
-              inputs and build another.
+              Not saved yet. Save it to add it to your plans, or change the
+              options above and build another.
             </p>
           </div>
         </Panel>
@@ -268,11 +250,11 @@ function AnalysisPanel() {
   }, [q]);
 
   return (
-    <Panel title="How am I doing on…">
+    <Panel title="Exercise progress">
       <div className="flex flex-col gap-3">
         <Input
           label="Exercise"
-          placeholder="bench press, squat…"
+          placeholder="Search, e.g. bench press"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
@@ -299,7 +281,7 @@ function AnalysisPanel() {
           </ul>
         )}
 
-        {busy && <Spinner label="Reading your log" />}
+        {busy && <Spinner />}
 
         {analysis && !busy && (
           <div className="flex flex-col gap-3">
@@ -312,7 +294,7 @@ function AnalysisPanel() {
 
             {/* Sec 19 - observation and interpretation are visibly separated. */}
             <div>
-              <p className="label">What the log says</p>
+              <p className="label">Your results</p>
               <ul className="mt-1 flex flex-col gap-1">
                 {analysis.observed.map((line) => (
                   <li key={line} className="text-[14px] leading-relaxed">
@@ -324,7 +306,7 @@ function AnalysisPanel() {
 
             {analysis.interpretation.length > 0 && (
               <div>
-                <p className="label">What that might mean</p>
+                <p className="label">What this suggests</p>
                 <ul className="mt-1 flex flex-col gap-1">
                   {analysis.interpretation.map((line) => (
                     <li key={line} className="text-[14px] leading-relaxed text-ink-dim">
@@ -343,7 +325,7 @@ function AnalysisPanel() {
 
             {!analysis.enough_data && (
               <p className="text-[12px] text-ink-faint">
-                Three sessions is the minimum before a trend means anything.
+                Log at least three sessions of this exercise to see a trend.
               </p>
             )}
           </div>

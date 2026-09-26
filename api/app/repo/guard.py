@@ -37,6 +37,7 @@ USER_OWNED_TABLES: set[str] = {
     "sync_mutations",
     "personal_records",
     "session_summaries",
+    "support_tickets",
 }
 
 # Columns that pin a statement to a specific parent row the caller already

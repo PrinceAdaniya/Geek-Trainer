@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import logging
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -20,6 +22,7 @@ from app.routes import (
     sessions,
     stats,
     sync,
+    tickets,
 )
 
 API_PREFIX = "/api/v1"
@@ -32,6 +35,16 @@ def create_app() -> FastAPI:
         # The scoping guard is a development and test instrument (see
         # app/repo/guard.py for why it is not on in production).
         guard.install()
+
+    if settings.environment == "development":
+        # The console email sender logs at INFO; without a handler Python drops
+        # it, and password-reset links would be unreachable in development.
+        mail_log = logging.getLogger("geektrainer.mail")
+        if not mail_log.handlers:
+            handler = logging.StreamHandler()
+            handler.setFormatter(logging.Formatter("MAIL %(message)s"))
+            mail_log.addHandler(handler)
+        mail_log.setLevel(logging.INFO)
 
     app = FastAPI(
         title=settings.app_name,
@@ -61,6 +74,7 @@ def create_app() -> FastAPI:
     app.include_router(progress.router, prefix=API_PREFIX)
     app.include_router(ai.router, prefix=API_PREFIX)
     app.include_router(account.router, prefix=API_PREFIX)
+    app.include_router(tickets.router, prefix=API_PREFIX)
 
     return app
 

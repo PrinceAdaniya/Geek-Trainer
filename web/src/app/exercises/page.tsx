@@ -78,7 +78,7 @@ export default function ExercisesPage() {
       <div className="flex flex-col gap-3">
         <Input
           label="Search"
-          placeholder="row, squat, plank…"
+          placeholder="Search, e.g. squat"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
@@ -105,7 +105,7 @@ export default function ExercisesPage() {
           </Select>
         </div>
         <Chip selected={showIncompatible} onClick={() => setShowIncompatible((v) => !v)}>
-          Show what I&rsquo;m missing equipment for
+          Include exercises that need other equipment
         </Chip>
       </div>
 
@@ -113,8 +113,8 @@ export default function ExercisesPage() {
         <Spinner />
       ) : rows.length === 0 ? (
         <Empty
-          title="Nothing matches that."
-          hint="Try a broader search, or turn on “show what I'm missing equipment for” to see what you could do with more kit."
+          title="No matching exercises."
+          hint="Try a broader search, or include exercises that need other equipment."
         />
       ) : (
         <ul className="flex flex-col gap-2">

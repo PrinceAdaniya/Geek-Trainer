@@ -1,6 +1,6 @@
 # Geek-Trainer — Specification
 
-> Revision 4 — 2026-08-31. See §33 for the revision log.
+> Revision 5 — 2026-09-26. See §33 for the revision log.
 > Sections marked **Rationale** record a decision that is not obvious from the
 > requirement itself; they exist so the reasoning survives implementation.
 
@@ -21,6 +21,10 @@ Geek-Trainer is a fitness training application that allows users to:
 
 The system combines **structured exercise data + deterministic tracking +
 AI-assisted planning and answers**.
+
+From revision 5 the app is deployed as the member app of a single gym, shown
+under a placeholder name (**YOUR GYM**). Around the tracker sit a public club
+website, member support requests, visitor enquiries and a staff role. See §30C.
 
 ### 1.1 Primary use context
 
@@ -1231,9 +1235,13 @@ The user can see their remaining AI budget.
 If AI is disabled, unconfigured, over budget or failing:
 
 ```text
-AI entry points are visibly disabled with a reason, not hidden or silently
-  broken. Every AI feature has the non-AI path named in this spec:
+Every AI feature falls back to the non-AI path named in this spec:
   generation → §18.1, substitution → §20, analysis → the charts in §14.
+Members are not shown provider, configuration or budget state (revision 5).
+  The feature keeps working and the reason for the fallback is written to the
+  server log for the operator.
+A daily request limit, when reached, is reported in plain language
+  ("today's limit for generated workouts") without naming the provider.
 ```
 
 ---
@@ -1258,6 +1266,8 @@ Set
 PersonalRecord
 AIInteraction
 SyncMutation
+SupportTicket   (revision 5, §30C.5)
+Lead            (revision 5, §30C.3)
 ```
 
 Relationships:
@@ -1363,6 +1373,17 @@ POST   /ai/workout
 POST   /ai/analyze
 POST   /ai/substitute
 GET    /ai/budget
+
+GET    /tickets                          (revision 5, §30C.5)
+POST   /tickets
+GET    /tickets/{id}
+POST   /tickets/{id}/close
+GET    /referral
+POST   /leads                            (public, no session)
+GET    /staff/tickets?status=            (staff only)
+PATCH  /staff/tickets/{id}               (staff only)
+GET    /staff/leads?status=              (staff only)
+PATCH  /staff/leads/{id}                 (staff only)
 ```
 
 ### 23.1 Conventions
@@ -1418,12 +1439,27 @@ custom exercises, AI interactions
 Enforced by a `user_id` predicate applied in the data-access layer for every
 user-owned query, with a test that fails if any query omits it.
 
+Staff (revision 5):
+
+```text
+users.is_staff, false by default. Granted from the server command line
+  (make staff email=...), never through the API.
+Staff endpoints return 403 to members.
+Staff reads across members' support tickets go through one explicitly
+  unscoped repository (StaffInbox) and nowhere else.
+```
+
+The web app provides the reset flow end to end: a "Forgot password?" link,
+a request page, and a page that accepts the emailed token. The link base is
+the `PUBLIC_URL` setting. In development the email is printed to the API log.
+
 ---
 
 ## 25. Privacy, Export and Deletion
 
 ```text
-The user can export all their data (JSON + CSV of sets) on request.
+The user can export all their data (JSON + CSV of sets) on request. The JSON
+  export includes the member's support tickets (revision 5).
 The user can delete their account; deletion removes all personal data and
   training history within 30 days, and is confirmed by re-entering the password.
 Training data is never used to train models or shared with third parties.
@@ -1603,7 +1639,8 @@ A7  Warmup sets are excluded from volume, charts and PRs, and included in the
 A8  An AI-generated plan containing an exercise not in the candidate set is
     rejected and never shown to the user.
 A9  With the AI provider unreachable, plan generation, substitution and every
-    other flow still work, and the UI says why AI is unavailable.
+    other flow still work. No provider or configuration detail is shown to
+    the member; the fallback is logged server-side (revised in revision 5).
 A10 A user cannot read or modify another user's session, set or plan through
     any endpoint (tested per endpoint).
 A11 Switching the display unit from kg to lb changes no stored value and no
@@ -1617,7 +1654,7 @@ A14 With 20k sets seeded, history and progress views stay within the §26
 
 ---
 
-## 30A. Streaks and Power Levels
+## 30A. Streaks and Streak Levels
 
 Added in revision 3. A tracker that only records is a spreadsheet; the reason
 people open one daily is to see the streak survive.
@@ -1631,32 +1668,35 @@ A gap of up to 2 days does not break it - rest is training, and an app that
 A longer gap resets the current streak; the longest streak is kept forever.
 ```
 
-### 30A.2 Power levels
+### 30A.2 Streak levels
 
-A ten-rung ladder keyed to the current streak. Each rank has a level number, a
-name, a threshold and one line of flavour. The rank is displayed with an aura
-whose intensity follows the level, and crossing a threshold plays a one-off
-power-up animation.
+A ten-level ladder keyed to the current streak. Each level has a number, a
+name, a threshold and a one-line description. The level is displayed with a
+glow whose intensity follows the level, and crossing a threshold plays a
+one-off level-up animation.
 
 ```text
-0  Dormant         0 days
-1  Awakened        1
-2  Focused         3
-3  Charged         5
-4  Overdrive       8
-5  Limit Break    12
-6  Ascended       18
-7  Zenkai         25
-8  Ultra Instinct 35
-9  Beyond Limit   50
+0  No streak    0 days
+1  Starter      1
+2  Regular      3
+3  Committed    5
+4  Consistent   8
+5  Bronze      12
+6  Silver      18
+7  Gold        25
+8  Platinum    35
+9  Diamond     50
 ```
+
+Revision 5 replaced the original names, which borrowed from anime, with plain
+tiers that suit a gym's member app.
 
 Requirements:
 
 ```text
 The ladder is served by the API, never hardcoded in the client, so the two
   cannot drift.
-The power-up animation fires on a real transition, once - the last rank seen
+The level-up animation fires on a real transition, once - the last rank seen
   is remembered per browser. It respects prefers-reduced-motion.
 The rank colour never carries meaning alone: the level number and rank name
   are always rendered beside it. Ten distinguishable hues do not exist for a
@@ -1684,6 +1724,8 @@ a personal tool; these are the requirements that make it something a stranger
 could land on and understand.
 
 ### 30B.1 Signed-out landing
+
+Superseded in revision 5 by the gym website in §30C.1. Kept for the record:
 
 ```text
 States what the product is and who it is for in the first screen, without
@@ -1714,6 +1756,118 @@ A favicon, an application name and Open Graph metadata.
 A footer carrying navigation, third-party attribution, and the safety
   disclaimer from 31.
 Copy is written for a stranger. No internal jargon in user-facing text.
+```
+
+---
+
+## 30C. Gym Deployment
+
+Added in revision 5. The app runs as the website and member app of one gym.
+All gym-specific content is configuration, so another gym is a matter of
+editing one file and one folder of photos.
+
+### 30C.1 Public website
+
+The signed-out home page is the gym's website. Sections, in order:
+
+```text
+Hero       headline offer, a live open/closed badge, "Get your free pass"
+           and "View memberships".
+Facts      days open per week, classes per week, joining fee, notice to
+           cancel - each computed from configuration, never typed twice.
+Memberships  plan cards with a monthly/annual switch; the annual price is
+           derived from the monthly price and one discount constant.
+           Membership terms are listed beside the prices.
+Classes    seven-day timetable with day tabs, class length, room, coach and
+           an intensity scale. Finished classes are dimmed and a running
+           class is marked live.
+Facilities photo gallery of training zones, plus amenities.
+Personal training  packages with the per-session price derived.
+Member app what membership includes in the app, with log-in and sign-up.
+Visit      address, directions, click-to-call, tour booking.
+FAQ        expandable questions and answers.
+Footer     full weekly hours, contact details, social links.
+```
+
+A site-wide photo sits behind every page under a dark overlay.
+
+### 30C.2 Configuration
+
+```text
+web/src/lib/gym.ts   name, tagline, address, phone, email, social links,
+                     currency, headline offer, opening hours, plans,
+                     annual discount, membership terms, timetable,
+                     facilities, amenities, PT packages, FAQ, and the
+                     equipment the gym owns.
+web/public/gym/      every photo, by fixed file name; README lists where
+                     each appears and credits the current stock images.
+```
+
+Prices are whole rupees with Indian digit grouping (₹1,499). New members
+start with the gym's equipment list, so the exercise library matches the
+gym floor without a setup step.
+
+### 30C.3 Visitor enquiries
+
+```text
+Three forms on /join: free week pass, tour booking, membership enquiry.
+No account required. Name and email required; phone, preferred date, plan
+  and message optional.
+The membership form arrives with the plan pre-selected from the pricing
+  card the visitor chose.
+A hidden honeypot field: a filled honeypot is acknowledged and not stored.
+Stored as a Lead: kind, contact details, preferred date, plan, message,
+  referring member, status (new / contacted / joined / closed).
+Online payment is out of scope; a membership enquiry is completed by staff.
+```
+
+### 30C.4 Referrals
+
+```text
+Each member has a referral code: the first block of their user id. No extra
+  column and no way to guess another member's code from it.
+The dashboard offers a share link (/join?ref=CODE), using the native share
+  sheet where available.
+A lead carrying a valid code records the referring member; an invalid code
+  is ignored.
+```
+
+### 30C.5 Support requests
+
+Members report problems with the gym and follow them to resolution.
+
+```text
+Fields: category (equipment, cleanliness, facilities, classes, staff,
+  membership, safety, other), optional location, subject, details, and an
+  urgent flag. Safety requests are urgent automatically.
+Statuses: open → in_progress → resolved, or closed. The member sees a
+  three-step tracker and the staff reply on the request itself.
+A member can close their own request.
+User-owned: scoped by user_id like every other member table, included in
+  the data export, deleted with the account.
+```
+
+### 30C.6 Staff inbox
+
+```text
+/staff, visible to staff accounts only.
+Member requests: urgent first, then oldest first. Requests waiting more
+  than 24 hours are highlighted. Staff reply and set the status in place;
+  replying to an open request moves it to in_progress.
+Enquiries: every lead with its contact details and referrer, filterable by
+  status, with the status editable in place.
+```
+
+### 30C.7 Member-facing copy
+
+```text
+Written the way a finished business site is written: plain, specific,
+  descriptive headings. No slogans, no internal jargon, no explanations of
+  how the product was built.
+No provider, configuration, budget or fallback state is shown to members
+  (see 21.6).
+Phones get a bottom tab bar (Home, Train, Classes, Support, More); no page
+  scrolls sideways at 390px.
 ```
 
 ---
@@ -1778,6 +1932,18 @@ Q6  Hosting target — this determines the ingest job's scheduler and whether
 ---
 
 ## 33. Revision Log
+
+### Revision 5 — 2026-09-26
+
+```text
+Added 30C - gym deployment: public club website, configuration in one file,
+visitor enquiries, referrals, member support requests, staff role and inbox.
+Revised 21.6 and A9 - members no longer see AI provider or configuration
+state; fallbacks are logged for the operator.
+Revised 30A.2 - streak level names replaced with plain tiers.
+Added the staff role and the web password-reset flow to 24, tickets to the
+export in 25, and the new tables and endpoints to 22 and 23.
+```
 
 ### Revision 4 — 2026-08-31
 

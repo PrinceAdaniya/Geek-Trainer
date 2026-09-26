@@ -72,7 +72,7 @@ export default function ProgressPage() {
   return (
     <section className="flex flex-col gap-4 py-5">
       <header>
-        <p className="label">Telemetry</p>
+        <p className="label">Your training</p>
         <h1 className="text-[24px] font-semibold">Progress</h1>
       </header>
 
@@ -95,7 +95,7 @@ export default function ProgressPage() {
         <Panel title={`Weekly volume · ${unit}`}>
           <BarSeries data={weekly} unit={unit} label="Weekly training volume" />
           <p className="mt-2 text-[12px] text-ink-faint">
-            Working sets only — warm-ups are logged but never counted.
+            Totals include working sets only. Warm-ups are not counted.
           </p>
         </Panel>
 
@@ -113,8 +113,8 @@ export default function ProgressPage() {
       <Panel title="One exercise">
         <div className="flex flex-col gap-3">
           <Input
-            label="Which movement?"
-            placeholder="bench press, squat, pull-up…"
+            label="Exercise"
+            placeholder="Search, e.g. bench press"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
@@ -154,7 +154,7 @@ export default function ProgressPage() {
                 <p className="text-[13px] text-ink-dim">
                   {picked.points.length === 0
                     ? "You have not logged this movement yet."
-                    : "Not enough sessions to show a trend yet — three is the minimum."}
+                    : "Log at least three sessions of this exercise to see a trend."}
                 </p>
               ) : (
                 <LineSeries
@@ -169,8 +169,7 @@ export default function ProgressPage() {
                 />
               )}
               <p className="text-[12px] text-ink-faint">
-                Estimated 1RM uses Epley — weight × (1 + reps ÷ 30) — and only for
-                sets of 12 reps or fewer, where it is trustworthy.
+                Estimated one-rep max is calculated from sets of 12 reps or fewer.
               </p>
 
               {picked.records.length > 0 && (
@@ -199,7 +198,7 @@ export default function ProgressPage() {
         {records.length === 0 ? (
           <Empty
             title="No records yet."
-            hint="Finish a session and the first ones appear here automatically."
+            hint="Personal records appear here automatically after you finish a workout."
           />
         ) : (
           <ul className="flex flex-col divide-y divide-surface-edge">

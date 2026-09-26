@@ -78,8 +78,7 @@ export default function ProfilePage() {
       <div className="flex flex-col gap-3">
         <h2 className="text-[15px] font-medium">Equipment</h2>
         <p className="text-[13px] text-ink-dim">
-          The catalogue only offers exercises you can load with all of this. Bodyweight is
-          always available.
+          The exercise library shows exercises that use this equipment. Bodyweight exercises are always included.
         </p>
         <div className="flex flex-wrap gap-2">
           {vocab?.equipment.map((item) => (
@@ -141,8 +140,7 @@ export default function ProfilePage() {
       <div className="flex flex-col gap-3">
         <h2 className="text-[15px] font-medium">Bodyweight</h2>
         <p className="text-[13px] text-ink-dim">
-          Kept as a history, not one number — it is what makes a set of pull-ups count for
-          anything.
+          Used to calculate training volume for bodyweight exercises such as pull-ups.
         </p>
         <form onSubmit={logBodyweight} className="flex flex-wrap items-end gap-3">
           <Input
@@ -205,8 +203,7 @@ function YourData() {
     <div className="flex flex-col gap-3 border-t border-surface-edge pt-6">
       <h2 className="text-[15px] font-medium">Your data</h2>
       <p className="text-[13px] text-ink-dim">
-        Everything you log is yours. Take it with you whenever you like — the
-        CSV opens in any spreadsheet.
+        Download a copy of your training data at any time. The CSV file opens in any spreadsheet.
       </p>
       <div className="flex flex-wrap gap-2">
         <a
@@ -233,8 +230,7 @@ function YourData() {
       ) : (
         <div className="mt-2 flex flex-col gap-3 rounded-xl border border-bad/40 p-4">
           <p className="text-[14px] text-ink">
-            This removes your profile, plans, sessions, sets and records. It
-            cannot be undone — export first if you want a copy.
+            This removes your profile, plans, sessions, sets and records. It cannot be undone. Download your data first if you want a copy.
           </p>
           <Input
             label="Confirm with your password"

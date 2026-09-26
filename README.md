@@ -6,7 +6,12 @@ else in the design follows from that.
 
 Tell it what equipment you own and it only ever offers exercises you can
 actually load. Log every set on its own — weight, reps, RIR, whether you hit
-failure. Keep the streak alive and the power level climbs.
+failure. Keep the streak going and your streak level climbs.
+
+It currently runs as the website and member app of a single gym, shown under
+a placeholder name (**YOUR GYM**): a public club website, member support
+requests, visitor enquiries and a staff inbox around the tracker. All the
+gym-specific content lives in one file — see [Gym configuration](#gym-configuration).
 
 ## Running it
 
@@ -25,14 +30,31 @@ make web          # http://localhost:3000
 Or `make dev` for all of it at once. Then open **http://localhost:3000**.
 
 ```bash
-make test         # 241 tests
+make test         # 256 tests
 make perf         # the 20,000-set performance run (A14)
 make typecheck    # the web app
 ```
 
 The AI assistant is optional. With no `ANTHROPIC_API_KEY` set, plan generation,
 substitution and analysis all still work — each has a deterministic
-rules-based path, and the UI says why AI is off rather than breaking.
+rules-based path. Members are not shown provider state; fallbacks are logged.
+
+Staff access for the support and enquiries inbox is granted from the command
+line to an existing account:
+
+```bash
+make staff email=someone@example.com
+```
+
+## Gym configuration
+
+| Path | What it holds |
+|---|---|
+| `web/src/lib/gym.ts` | Name, contact details, opening hours, plans and prices, class timetable, facilities, FAQ, the gym's equipment |
+| `web/public/gym/` | Every photo on the site, by fixed file name. Its README lists where each one appears. |
+
+Derived values (annual prices, classes per week, the open/closed badge) are
+computed from that file, so each fact is written once.
 
 ## Layout
 
@@ -68,12 +90,19 @@ reasoning behind every decision, labelled D1–D21 and cited from the code.
 - **Progress** — volume, per-muscle sets, estimated-1RM trends and personal
   records, all recomputed from the log, so correcting a mistyped set revokes
   the record it wrongly set.
-- **Streaks and power levels** — ten ranks, a charge meter to the next, and a
-  power-up when you cross a threshold.
+- **Streaks** — ten streak levels, progress to the next one, and a level-up
+  when you cross a threshold.
+- **Gym website** — memberships, class timetable with a live "now" marker,
+  facilities, personal training, opening hours with an open/closed badge, FAQ.
+- **Enquiries and referrals** — free-pass, tour and membership forms; members
+  share a referral link and the enquiry records who sent it.
+- **Support requests** — members report problems and follow them through
+  received, in progress and resolved, with the staff reply on the request.
+- **Staff inbox** — member requests (urgent first) and visitor enquiries.
 - **AI** — plan generation, substitution and analysis, constrained to exercise
   ids the backend supplied, proposing rather than writing.
 
 ## Status
 
-All eight phases complete; the fourteen acceptance criteria in
-`SPECIFICATIONS.MD` §30 pass. See `PLAN.md` for what is deliberately deferred.
+All nine phases complete; the fourteen acceptance criteria in
+`SPECIFICATIONS.MD` §30 pass. Phase 9 (the gym deployment) is spec §30C. See `PLAN.md` for what is deliberately deferred.

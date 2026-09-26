@@ -52,7 +52,7 @@ class TestStreakMath:
 
 class TestRanks:
     def test_zero_is_dormant(self):
-        assert rank_for(0).name == "Dormant"
+        assert rank_for(0).name == "No streak"
 
     def test_the_ladder_only_goes_up(self):
         from app.core.ranks import RANKS
@@ -62,10 +62,10 @@ class TestRanks:
         assert len({r.name for r in RANKS}) == len(RANKS)
 
     def test_a_streak_lands_on_the_right_rung(self):
-        assert rank_for(1).name == "Awakened"
-        assert rank_for(4).name == "Focused"
-        assert rank_for(12).name == "Limit Break"
-        assert rank_for(999).name == "Beyond Limit"
+        assert rank_for(1).name == "Starter"
+        assert rank_for(4).name == "Regular"
+        assert rank_for(12).name == "Bronze"
+        assert rank_for(999).name == "Diamond"
 
     def test_progress_runs_zero_to_one_between_rungs(self):
         assert progress_to_next(0) == 0.0
@@ -82,14 +82,14 @@ class TestStatsEndpoint:
         stats = user_client.get(f"{API}/stats").json()
         assert stats["current_streak"] == 0
         assert stats["total_sessions"] == 0
-        assert stats["rank"]["name"] == "Dormant"
-        assert stats["next_rank"]["name"] == "Awakened"
+        assert stats["rank"]["name"] == "No streak"
+        assert stats["next_rank"]["name"] == "Starter"
         assert stats["volume_this_week_kg"] == "0"
 
     def test_the_ladder_is_served_so_the_client_never_hardcodes_it(self, user_client):
         ladder = user_client.get(f"{API}/stats").json()["ladder"]
         assert len(ladder) >= 8
-        assert ladder[0]["name"] == "Dormant"
+        assert ladder[0]["name"] == "No streak"
 
     def test_finishing_a_session_lights_the_streak(self, user_client):
         vocab = user_client.get(f"{API}/vocabulary").json()
@@ -115,7 +115,7 @@ class TestStatsEndpoint:
         assert stats["sessions_this_week"] == 1
         assert stats["sets_this_week"] == 1
         assert stats["trained_today"] is True
-        assert stats["rank"]["name"] == "Awakened"
+        assert stats["rank"]["name"] == "Starter"
         assert stats["volume_this_week_kg"] == "600.000"
 
     def test_warmups_do_not_count_toward_volume(self, user_client):

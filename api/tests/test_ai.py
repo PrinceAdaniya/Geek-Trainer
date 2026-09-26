@@ -57,8 +57,8 @@ def candidates_for(client, target) -> list[str]:
 
 
 class TestA9WorksWithoutAI:
-    """A9: with the AI provider unreachable, every flow still works and the UI
-    is told why."""
+    """A9: with the AI provider unreachable, every flow still works. Members
+    are not shown provider or configuration details - the gym's call."""
 
     def test_generation_falls_back_to_rules(self, gym):
         response = gym.post(
@@ -68,7 +68,7 @@ class TestA9WorksWithoutAI:
         body = response.json()
         assert body["source"] == "rules"
         assert len(body["exercises"]) >= 1
-        assert any("not configured" in w for w in body["warnings"])
+        assert not any("AI" in w or "configured" in w for w in body["warnings"])
 
     def test_the_rules_plan_only_uses_equipment_you_have(self, user_client):
         user_client.put(f"{API}/profile", json={"available_equipment": ["dumbbell"]})
@@ -121,7 +121,7 @@ class TestA8CandidateConstraint:
         body = gym.post(f"{API}/ai/workout", json={"targets": ["back"]}).json()
         assert body["source"] == "rules"
         assert "Hallucinated Day" != body["name"]
-        assert any("validation" in w for w in body["warnings"])
+        assert body["warnings"] == []
 
     def test_a_repair_round_trip_is_allowed_once(self, gym):
         good_id = candidates_for(gym, "back")[0]

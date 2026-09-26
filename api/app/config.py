@@ -10,7 +10,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    app_name: str = "Geek-Trainer API"
+    app_name: str = "YOUR GYM API"
+    # Where the web app is served; used for links in emails.
+    public_url: str = "http://localhost:3000"
     environment: str = "development"
     debug: bool = True
 

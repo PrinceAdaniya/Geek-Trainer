@@ -49,7 +49,7 @@ def register(
             to=existing.email,
             subject="Someone tried to register with your email",
             body=(
-                "Somebody just tried to create a Geek-Trainer account with this "
+                "Somebody just tried to create a YOUR GYM app account with this "
                 "address. If that was you, you already have one - try logging in, "
                 "or reset your password. If it was not you, you can ignore this."
             ),
@@ -139,7 +139,7 @@ def request_password_reset(db: Session, *, email: str, reset_url_base: str) -> s
         )
         get_sender().send(
             to=user.email,
-            subject="Reset your Geek-Trainer password",
+            subject="Reset your YOUR GYM password",
             body=(
                 f"Use this link within "
                 f"{get_settings().reset_token_ttl_minutes} minutes:\n\n"

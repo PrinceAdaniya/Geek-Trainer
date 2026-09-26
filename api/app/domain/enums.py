@@ -109,6 +109,41 @@ class RecordType(StrEnum):
     FURTHEST_DISTANCE = "furthest_distance"
 
 
+class TicketCategory(StrEnum):
+    EQUIPMENT = "equipment"
+    CLEANLINESS = "cleanliness"
+    STAFF = "staff"
+    CLASSES = "classes"
+    MEMBERSHIP = "membership"
+    FACILITIES = "facilities"
+    SAFETY = "safety"
+    OTHER = "other"
+
+
+class TicketPriority(StrEnum):
+    NORMAL = "normal"
+    URGENT = "urgent"
+
+
+class TicketStatus(StrEnum):
+    OPEN = "open"
+    IN_PROGRESS = "in_progress"
+    RESOLVED = "resolved"
+    CLOSED = "closed"
+
+
+class LeadKind(StrEnum):
+    FREE_PASS = "free_pass"
+    TOUR = "tour"
+    MEMBERSHIP = "membership"
+
+
+class LeadStatus(StrEnum):
+    NEW = "new"
+    CONTACTED = "contacted"
+    JOINED = "joined"
+    CLOSED = "closed"
+
 # Sec 4 - the canonical equipment list. Everything from an external source must
 # map into this through app/ingest/mapping.py.
 EQUIPMENT = (

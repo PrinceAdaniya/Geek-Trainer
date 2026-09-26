@@ -116,18 +116,14 @@ export default function SessionPage() {
       <section className="py-8">
         <Empty
           title="No workout in progress."
-          hint="Start one from your week, or begin an empty session and add exercises as you go."
+          hint="Start one from your weekly plan, or start a blank workout and add exercises as you go."
           action={
             <div className="flex gap-2">
               <Link
                 href="/plan"
                 className="flex min-h-tap items-center rounded-xl bg-accent px-5 font-semibold text-surface"
-              >
-                Go to my week
-              </Link>
-              <Button variant="ghost" onClick={() => void startAdHoc()}>
-                Empty session
-              </Button>
+              >View weekly plan</Link>
+              <Button variant="ghost" onClick={() => void startAdHoc()}>Start a blank workout</Button>
             </div>
           }
         />
@@ -272,7 +268,7 @@ export default function SessionPage() {
             }`}
             aria-live="polite"
           >
-            {queued > 0 ? `${queued} pending` : "offline"}
+            {queued > 0 ? `${queued} set${queued === 1 ? "" : "s"} waiting to sync` : "Offline: sets are saved on this device"}
           </span>
         )}
         {rest.running && (
@@ -293,7 +289,7 @@ export default function SessionPage() {
       {session.exercises.length === 0 ? (
         <Empty
           title="Nothing added yet."
-          hint="Add the first exercise and start logging."
+          hint="Add an exercise to start logging sets."
           action={<Button onClick={() => setPicking(true)}>Add an exercise</Button>}
         />
       ) : (

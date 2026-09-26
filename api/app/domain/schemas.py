@@ -95,6 +95,7 @@ class ProfileOut(ORMModel):
     created_at: datetime
     settings: SettingsOut
     latest_bodyweight_kg: Decimal | None = None
+    is_staff: bool = False
 
 
 class ProfileUpdate(BaseModel):

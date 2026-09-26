@@ -29,6 +29,7 @@ export interface Profile {
   created_at: string;
   settings: Settings;
   latest_bodyweight_kg: string | null;
+  is_staff: boolean;
 }
 
 export interface Exercise {
@@ -284,4 +285,49 @@ export interface Analysis {
   suggestion: string;
   enough_data: boolean;
   source: "ai" | "rules";
+}
+
+// --- support tickets and enquiries -------------------------------------------
+
+export type TicketCategory =
+  | "equipment" | "cleanliness" | "staff" | "classes"
+  | "membership" | "facilities" | "safety" | "other";
+export type TicketStatus = "open" | "in_progress" | "resolved" | "closed";
+export type TicketPriority = "normal" | "urgent";
+
+export interface Ticket {
+  id: string;
+  category: TicketCategory;
+  area: string | null;
+  subject: string;
+  description: string;
+  priority: TicketPriority;
+  status: TicketStatus;
+  staff_response: string | null;
+  responded_at: string | null;
+  resolved_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface StaffTicket extends Ticket {
+  member_name: string;
+  member_email: string;
+}
+
+export type LeadKind = "free_pass" | "tour" | "membership";
+export type LeadStatus = "new" | "contacted" | "joined" | "closed";
+
+export interface Lead {
+  id: string;
+  kind: LeadKind;
+  name: string;
+  email: string;
+  phone: string | null;
+  preferred_date: string | null;
+  plan: string | null;
+  message: string | null;
+  status: LeadStatus;
+  referred_by_name: string | null;
+  created_at: string;
 }

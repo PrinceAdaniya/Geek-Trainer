@@ -298,6 +298,10 @@ The training heatmap is a MAGNITUDE encoding, so it is one hue on a
 The lesson worth keeping: a palette that looks fine is not evidence. Both of
 these read well on my screen and one of them was unreadable.
 
+*Superseded by D23 for the look.* The validation rule survives: the new
+heatmap ramp was checked the same way (monotone OKLab lightness, adjacent
+gaps >= 0.08).
+
 ### D22. The product surface is a requirement, not decoration.
 
 Everything through D21 made the app *correct*. It still read as something built
@@ -316,6 +320,82 @@ Copy written for a stranger.
 
 The HUD aesthetic stays - it is deliberate and it suits a training instrument.
 What changed is that it now explains itself.
+
+### D23. The gym deployment: one config file, one photo folder.
+
+The app now runs as the member app and website of a single gym, shown as
+**YOUR GYM** until a real name goes in. Everything gym-specific lives in
+`web/src/lib/gym.ts` and `web/public/gym/`:
+
+```text
+Name, contact, hours, plans, prices, timetable, facilities, FAQ - gym.ts.
+Derived values are computed, never typed twice: the annual price, the
+  per-session PT price, "classes a week", "days open", the open/closed badge.
+Photos are addressed by fixed file names, so replacing a stock image with a
+  real one is a file copy, not a code change.
+New members start with the gym's equipment list (GYM_EQUIPMENT), so the
+  equipment-aware catalogue matches the gym floor with no setup step.
+```
+
+The HUD look from D21 is replaced: a deep indigo ground with a pink-orange-
+yellow gradient accent, Anton for display type and Inter for text, and a gym
+photo fixed behind every page under a dark wash.
+
+Before designing the public site I fetched and parsed the homepages of 211
+gym websites; 108 were real gym sites that returned readable HTML. The
+features they share (a join call to action, pricing, class timetable,
+personal training, FAQ) became the section list in spec 30C.1. What few of
+them do (opening hours on the homepage, stated cancellation and freeze
+terms, progress tracking) became the facts bar, the terms beside the
+prices, and the member app section.
+
+### D24. Support requests are user-owned; the staff inbox is the one exception.
+
+```text
+support_tickets carries user_id and is in the guard's USER_OWNED_TABLES, so
+  the member side goes through TicketRepo like every other member table.
+Staff need to read across members. That happens in exactly one place,
+  StaffInbox, and every cross-member statement there is wrapped in
+  unscoped("reason") - the exception is greppable, not ambient.
+The staff flag is set from the command line (make staff email=...), not
+  through an endpoint. An API that can grant staff is an API that can be
+  talked into granting staff.
+Staff endpoints return 403 to members. The member endpoints keep returning
+  404 for another member's ticket (23.1, no enumeration).
+```
+
+### D25. Enquiries are public; referral codes need no new column.
+
+```text
+POST /leads takes no session - the visitor is not a member yet. Spam is
+  handled with a honeypot field: a filled honeypot gets a 201 and nothing is
+  stored, so a bot learns nothing.
+A referral code is the first 8 hex characters of the member's UUID. It is
+  short enough to read out, needs no column or migration, and resolves with
+  one prefix query. An unknown code is ignored rather than rejected, so a
+  typo never costs the visitor their enquiry.
+Payment is out of scope. A membership enquiry records the plan the visitor
+  chose; staff complete the membership.
+```
+
+### D26. Members never see how the AI is wired.
+
+Revision 5 of the spec reverses 21.6's "visibly disabled with a reason". For
+a gym's member app, "AI not configured - plans are built from rules" and an
+environment-variable name are noise at best. So:
+
+```text
+The coach page is a "Workout builder". It never shows provider, budget or
+  source. Fallbacks and provider errors go to the geektrainer.ai log.
+The rules path still runs whenever the AI does not, so A9 holds - it is
+  just silent.
+Streak levels were renamed from anime references to plain tiers.
+All member-facing copy was rewritten in plain language (spec 30C.7).
+```
+
+Related fix: the console email sender logged at INFO with no handler
+attached, so password-reset links never appeared anywhere in development.
+The app now attaches a handler for `geektrainer.mail` in development.
 
 ### D16. Deferred, explicitly.
 
@@ -550,6 +630,22 @@ iOS PWA storage-limit testing — the one that will surprise us.
 
 ---
 
+### Phase 9 — Gym deployment
+
+```text
+Migration: users.is_staff, support_tickets, leads.
+API: member tickets, public leads, referral code, staff inbox.
+Web: gym website (home page), /join, /classes, /support, /staff,
+  /forgot and /reset, bottom tab bar on phones, gym-wide restyle,
+  plain-language copy throughout.
+Tests: tests/test_tickets.py (15) - privacy of tickets between members,
+  staff-only access, reply and status flow, urgent-first ordering, status
+  filter, honeypot, referral credit, membership plan capture, export.
+Checked in a real browser: sign-up, raising a request, log-in, wrong
+  password, forgot -> email link -> new password -> log-in, staff inbox,
+  and no sideways scrolling at 390px.
+```
+
 ## Cross-cutting requirements
 
 Applied in every phase, not deferred to Phase 8:
@@ -594,10 +690,11 @@ Phase 5  Offline and sync .......... done
 Phase 6  Derived data and charts ... done
 Phase 7  AI ....................... done
 Phase 8  Polish ................... done
+Phase 9  Gym deployment ........... done (spec 30C, revision 5)
 ```
 
 ```text
-241 tests in the default run, plus a 6-test 20,000-set performance run.
+256 tests in the default run, plus a 6-test 20,000-set performance run.
 960 exercises, 273 with demonstration images.
 Run it: make dev, then http://localhost:3000
 ```

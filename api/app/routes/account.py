@@ -24,6 +24,7 @@ from app.domain.models import (
     PersonalRecord,
     SessionExercise,
     SetRecord,
+    SupportTicket,
     User,
     WorkoutPlan,
     WorkoutSession,
@@ -54,6 +55,9 @@ def _collect(db: Session, user: User) -> dict:
     bodyweight = db.execute(
         select(BodyweightEntry).where(BodyweightEntry.user_id == user.id)
     ).scalars().all()
+    tickets = db.execute(
+        select(SupportTicket).where(SupportTicket.user_id == user.id)
+    ).scalars().unique().all()
 
     return {
         "exported_at": utcnow().isoformat(),
@@ -96,6 +100,14 @@ def _collect(db: Session, user: User) -> dict:
              "performed_at": row.performed_at.isoformat(),
              "deleted": row.deleted_at is not None}
             for row in sets
+        ],
+        "support_tickets": [
+            {"id": str(t.id), "category": t.category, "area": t.area,
+             "subject": t.subject, "description": t.description,
+             "priority": t.priority, "status": t.status,
+             "staff_response": t.staff_response,
+             "created_at": t.created_at.isoformat()}
+            for t in tickets
         ],
     }
 

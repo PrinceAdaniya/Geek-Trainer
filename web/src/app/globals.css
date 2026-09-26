@@ -8,24 +8,25 @@
 
 html,
 body {
-  background: #0b0c0f;
-  color: #e8eaed;
+  background: #0e0b1f;
+  color: #f5f3ff;
   -webkit-tap-highlight-color: transparent;
+  overflow-x: clip;
 }
 
-/* The HUD ground: a faint grid, so the surface reads as an instrument panel
-   rather than a blank page. Fixed so it does not scroll with content. */
+/* Site-wide backdrop: a gym photo under a dark wash, fixed so it does not
+   scroll. Replace public/gym/background.jpg to change it. */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image:
-    linear-gradient(to right, rgba(125, 211, 160, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(125, 211, 160, 0.045) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 35%, transparent 100%);
+  background:
+    radial-gradient(40rem 30rem at 0% 0%, rgba(255, 77, 141, 0.14), transparent 70%),
+    radial-gradient(36rem 28rem at 100% 10%, rgba(139, 92, 246, 0.12), transparent 70%),
+    linear-gradient(rgba(14, 11, 31, 0.86), rgba(14, 11, 31, 0.93)),
+    url("/gym/background.jpg") center / cover no-repeat;
 }
 
 /* Sec 11.1 - numeric entry must never summon a full keyboard, and the spinner
@@ -41,41 +42,57 @@ input[type="number"] {
 
 /* Sec 26 - visible focus, always. */
 :focus-visible {
-  outline: 2px solid #7dd3a0;
+  outline: 2px solid #ffd23f;
   outline-offset: 2px;
 }
 
 @layer components {
-  /* A panel with corner brackets - the HUD motif, used for every card. */
+  /* A card with a thin brand-gradient rule across the top - the YOUR GYM
+     motif, used for every panel. */
   .panel {
-    @apply relative rounded-lg border border-surface-edge bg-surface-raised/70 backdrop-blur-sm;
-  }
-  .panel::before,
-  .panel::after {
-    content: "";
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    border-color: rgba(125, 211, 160, 0.5);
+    @apply relative overflow-hidden rounded-2xl border border-surface-edge bg-surface-raised/80 backdrop-blur-sm;
   }
   .panel::before {
-    top: -1px;
-    left: -1px;
-    border-top: 1px solid;
-    border-left: 1px solid;
-  }
-  .panel::after {
-    bottom: -1px;
-    right: -1px;
-    border-bottom: 1px solid;
-    border-right: 1px solid;
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, #ff4d8d, #ff8a3d, #ffd23f);
+    opacity: 0.8;
   }
 
   .label {
-    @apply font-mono text-[10px] uppercase tracking-[0.18em] text-ink-faint;
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-faint;
   }
   .readout {
     @apply font-mono tabular-nums;
+  }
+
+  /* Break out of the page container to the full viewport width. */
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .bg-brand-gradient {
+    background-image: linear-gradient(100deg, #ff4d8d 0%, #ff8a3d 55%, #ffd23f 100%);
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(100deg, #ff4d8d 0%, #ff8a3d 55%, #ffd23f 100%);
+  }
+  .text-gradient-cool {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(100deg, #2ee6d6 0%, #8b5cf6 100%);
+  }
+
+  /* Primary call to action: gradient pill, dark text for contrast. */
+  .btn-cta {
+    @apply inline-flex min-h-tap items-center justify-center gap-2 rounded-full px-6 text-[15px] font-bold text-surface shadow-[0_8px_30px_-8px_rgba(255,77,141,0.6)] transition-transform hover:-translate-y-0.5 active:translate-y-0;
+    background-image: linear-gradient(100deg, #ff4d8d 0%, #ff8a3d 55%, #ffd23f 100%);
+  }
+  .btn-outline {
+    @apply inline-flex min-h-tap items-center justify-center gap-2 rounded-full border border-ink/25 bg-ink/5 px-6 text-[15px] font-semibold text-ink backdrop-blur transition-colors hover:border-ink/60;
   }
 }
 

@@ -58,6 +58,7 @@ def build_profile(db: Session, user: User) -> ProfileOut:
         created_at=user.created_at,
         settings=SettingsOut.model_validate(settings),
         latest_bodyweight_kg=latest.weight_kg if latest else None,
+        is_staff=user.is_staff,
     )
 
 

@@ -93,14 +93,14 @@ export function ChargeMeter({
         aria-valuenow={pct}
         aria-valuemin={0}
         aria-valuemax={100}
-        aria-label={`Charge to ${toLabel}`}
+        aria-label={`Progress to ${toLabel}`}
       >
         <div
           className="h-full rounded-full transition-[width] duration-700"
           style={{ width: `${Math.max(2, pct)}%`, backgroundColor: color }}
         />
       </div>
-      <span className="readout text-[11px] text-ink-faint">{pct}% charged</span>
+      <span className="readout text-[11px] text-ink-faint">{pct}% of the way</span>
     </div>
   );
 }
@@ -153,7 +153,7 @@ export function TrainingHeatmap({
             key={cell.date}
             title={`${cell.date}${cell.active ? " — trained" : ""}`}
             className="aspect-square w-full rounded-[2px]"
-            style={{ backgroundColor: cell.active ? ramp[cell.weight] : "#181a1f" }}
+            style={{ backgroundColor: cell.active ? ramp[cell.weight] : "#231e42" }}
           />
         ))}
       </div>
@@ -163,7 +163,7 @@ export function TrainingHeatmap({
         </span>
         <div className="flex items-center gap-1">
           <span className="label">less</span>
-          {["#181a1f", ...ramp].map((color) => (
+          {["#231e42", ...ramp].map((color) => (
             <span
               key={color}
               className="h-2.5 w-2.5 rounded-[2px]"
@@ -211,7 +211,7 @@ export function PowerBadge({
         </span>
       </div>
       <div className="min-w-0">
-        <p className="label">Power level</p>
+        <p className="label">Streak level</p>
         <p className="truncate text-[20px] font-semibold" style={{ color }}>
           {name}
         </p>
@@ -271,7 +271,7 @@ export function PowerUp({
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-6"
       role="alertdialog"
-      aria-label={`Power level increased to ${name}`}
+      aria-label={`Streak level increased to ${name}`}
       onClick={() => setShow(false)}
     >
       <div className="animate-chargeIn flex flex-col items-center gap-4 text-center">
@@ -290,9 +290,7 @@ export function PowerUp({
             {level}
           </span>
         </div>
-        <p className="label" style={{ color }}>
-          Power level up
-        </p>
+        <p className="label" style={{ color }}>New streak level</p>
         <p className="text-[30px] font-semibold" style={{ color }}>
           {name}
         </p>
@@ -327,7 +325,7 @@ export function RankLadder({
           >
             <span
               className="readout w-5 text-[12px]"
-              style={{ color: reached ? rank.color : "#5f6368" }}
+              style={{ color: reached ? rank.color : "#8580ab" }}
             >
               {rank.level}
             </span>

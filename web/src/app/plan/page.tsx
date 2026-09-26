@@ -46,10 +46,10 @@ export default function WeekPage() {
   return (
     <section className="flex flex-col gap-5 py-6">
       <header>
-        <h1 className="text-[22px] font-semibold">Your week</h1>
+        <h1 className="text-[22px] font-semibold">Weekly plan</h1>
         <p className="text-[13px] text-ink-dim">
           {total === 0
-            ? "Nothing planned yet — add a workout to any day."
+            ? "No workouts planned. Add a workout to any day."
             : `${total} workout${total === 1 ? "" : "s"} planned.`}
         </p>
       </header>
@@ -116,9 +116,7 @@ export default function WeekPage() {
 
       {week.unscheduled.length > 0 && (
         <div className="flex flex-col gap-2">
-          <h2 className="text-[13px] uppercase tracking-wide text-ink-faint">
-            Not on the calendar
-          </h2>
+          <h2 className="text-[13px] uppercase tracking-wide text-ink-faint">Unscheduled</h2>
           {week.unscheduled.map((plan) => (
             <PlanCard key={plan.id} plan={plan} />
           ))}

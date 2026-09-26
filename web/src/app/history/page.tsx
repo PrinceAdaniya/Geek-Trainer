@@ -31,7 +31,7 @@ export default function HistoryPage() {
       {rows.length === 0 ? (
         <Empty
           title="No sessions yet."
-          hint="Finish a workout and it will show up here, exactly as you logged it."
+          hint="Completed workouts will appear here."
         />
       ) : (
         <ul className="flex flex-col gap-2">

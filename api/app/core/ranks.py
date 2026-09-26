@@ -1,4 +1,4 @@
-"""Power levels.
+"""Streak levels.
 
 A streak on its own is a number. Attaching a rank to it gives the number a
 shape - you can see the next one coming, which is the whole point of a streak.
@@ -33,21 +33,21 @@ BAND_COLORS = ("#7dd3a0", "#6ba9ff", "#fbbf24", "#f87171")
 DORMANT_COLOR = "#5f6368"
 
 RANKS: tuple[Rank, ...] = (
-    Rank(0, "Dormant", 0, 0, DORMANT_COLOR, "Power sealed. Train to break the seal."),
-    Rank(1, "Awakened", 1, 0, BAND_COLORS[0], "Something stirs."),
-    Rank(2, "Focused", 3, 0, BAND_COLORS[0], "The form holds."),
-    Rank(3, "Charged", 5, 1, BAND_COLORS[1], "Energy gathering."),
-    Rank(4, "Overdrive", 8, 1, BAND_COLORS[1], "Limiter disengaged."),
-    Rank(5, "Limit Break", 12, 2, BAND_COLORS[2], "Past the old ceiling."),
-    Rank(6, "Ascended", 18, 2, BAND_COLORS[2], "The aura is visible now."),
-    Rank(7, "Zenkai", 25, 3, BAND_COLORS[3], "Every recovery returns you stronger."),
-    Rank(8, "Ultra Instinct", 35, 3, BAND_COLORS[3], "The body moves without asking."),
-    Rank(9, "Beyond Limit", 50, 3, BAND_COLORS[3], "No tier above this. Keep going."),
+    Rank(0, "No streak", 0, 0, DORMANT_COLOR, "Log a workout to start your streak."),
+    Rank(1, "Starter", 1, 0, BAND_COLORS[0], "Your streak has started."),
+    Rank(2, "Regular", 3, 0, BAND_COLORS[0], "3 consecutive training days."),
+    Rank(3, "Committed", 5, 1, BAND_COLORS[1], "5 consecutive training days."),
+    Rank(4, "Consistent", 8, 1, BAND_COLORS[1], "8 consecutive training days."),
+    Rank(5, "Bronze", 12, 2, BAND_COLORS[2], "12 consecutive training days."),
+    Rank(6, "Silver", 18, 2, BAND_COLORS[2], "18 consecutive training days."),
+    Rank(7, "Gold", 25, 3, BAND_COLORS[3], "25 consecutive training days."),
+    Rank(8, "Platinum", 35, 3, BAND_COLORS[3], "35 consecutive training days."),
+    Rank(9, "Diamond", 50, 3, BAND_COLORS[3], "50 consecutive training days. The highest level."),
 )
 
 # Sequential single-hue ramp for the training-day heatmap - magnitude, not
 # identity. Monotone lightness, gaps >= 0.06, light end clears the surface.
-HEATMAP_RAMP = ("#2a5546", "#356f57", "#44916d", "#57bb8d", "#8ee9bd")
+HEATMAP_RAMP = ("#5a1f45", "#8a2a5e", "#c23a78", "#f25897", "#ffa3c8")
 
 
 def rank_for(streak: int) -> Rank:

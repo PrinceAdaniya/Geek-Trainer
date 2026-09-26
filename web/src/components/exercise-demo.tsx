@@ -57,9 +57,9 @@ export function ExerciseDemo({ exercise }: { exercise: Exercise }) {
           ) : exercise.video_url ? null : (
             <div className="flex items-center justify-center rounded-lg border border-dashed border-surface-edge px-4 py-6 text-center">
               <p className="text-[12px] leading-relaxed text-ink-faint">
-                No demonstration for this movement yet.
+                No demonstration available for this exercise.
                 <br />
-                The written cue below is the whole instruction.
+                See the written instructions below.
               </p>
             </div>
           )}
